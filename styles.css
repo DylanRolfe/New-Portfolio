@@ -1,4 +1,3 @@
-
 /* ===================== RESET & BASE STYLES ===================== */
 * {
   margin: 0;
@@ -7,12 +6,44 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
   font-size: 16px;
   background-color: #fff;
   color: #333;
-  padding-top: 140px; /* Offset for sticky header */
+  padding-top: 140px; /* Offset for sticky header - desktop */
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ===================== TYPOGRAPHY ===================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap');
+
+h1, h2, h3 {
+  font-weight: 900;
+  color: #222;
+  letter-spacing: -0.03em;
+  text-shadow: 
+    0 0.25px 0.25px rgba(0, 0, 0, 0.1),
+    0 0.5px 0.5px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.8rem;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.4rem;
+  line-height: 1.4;
 }
 
 /* ===================== STICKY HEADER STYLES ===================== */
@@ -29,9 +60,35 @@ body {
 
 .name-header {
   font-size: 2.5rem;
-  font-weight: 700; /* Bold weight */
-  letter-spacing: -0.02em;
+  font-weight: 900 !important; /* Maximum bold weight */
+  letter-spacing: -0.03em;
   margin-bottom: 0.5rem;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* ===================== NAVIGATION ===================== */
+nav ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 1.2rem;
+  margin-top: 1rem;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #555;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+
+nav a:hover {
+  background-color: #f2f2f2;
+  color: #000;
 }
 
 /* ===================== ABOUT SECTION LAYOUT ===================== */
@@ -45,6 +102,11 @@ body {
 .about-text {
   flex: 1;
   max-width: 600px;
+}
+
+.about-text p {
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .profile-photo {
@@ -84,303 +146,50 @@ body {
   display: block;
 }
 
-/* ===================== RESPONSIVE DESIGN ===================== */
-@media (max-width: 768px) {
-  body {
-    padding-top: 180px;
-  }
-
-  .about-container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .profile-photo {
-    width: 220px;
-    height: 220px;
-  }
-
-  .sticky-header {
-    padding: 0.8rem 0;
-  }
+/* ===================== GRIDS ===================== */
+.projects-grid,
+.collaborations-grid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-@media (min-width: 1024px) {
-  .projects-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.projects-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-/* ===================== EXISTING STYLES REMAIN BELOW ===================== */
-/* ... (other existing styles with added comments) ... *//* -------------------- Reset -------------------- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* -------------------- Base Styles -------------------- */
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    font-size: 16px;
-    background-color: #fff;
-    color: #333;
-  }
-  
-  /* -------------------- Typography -------------------- */
-  /* ===================== TYPOGRAPHY ===================== */
-/* Import Inter font for better bold weights */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap');
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-weight: 500;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+.collaborations-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-h1, h2, h3 {
-  font-weight: 900;
-  color: #222;
-  letter-spacing: -0.03em;
-  /* Multi-layer shadow for bolder appearance */
-  text-shadow: 
-    0 0.25px 0.25px rgba(0, 0, 0, 0.1),
-    0 0.5px 0.5px rgba(0, 0, 0, 0.08);
-  margin-bottom: 1.5rem;
+/* ===================== LAYOUT ===================== */
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
-h1 {
-  font-size: 2.4rem;
-  line-height: 1.2;
+section {
+  margin: 4rem 0;
 }
 
-h2 {
-  font-size: 1.8rem;
-  line-height: 1.3;
+/* ===================== WORK EXPERIENCE ===================== */
+.experience {
+  display: grid;
+  gap: 2rem;
 }
 
-h3 {
-  font-size: 1.4rem;
-  line-height: 1.4;
+.work-item h2 {
+  margin-bottom: 0.5rem;
 }
 
-/* Special header styling */
-/* In your styles.css file */
-.name-header {
-  font-weight: 900 !important; /* Maximum bold weight */
-  /* Add these if you want extra emphasis */
-  letter-spacing: -0.03em;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+.work-item ul {
+  padding-left: 1.2rem;
+  list-style: disc;
+  margin-top: 0.5rem;
 }
-/* Bold paragraph text in about section */
-.about-text p {
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-  /* -------------------- Layout -------------------- */
-  main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-  
-  section {
-    margin: 4rem 0;
-  }
-  
-  /* -------------------- Header -------------------- */
-  header {
-    text-align: center;
-    padding: 2rem 1rem 1rem;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .name-header {
-    font-size: 2.5rem;
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-  
-  /* -------------------- Navigation -------------------- */
-  nav ul {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    list-style: none;
-    gap: 1.2rem;
-    margin-top: 1rem;
-    padding: 0;
-    position: sticky;
-  }
-  
-  nav a {
-    text-decoration: none;
-    color: #555;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    transition: background 0.3s, color 0.3s;
-  }
-  
-  nav a:hover {
-    background-color: #f2f2f2;
-    color: #000;
-  }
-  
-  /* -------------------- Profile Photo -------------------- */
-  .profile-photo {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin: 1rem auto;
-    display: block;
-  }
-  
-  /* -------------------- Paragraphs -------------------- */
-  p {
-    color: #555;
-    max-width: 70ch;
-    margin: 0 auto 1.5rem;
-    line-height: 1.8;
-  }
-  
-  /* -------------------- Cards -------------------- */
-  .project-card,
-  .collab-card,
-  .work-item {
-    background: #fafafa;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    padding: 1.5rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .project-card:hover,
-  .collab-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-  
-  /* -------------------- Grids -------------------- */
-  .projects-grid,
-  .collaborations-grid {
-    display: grid;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  
-  .projects-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-  
-  .collaborations-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  }
-  
-  /* -------------------- Work Experience -------------------- */
-  .experience {
-    display: grid;
-    gap: 2rem;
-  }
-  
-  .work-item h2 {
-    margin-bottom: 0.5rem;
-  }
-  
-  .work-item ul {
-    padding-left: 1.2rem;
-    list-style: disc;
-    margin-top: 0.5rem;
-  }
-  
-  /* -------------------- Contact Info -------------------- */
-  .contact-info {
-    text-align: center;
-    margin-top: 2rem;
-  }
-  
-  .contact-info a {
-    color: #0077cc;
-    text-decoration: none;
-  }
-  
-  .contact-info a:hover {
-    text-decoration: underline;
-  }
-  
-  /* -------------------- Footer -------------------- */
-  footer {
-    border-top: 1px solid #eee;
-    padding: 3rem 1rem;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #888;
-  }
-  
-  /* -------------------- Responsive -------------------- */
-  @media (max-width: 768px) {
-    .name-header {
-      font-size: 2rem;
-    }
-  
-    nav ul {
-      flex-direction: column;
-      align-items: center;
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
-  
-    nav a {
-      width: 100%;
-      max-width: 300px;
-      background-color: #f8f8f8;
-    }
-  
-    .projects-grid,
-    .collaborations-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .experience {
-      grid-template-columns: 1fr;
-    }
-  
-    .profile-photo {
-      width: 130px;
-      height: 130px;
-    }
-  
-    section {
-      margin: 3rem 0;
-    }
-  
-    h1 {
-      font-size: 1.6rem;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    h1 {
-      font-size: 2.4rem;
-    }
-  
-    .projects-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  
-    .experience {
-      grid-template-columns: repeat(2, 1fr);
-    }
 
-    /* Collaborations Section */
+/* ===================== COLLABORATIONS SECTION ===================== */
 .collaborations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -409,8 +218,7 @@ h3 {
   object-fit: contain;
 }
 
-/* Professional Contact Section */
-/* Contact Section */
+/* ===================== CONTACT SECTION ===================== */
 .contact-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -484,164 +292,133 @@ h3 {
   text-align: center;
 }
 
-@media (max-width: 768px) {
-  .contact-grid {
-    grid-template-columns: 1fr;
+/* ===================== FOOTER ===================== */
+footer {
+  border-top: 1px solid #eee;
+  padding: 3rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* ===================== DESKTOP MEDIA QUERIES ===================== */
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .experience {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
-/* ===================== MOBILE-ONLY STYLES (UNDER 768px) ===================== */
+
+/* ===================== MOBILE/TABLET MEDIA QUERIES ===================== */
 @media (max-width: 768px) {
-  /* Hide navigation links */
-  nav ul {
-    display: none;
+  /* Adjust body padding for smaller header */
+  body {
+    padding-top: 70px;
   }
 
-  /* Adjust header spacing */
+  /* Optimize sticky header for mobile */
   .sticky-header {
-    padding: 0.5rem 0;
+    height: 70px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* Profile image scaling */
-  .profile-photo {
-    width: 200px;
-    height: 200px;
-    margin: 1rem auto;
-  }
-
-  /* Collaboration logos */
-  .company-logo {
-    width: 50px;
-    height: 50px;
-  }
-
-  /* Stack collaboration cards */
-  .company-brand {
-    flex-direction: column;
+  /* Reduce header text size */
+  .name-header {
+    font-size: 1.8rem;
+    margin-bottom: 0;
     text-align: center;
   }
 
-  /* Single column layouts */
-  .projects-grid,
-  .collaborations-grid,
-  .experience {
-    grid-template-columns: 1fr;
+  /* Hide navigation on mobile */
+  nav {
+    display: none;
   }
 
-  /* Reduce section margins */
-  section {
-    margin: 2.5rem 0;
-  }
-
-  /* Adjust about section layout */
+  /* Adjust about section for mobile */
   .about-container {
     flex-direction: column;
     text-align: center;
     gap: 1.5rem;
+    margin: 2rem 0;
   }
 
-  /* Contact card spacing */
+  /* Resize profile photo */
+  .profile-photo {
+    width: 180px;
+    height: 180px;
+  }
+
+  /* Single column layouts for mobile */
+  .projects-grid,
+  .collaborations-grid,
+  .experience,
   .contact-grid {
-    gap: 1.2rem;
-    padding: 0 1rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  /* Slightly reduce heading sizes */
-  h1 {
-    font-size: 2rem;
-  }
-  
-  h2 {
-    font-size: 1.6rem;
-  }
-}
-    /* ===================== MOBILE HEADER CLEANUP ===================== */
-@media (max-width: 768px) {
-  /* Completely remove navigation */
-  nav {
-    display: none !important;
-  }
-
-  /* Center name header vertically */
-  .sticky-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 80px; /* Fixed header height */
-    padding: 0;
-  }
-
-  /* Remove header shadow on mobile */
-  .sticky-header {
-    box-shadow: none;
-    backdrop-filter: none;
-  }
-
-  /* Adjust body padding for reduced header height */
-  body {
-    padding-top: 80px;
-  }
-}
-/* ===================== MOBILE COLLABORATION LOGOS ===================== */
-@media (max-width: 768px) {
-  .company-logo {
-    width: 40px !important;
-    height: 40px !important;
-    margin-bottom: 0.5rem;
-  }
-
+  /* Collaboration company logos */
   .company-brand {
     padding: 1rem;
-    gap: 1rem;
+    gap: 0.8rem;
   }
 
-  /* Specific fix for IKEA logo */
+  /* Properly size logos on mobile */
+  .company-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Specific logo adjustments */
   .company-brand img[alt="IKEA Logo"] {
-    max-width: 120px; /* For SVG/vector logos */
+    max-width: 90px;
+    height: auto;
+  }
+
+  .company-brand img[src*="samsung"] {
+    width: 35px;
     height: 35px;
   }
 
-  /* Samsung logo fix */
-  .company-brand img[src*="samsung"] {
-    width: 45px;
-    height: 45px;
-  }
-
-  /* TKS logo fix */
   .company-brand img[src*="TKS"] {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
-}
-/* Remove navigation links ONLY on mobile */
-@media (max-width: 768px) {
-  nav {
-    display: none !important;
-  }
-}
 
-/* Logo size adjustments */
-.profile-photo {
-  width: 220px;  /* Reduced from 320px */
-  height: 220px; /* Reduced from 320px */
-}
+  /* Section spacing */
+  section {
+    margin: 2.5rem 0;
+  }
 
-/* Maintain original desktop size */
-@media (min-width: 769px) {
-  .profile-photo {
-    width: 320px;
-    height: 320px;
+  /* Typography adjustments */
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  /* Contact section adjustments */
+  .contact-container {
+    padding: 2rem 1rem;
+  }
+
+  .contact-card {
+    padding: 1.5rem 1rem;
   }
 }
-
-/* Collaboration logo scaling */
-.company-logo {
-  transform: scale(0.8);  /* Reduce all logos by 20% */
-  transform-origin: center;
-}
-
-@media (max-width: 768px) {
-  .company-logo {
-    transform: scale(0.6);  /* Reduce mobile logos by 40% */
-  }
-}
-  }
