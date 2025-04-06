@@ -29,14 +29,6 @@ h1, h2, h3 {
     0 0.25px 0.25px rgba(0, 0, 0, 0.1),
     0 0.5px 0.5px rgba(0, 0, 0, 0.08);
   margin-bottom: 1.5rem;
-  text-align: center; /* Default center alignment for all headings */
-}
-
-/* Section headings should be centered */
-section > h1,
-section > h2,
-section > h3 {
-  text-align: center;
 }
 
 h1 {
@@ -64,7 +56,6 @@ h3 {
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
   backdrop-filter: blur(5px);
-  text-align: center; /* Ensure header content is centered */
 }
 
 .name-header {
@@ -73,7 +64,6 @@ h3 {
   letter-spacing: -0.03em;
   margin-bottom: 0.5rem;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  text-align: center; /* Ensure the name is centered */
 }
 
 /* ===================== NAVIGATION ===================== */
@@ -105,15 +95,8 @@ nav a:hover {
 .about-container {
   display: flex;
   gap: 3rem;
-  align-items: left;
+  align-items: center;
   margin: 3rem 0;
-}
-
-/* About section heading alignment for desktop */
-.about-text h1,
-.about-text h2,
-.about-text h3 {
-  text-align: left; /* Left-align within the about-text container */
 }
 
 .about-text {
@@ -145,19 +128,6 @@ nav a:hover {
   padding: 1.8rem;
   transition: all 0.3s ease;
   cursor: pointer;
-}
-
-/* Card headings alignment */
-.project-card h1,
-.project-card h2,
-.project-card h3,
-.collab-card h1,
-.collab-card h2,
-.collab-card h3,
-.work-item h1,
-.work-item h2,
-.work-item h3 {
-  text-align: left; /* Left-align headings within cards */
 }
 
 .project-card:hover,
@@ -201,7 +171,6 @@ main {
 
 section {
   margin: 4rem 0;
-  text-align: center; /* Center section content by default */
 }
 
 /* ===================== WORK EXPERIENCE ===================== */
@@ -218,7 +187,6 @@ section {
   padding-left: 1.2rem;
   list-style: disc;
   margin-top: 0.5rem;
-  text-align: left; /* Left-align list items */
 }
 
 /* ===================== COLLABORATIONS SECTION ===================== */
@@ -382,13 +350,6 @@ footer {
     text-align: center;
     gap: 1.5rem;
     margin: 2rem 0;
-  }
-
-  /* Center about headings on mobile */
-  .about-text h1,
-  .about-text h2,
-  .about-text h3 {
-    text-align: center; /* Center align on mobile */
   }
 
   /* Resize profile photo */
