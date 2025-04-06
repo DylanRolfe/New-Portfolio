@@ -1,0 +1,647 @@
+
+/* ===================== RESET & BASE STYLES ===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+  padding-top: 140px; /* Offset for sticky header */
+}
+
+/* ===================== STICKY HEADER STYLES ===================== */
+.sticky-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  z-index: 1000;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  backdrop-filter: blur(5px);
+}
+
+.name-header {
+  font-size: 2.5rem;
+  font-weight: 700; /* Bold weight */
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+/* ===================== ABOUT SECTION LAYOUT ===================== */
+.about-container {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  margin: 3rem 0;
+}
+
+.about-text {
+  flex: 1;
+  max-width: 600px;
+}
+
+.profile-photo {
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ===================== INTERACTIVE CARDS ===================== */
+.project-card,
+.collab-card,
+.work-item {
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.8rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.project-card:hover,
+.collab-card:hover,
+.work-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ===================== LINK STYLES ===================== */
+.project-card a,
+.collab-card a,
+.work-item a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* ===================== RESPONSIVE DESIGN ===================== */
+@media (max-width: 768px) {
+  body {
+    padding-top: 180px;
+  }
+
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-photo {
+    width: 220px;
+    height: 220px;
+  }
+
+  .sticky-header {
+    padding: 0.8rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===================== EXISTING STYLES REMAIN BELOW ===================== */
+/* ... (other existing styles with added comments) ... *//* -------------------- Reset -------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* -------------------- Base Styles -------------------- */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+  }
+  
+  /* -------------------- Typography -------------------- */
+  /* ===================== TYPOGRAPHY ===================== */
+/* Import Inter font for better bold weights */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap');
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-weight: 900;
+  color: #222;
+  letter-spacing: -0.03em;
+  /* Multi-layer shadow for bolder appearance */
+  text-shadow: 
+    0 0.25px 0.25px rgba(0, 0, 0, 0.1),
+    0 0.5px 0.5px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.8rem;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+/* Special header styling */
+/* In your styles.css file */
+.name-header {
+  font-weight: 900 !important; /* Maximum bold weight */
+  /* Add these if you want extra emphasis */
+  letter-spacing: -0.03em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+/* Bold paragraph text in about section */
+.about-text p {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+  /* -------------------- Layout -------------------- */
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  section {
+    margin: 4rem 0;
+  }
+  
+  /* -------------------- Header -------------------- */
+  header {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .name-header {
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* -------------------- Navigation -------------------- */
+  nav ul {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 1.2rem;
+    margin-top: 1rem;
+    padding: 0;
+    position: sticky;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: #555;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  nav a:hover {
+    background-color: #f2f2f2;
+    color: #000;
+  }
+  
+  /* -------------------- Profile Photo -------------------- */
+  .profile-photo {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 1rem auto;
+    display: block;
+  }
+  
+  /* -------------------- Paragraphs -------------------- */
+  p {
+    color: #555;
+    max-width: 70ch;
+    margin: 0 auto 1.5rem;
+    line-height: 1.8;
+  }
+  
+  /* -------------------- Cards -------------------- */
+  .project-card,
+  .collab-card,
+  .work-item {
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .project-card:hover,
+  .collab-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* -------------------- Grids -------------------- */
+  .projects-grid,
+  .collaborations-grid {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .collaborations-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  /* -------------------- Work Experience -------------------- */
+  .experience {
+    display: grid;
+    gap: 2rem;
+  }
+  
+  .work-item h2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .work-item ul {
+    padding-left: 1.2rem;
+    list-style: disc;
+    margin-top: 0.5rem;
+  }
+  
+  /* -------------------- Contact Info -------------------- */
+  .contact-info {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  .contact-info a {
+    color: #0077cc;
+    text-decoration: none;
+  }
+  
+  .contact-info a:hover {
+    text-decoration: underline;
+  }
+  
+  /* -------------------- Footer -------------------- */
+  footer {
+    border-top: 1px solid #eee;
+    padding: 3rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+  }
+  
+  /* -------------------- Responsive -------------------- */
+  @media (max-width: 768px) {
+    .name-header {
+      font-size: 2rem;
+    }
+  
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+  
+    nav a {
+      width: 100%;
+      max-width: 300px;
+      background-color: #f8f8f8;
+    }
+  
+    .projects-grid,
+    .collaborations-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .experience {
+      grid-template-columns: 1fr;
+    }
+  
+    .profile-photo {
+      width: 130px;
+      height: 130px;
+    }
+  
+    section {
+      margin: 3rem 0;
+    }
+  
+    h1 {
+      font-size: 1.6rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    h1 {
+      font-size: 2.4rem;
+    }
+  
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  
+    .experience {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Collaborations Section */
+.collaborations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.company-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.company-brand:hover {
+  transform: translateY(-5px);
+}
+
+.company-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* Professional Contact Section */
+/* Contact Section */
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.contact-card {
+  background: white;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-icon {
+  font-size: 2.5rem;
+  color: #3b82f6;
+  margin-bottom: 1.5rem;
+}
+
+.contact-link {
+  display: block;
+  color: #1f2937;
+  font-size: 1.1rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: #3b82f6;
+}
+
+.profile-links {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #1f2937;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.profile-link:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+.profile-link i {
+  width: 25px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ===================== MOBILE-ONLY STYLES (UNDER 768px) ===================== */
+@media (max-width: 768px) {
+  /* Hide navigation links */
+  nav ul {
+    display: none;
+  }
+
+  /* Adjust header spacing */
+  .sticky-header {
+    padding: 0.5rem 0;
+  }
+
+  /* Profile image scaling */
+  .profile-photo {
+    width: 200px;
+    height: 200px;
+    margin: 1rem auto;
+  }
+
+  /* Collaboration logos */
+  .company-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Stack collaboration cards */
+  .company-brand {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  /* Single column layouts */
+  .projects-grid,
+  .collaborations-grid,
+  .experience {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reduce section margins */
+  section {
+    margin: 2.5rem 0;
+  }
+
+  /* Adjust about section layout */
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  /* Contact card spacing */
+  .contact-grid {
+    gap: 1.2rem;
+    padding: 0 1rem;
+  }
+
+  /* Slightly reduce heading sizes */
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+  }
+}
+    /* ===================== MOBILE HEADER CLEANUP ===================== */
+@media (max-width: 768px) {
+  /* Completely remove navigation */
+  nav {
+    display: none !important;
+  }
+
+  /* Center name header vertically */
+  .sticky-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px; /* Fixed header height */
+    padding: 0;
+  }
+
+  /* Remove header shadow on mobile */
+  .sticky-header {
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  /* Adjust body padding for reduced header height */
+  body {
+    padding-top: 80px;
+  }
+}
+/* ===================== MOBILE COLLABORATION LOGOS ===================== */
+@media (max-width: 768px) {
+  .company-logo {
+    width: 40px !important;
+    height: 40px !important;
+    margin-bottom: 0.5rem;
+  }
+
+  .company-brand {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  /* Specific fix for IKEA logo */
+  .company-brand img[alt="IKEA Logo"] {
+    max-width: 120px; /* For SVG/vector logos */
+    height: 35px;
+  }
+
+  /* Samsung logo fix */
+  .company-brand img[src*="samsung"] {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* TKS logo fix */
+  .company-brand img[src*="TKS"] {
+    width: 50px;
+    height: 50px;
+  }
+}
+/* Remove navigation links ONLY on mobile */
+@media (max-width: 768px) {
+  nav {
+    display: none !important;
+  }
+}
+
+/* Logo size adjustments */
+.profile-photo {
+  width: 220px;  /* Reduced from 320px */
+  height: 220px; /* Reduced from 320px */
+}
+
+/* Maintain original desktop size */
+@media (min-width: 769px) {
+  .profile-photo {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+/* Collaboration logo scaling */
+.company-logo {
+  transform: scale(0.8);  /* Reduce all logos by 20% */
+  transform-origin: center;
+}
+
+@media (max-width: 768px) {
+  .company-logo {
+    transform: scale(0.6);  /* Reduce mobile logos by 40% */
+  }
+}
+  }
