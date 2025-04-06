@@ -29,6 +29,13 @@ h1, h2, h3 {
     0 0.25px 0.25px rgba(0, 0, 0, 0.1),
     0 0.5px 0.5px rgba(0, 0, 0, 0.08);
   margin-bottom: 1.5rem;
+  text-align: center; /* Default center alignment for all headings */
+}
+
+/* Section headings alignment */
+section > h1,
+section > h2 {
+  text-align: center; /* Ensure section headings are centered */
 }
 
 h1 {
@@ -56,6 +63,7 @@ h3 {
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
   backdrop-filter: blur(5px);
+  text-align: center; /* Center content in header */
 }
 
 .name-header {
@@ -64,6 +72,7 @@ h3 {
   letter-spacing: -0.03em;
   margin-bottom: 0.5rem;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Ensure name is centered */
 }
 
 /* ===================== NAVIGATION ===================== */
@@ -99,6 +108,13 @@ nav a:hover {
   margin: 3rem 0;
 }
 
+/* About section heading alignment fix */
+.about-container h1,
+.about-container h2,
+.about-container h3 {
+  text-align: left; /* Left-align headings in about section on desktop */
+}
+
 .about-text {
   flex: 1;
   max-width: 600px;
@@ -128,6 +144,19 @@ nav a:hover {
   padding: 1.8rem;
   transition: all 0.3s ease;
   cursor: pointer;
+}
+
+/* Ensure card headings are left-aligned */
+.project-card h1,
+.project-card h2,
+.project-card h3,
+.collab-card h1,
+.collab-card h2,
+.collab-card h3,
+.work-item h1,
+.work-item h2,
+.work-item h3 {
+  text-align: left;
 }
 
 .project-card:hover,
@@ -350,6 +379,13 @@ footer {
     text-align: center;
     gap: 1.5rem;
     margin: 2rem 0;
+  }
+
+  /* Center about section headings on mobile */
+  .about-container h1,
+  .about-container h2,
+  .about-container h3 {
+    text-align: center;
   }
 
   /* Resize profile photo */
