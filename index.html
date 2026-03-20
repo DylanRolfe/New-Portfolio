@@ -1,172 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <!-- CHARACTER SET AND VIEWPORT SETTINGS -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="format-detection" content="telephone=no" />
   <title>Dylan Rolfe</title>
-  
-  <!-- EXTERNAL STYLESHEET LINK -->
+  <meta name="description"
+    content="Dylan Rolfe — 17-year-old builder from Vancouver. Incoming Mechatronics Engineering at UWaterloo. Hardware, software, and business." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Dylan Rolfe" />
+  <meta property="og:description"
+    content="I build sensor systems, AI tools, and lead gen pipelines. Starting Mechatronics at Waterloo this fall." />
+  <meta property="og:image" content="Images/HeadshotSuitSmileClose.JPG" />
+  <meta property="og:url" content="https://dylanrolfe.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Dylan Rolfe" />
+  <meta name="twitter:description"
+    content="I build sensor systems, AI tools, and lead gen pipelines. Starting Mechatronics at Waterloo this fall." />
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230a0a0a'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,sans-serif' font-weight='600' font-size='14' fill='%234A90D9'>DR</text></svg>" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="styles.css" />
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-  <!-- STICKY HEADER WITH NAME AND NAVIGATION -->
-  <header class="sticky-header">
-    <h1 class="name-header">Dylan Rolfe</h1>
-    
-    <!-- MAIN NAVIGATION MENU -->
-    <nav aria-label="Main navigation">
-      <ul>
+
+  <video id="bg-video" muted playsinline preload="auto">
+    <source src="Images/0318-scroll.mp4" type="video/mp4">
+  </video>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="nav-name" href="#hero">Dylan Rolfe</a>
+      <ul class="nav-links">
         <li><a href="#about">About</a></li>
-        <li><a href="#work">Work</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#writing">Writing</a></li>
+        <li><a href="#experience">Experience</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-    </nav>
-  </header>
+    </div>
+  </nav>
 
-  <main>
-    <!-- ABOUT SECTION WITH SIDE-BY-SIDE LAYOUT -->
-    <section id="about">
-      <h1>Bringing Ideas to Life</h1>
-      <div class="about-container">
-        <div class="about-text">
-          <p>Hello, I'm Dylan Rolfe, a 17-year-old from Vancouver, Canada.</p>
-          <p>⠀</p> 
-          <p>I am passionate about developing innovative solutions at the intersection of software and hardware, blending AI-driven software with hands-on prototyping. I approach real-world challenges with curiosity, precision, and creativity.</p>
-          <p>⠀</p> 
-          <p>Currently, I serve as the Director of Sponsorship for STRIVE 2025, where I build partnerships with tech leaders through strategic outreach, drawing on my experience with The Knowledge Society (TKS).</p>
-          <p>⠀</p> 
-          <p>I have also contributed at Web Summit, supporting a startup's booth operations and connecting with industry professionals to explore advancements in tech and AI.</p>
-          <p>⠀</p> 
-          <p>Additionally, I participate in case competitions to hone my analytical and teamwork skills in dynamic settings and volunteer with Junior Achievement British Columbia (JABC) to teach students about business and financial literacy.</p>
-          <p>⠀</p>
-          <p>My drive for exploration, problem-solving, and creating impact fuels my work in coding, hardware, and community engagement.</p>
-        </div>
-        <img src="Images/HeadshotSuitSmileClose.JPG" alt="Dylan Rolfe" class="profile-photo">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1 class="hero-name">Dylan Rolfe</h1>
+        <p class="hero-sub">Engineer, tinkerer. I like building things and figuring out how they work.<br>Mechatronics @ UWaterloo, Fall 2026.</p>
+        <a class="hero-cta" href="#projects">See my work ↓</a>
       </div>
+      <div class="hero-character">
+        <img src="Images/Idle.gif" alt="Dylan Rolfe character" />
+      </div>
+    </div>
   </section>
 
-    <!-- CURRENT PROJECTS SECTION -->
-    <section id="projects">
-      <h1>Currently Developing</h1>
-      <div class="experience">
-        <article class="work-item">
-          <h2>Mall Store Directory AI</h2>
-          <p><strong>Developing an AI-powered mall directory web app</strong></p>
-          <ul>
-            <li>Scraping mall directories and compiling structured database</li>
-            <li>Implementing AI search algorithm for customer experience</li>
-          </ul>
-          <p><strong>Technologies:</strong> Octoparse, Supabase, Python, OpenAI API</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- COMPLETED WORK SECTION -->
-    <section id="work">
-      <h1>Finished Projects</h1>
-      <div class="projects-grid">
-        <article class="project-card">
-          <div class="project-content">
-            <h3>Jarvis (AI Assistant)</h3>
-            <p>Built a simplified Jarvis-like assistant using n8n to automate time management and task prioritization.</p>
-            <p><strong>Technologies:</strong> n8n, Baserow, Google API, OpenAI API</p>
-            <a href="https://medium.com/@dylanrolfe8/i-was-drowning-in-tasks-so-i-built-jarvis-to-manage-my-life-f81125c249f2" target="_blank" class="project-link">
-              <i class="fab fa-medium"></i>
-              Read Full Article on Medium
-            </a>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-content">
-            <h3>Google Snake AI</h3>
-            <p>Built a neural network from scratch that plays and beats the Google Snake game using reinforcement learning.</p>
-            <p><strong>Technologies:</strong> Python, NumPy, OpenCV</p>
-            <a href="https://medium.com/@dylanrolfe8/i-was-terrible-at-snake-so-i-built-an-ai-to-beat-the-game-for-me-f2ab45049b71" target="_blank" class="project-link">
-              <i class="fab fa-medium"></i>
-              Read Full Article on Medium
-            </a>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-content">
-            <h3>AI for Accessibility</h3>
-            <p>Researched and published article on AI applications for visual impairment assistance.</p>
-            <p><strong>Technologies:</strong> Computer Vision, Machine Learning</p>
-            <a href="https://medium.com/@dylanrolfe8/revolutionizing-vision-how-ai-is-empowering-the-blind-9fb2c3c4eed8" target="_blank" class="project-link">
-              <i class="fab fa-medium"></i>
-              Read Full Article on Medium
-            </a>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-content">
-            <h3>MNIST AI</h3>
-            <p>Developed an AI that can identify handwritten numbers from the MNIST database</p>
-            <p><strong>Technologies:</strong> Google Colab, Python, TensorFlow</p>
-            <div class="project-status">
-              <i class="fas fa-code"></i>
-              Code Available on Request
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-content">
-            <h3>DIY Pneumatic Launcher</h3>
-            <p>Developed functional prototype during hackathon with focus on rapid iteration.</p>
-            <p><strong>Technologies:</strong> Mechanical Engineering, Prototyping</p>
-            <div class="project-status">
-              <i class="fas fa-hammer"></i>
-              Physical Prototype
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact">
-      <div class="contact-container">
-        <h1>Let's Connect</h1>
-        <div class="contact-grid">
-          <!-- Professional Profiles -->
-          <div class="contact-card">
-            <div class="contact-icon">
-              <i class="fas fa-user-tie"></i>
-            </div>
-            <h3>Professional Profiles</h3>
-            <div class="profile-links">
-              <a href="https://linkedin.com/in/dylanrolfe" target="_blank" class="profile-link">
-                <i class="fab fa-linkedin"></i>
-                LinkedIn
-              </a>
-              <a href="https://substack.com/@dylanrolfe" target="_blank" class="profile-link">
-                <i class="fas fa-newspaper"></i>
-                Newsletter
-              </a>
-              <a href="https://medium.com/@dylanrolfe8" target="_blank" class="profile-link">
-                <i class="fab fa-medium"></i>
-                Medium
-              </a>
-            </div>
-          </div>
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid fade-in">
+        <div class="about-photo-wrap">
+          <img src="Images/HeadshotSuitSmileClose.JPG" alt="Dylan Rolfe" class="about-photo" width="200" height="200"
+            loading="lazy" />
+        </div>
+        <div class="about-text">
+          <h2>About</h2>
+          <p>
+            I'm Dylan. 17, based in Vancouver, starting Mechatronics Engineering at the University of Waterloo this fall. I build hardware and write software. Most of my time goes into tinkering with whatever's new, whether that's AI tools or 3D printing. Right now I'm deep in AI tooling, figuring out how to build faster and smarter with what exists today.
+          </p>
+          <p class="about-closing">
+            I like making things that solve real problems.
+          </p>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <!-- PAGE FOOTER -->
-  <footer>
-    <p>© 2025 Dylan Rolfe. All rights reserved.</p>
-  </footer>
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="container">
+      <h2 class="section-title fade-in">Projects</h2>
+
+      <!-- FuelGo -->
+      <div class="project-row fade-in">
+        <div class="project-thumb">
+          <a href="https://drive.google.com/file/d/1EF3TtyhLMRUF_RdfzeIRY_qD-F55WKXN/view" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+            <img src="Images/FuelGo (2).png" alt="FuelGo" loading="lazy" />
+          </a>
+        </div>
+        <div class="project-text">
+          <h3>FuelGo</h3>
+          <p class="project-tag">Hardware &nbsp;&middot;&nbsp; IoT &nbsp;&middot;&nbsp; TKS Moonshots</p>
+          <p>
+            Solar-powered wildfire detection sensor with Starlink connectivity. Designed for remote terrain with no existing infrastructure. Presented to 300+ people at a tech showcase. A Deloitte managing director asked about our cost per square kilometre and later met with us privately to discuss taking it further.
+          </p>
+          <a class="project-link" href="https://drive.google.com/file/d/1EF3TtyhLMRUF_RdfzeIRY_qD-F55WKXN/view" target="_blank" rel="noopener noreferrer">One-pager &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Consensus Bio -->
+      <div class="project-row project-row-reverse fade-in">
+        <div class="project-thumb">
+          <a href="https://tksworld.notion.site/Consensus-Bio-2fa0b470b010805f94f6c238bc7eeadd" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+            <img src="Images/Cerebras.webp" alt="Consensus Bio" loading="lazy" />
+          </a>
+        </div>
+        <div class="project-text">
+          <h3>Consensus Bio</h3>
+          <p class="project-tag">AI &nbsp;&middot;&nbsp; Drug Discovery &nbsp;&middot;&nbsp; Cerebras</p>
+          <p>
+            AI drug discovery tool using Cerebras for parallel model inference. Reduces research iteration time from hours to seconds. Built in 48 hours during a TKS sprint.
+          </p>
+          <a class="project-link" href="https://tksworld.notion.site/Consensus-Bio-2fa0b470b010805f94f6c238bc7eeadd" target="_blank" rel="noopener noreferrer">View writeup &rarr;</a>
+        </div>
+      </div>
+
+      <!-- HABGuard-Lite -->
+      <div class="project-row fade-in">
+        <div class="project-thumb">
+          <a href="https://pacdose-automation.super.site/" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+            <img src="Images/HabGuard.png" alt="HABGuard-Lite" loading="lazy" />
+          </a>
+        </div>
+        <div class="project-text">
+          <h3>HABGuard-Lite</h3>
+          <p class="project-tag">Hardware &nbsp;&middot;&nbsp; Sensors &nbsp;&middot;&nbsp; XPRIZE</p>
+          <p>
+            Sensor-guided PAC dosing system for desalination plants. Detects algal bloom toxins in real time and auto-doses activated carbon. Built for the XPRIZE Water Abundance challenge. Zero manual intervention required. Followed up directly with the XPRIZE team to explore viability beyond the initial project.
+          </p>
+          <a class="project-link" href="https://pacdose-automation.super.site/" target="_blank" rel="noopener noreferrer">View project &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Organizo (Jarvis) -->
+      <div class="project-row project-row-reverse fade-in">
+        <div class="project-thumb">
+          <a href="https://medium.com/@dylanrolfe8/i-was-drowning-in-tasks-so-i-built-jarvis-to-manage-my-life-f81125c249f2" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+            <img src="Images/Organizo.jpg" alt="Organizo" loading="lazy" />
+          </a>
+        </div>
+        <div class="project-text">
+          <h3>Organizo <span class="project-aka">(Jarvis)</span></h3>
+          <p class="project-tag">Automation &nbsp;&middot;&nbsp; n8n &nbsp;&middot;&nbsp; GPT-4 Mini</p>
+          <p>
+            Personal AI assistant inspired by Iron Man's Jarvis. Built on n8n and GPT-4 Mini. Schedules my calendar, summarizes voice messages into tasks, and handles email. All through Telegram for under $2/month.
+          </p>
+          <a class="project-link"
+            href="https://medium.com/@dylanrolfe8/i-was-drowning-in-tasks-so-i-built-jarvis-to-manage-my-life-f81125c249f2"
+            target="_blank" rel="noopener noreferrer">Read writeup &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Snake AI -->
+      <div class="project-row fade-in">
+        <div class="project-thumb">
+          <a href="https://medium.com/@dylanrolfe8/i-was-terrible-at-snake-so-i-built-an-ai-to-beat-the-game-for-me-f2ab45049b71" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+            <img src="Images/SnakeGame.webp" alt="Snake AI" loading="lazy" />
+          </a>
+        </div>
+        <div class="project-text">
+          <h3>Snake AI</h3>
+          <p class="project-tag">Machine Learning &nbsp;&middot;&nbsp; Reinforcement Learning</p>
+          <p>
+            Reinforcement learning agent that teaches itself to play Snake from scratch. Wrote up the full process covering how the model trains, where it fails, and when it starts beating my high score.
+          </p>
+          <a class="project-link" href="https://medium.com/@dylanrolfe8/i-was-terrible-at-snake-so-i-built-an-ai-to-beat-the-game-for-me-f2ab45049b71" target="_blank" rel="noopener noreferrer">Read writeup &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section class="section" id="writing">
+    <div class="container">
+      <h2 class="section-title fade-in">Writing</h2>
+      <div class="writing-grid">
+
+        <!-- MNIST -->
+        <div class="writing-card fade-in">
+          <div class="writing-thumb">
+            <img src="Images/MNIST.webp" alt="AI Image Recognition & MNIST" loading="lazy" />
+          </div>
+          <div class="writing-body">
+            <h3>AI Image Recognition &amp; MNIST</h3>
+            <p>Built a digit recognition model on the MNIST dataset. Wrote a breakdown of how image recognition works from pixels to predictions, and how the same principles are being applied to help blind people see.</p>
+            <a class="writing-link" href="https://medium.com/@dylanrolfe8/revolutionizing-vision-how-ai-is-empowering-the-blind-9fb2c3c4eed8" target="_blank" rel="noopener noreferrer">Read article &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Haptic Feedback -->
+        <div class="writing-card fade-in">
+          <div class="writing-thumb">
+            <img src="Images/Haptic.webp" alt="Haptic Feedback in Prosthetics" loading="lazy" />
+          </div>
+          <div class="writing-body">
+            <h3>Haptic Feedback in Prosthetics</h3>
+            <p>Deep dive into the tech behind making prosthetic hands feel real. Covers sensor types, neural interfaces, machine learning for touch processing, and where the field is heading in the next five years.</p>
+            <a class="writing-link" href="https://medium.com/@dylanrolfe8/why-your-next-hand-could-feel-real-the-tech-behind-haptic-prosthetics-cb63879ab84d" target="_blank" rel="noopener noreferrer">Read article &rarr;</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section" id="experience">
+    <div class="container">
+      <h2 class="section-title fade-in">Experience</h2>
+      <div class="exp-grid">
+
+        <!-- Samsung -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap">
+              <img src="Images/samsung.jpg" alt="Samsung" class="exp-logo" loading="lazy" />
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-org">Samsung</div>
+              <div class="exp-role">Consulting Challenge</div>
+              <div class="exp-date">2025</div>
+            </div>
+          </div>
+          <p>Strategic recommendation covering market analysis, competitive positioning, and growth strategy. Built for a TKS consulting challenge.</p>
+          <a class="exp-link" href="https://docs.google.com/presentation/d/e/2PACX-1vQPbh8JrKEua1-e2IOP4grXT84o-iJfncgvRH2oNEc82K66u5vd3FBiTHd9G8-RFdDGPKJ6x-_to6yX/pub?start=false&loop=false&delayms=3000&slide=id.p" target="_blank" rel="noopener noreferrer">View deck &rarr;</a>
+        </div>
+
+        <!-- IKEA -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap">
+              <img src="Images/IKEA.jpg" alt="IKEA" class="exp-logo" loading="lazy" />
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-org">IKEA</div>
+              <div class="exp-role">Consulting Challenge</div>
+              <div class="exp-date">2025</div>
+            </div>
+          </div>
+          <p>Retail strategy recommendation analyzing supply chain dynamics and customer behaviour. Built for a TKS consulting challenge.</p>
+          <a class="exp-link" href="https://www.canva.com/design/DAGZTdEbFEc/Gv3sNbGraeC9zrmmjeyfBA/view?utm_content=DAGZTdEbFEc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3433d9a137" target="_blank" rel="noopener noreferrer">View deck &rarr;</a>
+        </div>
+
+        <!-- STRIVE -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap">
+              <img src="Images/STRIVE.png" alt="STRIVE" class="exp-logo" loading="lazy" />
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-org"><a href="https://www.strivecompetition.org/" target="_blank" rel="noopener noreferrer">STRIVE</a></div>
+              <div class="exp-role">Director of Sponsorship</div>
+              <div class="exp-date">2024 &ndash; 2025</div>
+            </div>
+          </div>
+          <p>Contacted 100+ companies to secure funding and speakers. When cold emails stalled, I pivoted to in-person visits and personal connections. Secured speakers from Microsoft Garage and Deloitte. 300+ students at UBC.</p>
+          <a class="exp-link" href="https://www.strivecompetition.org/" target="_blank" rel="noopener noreferrer">Visit website &rarr;</a>
+        </div>
+
+        <!-- TKS -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap">
+              <img src="Images/TKS.png" alt="TKS" class="exp-logo" loading="lazy" />
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-org"><a href="https://www.tks.world/" target="_blank" rel="noopener noreferrer">The Knowledge Society</a></div>
+              <div class="exp-role">Member</div>
+              <div class="exp-date">2024 &ndash; Present</div>
+            </div>
+          </div>
+          <p>Global innovation program. Built projects in hardware, AI, and biotech through Moonshots and 48-hour sprints.</p>
+          <a class="exp-link" href="https://www.tks.world/" target="_blank" rel="noopener noreferrer">Visit website &rarr;</a>
+        </div>
+
+        <!-- JABC -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap">
+              <img src="Images/JABC.png" alt="Junior Achievement BC" class="exp-logo" loading="lazy" />
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-org"><a href="https://jabc.org/" target="_blank" rel="noopener noreferrer">Junior Achievement BC</a></div>
+              <div class="exp-role">Volunteer &mdash; Financial Literacy</div>
+              <div class="exp-date">2024 &ndash; 2025</div>
+            </div>
+          </div>
+          <p>Delivered four sessions teaching 25+ grade five students about earning, saving, and business. Facilitated a money management game and helped students build a class business from scratch.</p>
+          <a class="exp-link" href="https://jabc.org/" target="_blank" rel="noopener noreferrer">Visit website &rarr;</a>
+        </div>
+
+        <!-- Window Cleaning -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap">
+              <img src="Images/ClearCraft.jpg" alt="Window Cleaning Business" class="exp-logo" loading="lazy" />
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-org">Window Cleaning Business</div>
+              <div class="exp-role">Founder &amp; Operator</div>
+              <div class="exp-date">2023 &ndash; 2024 &middot; Vancouver, BC</div>
+            </div>
+          </div>
+          <p>Co-founded a student-led window cleaning business when no one would hire us for summer jobs. Trained a team of five students across four schools and served 20-30 homes over three months.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-inner fade-in">
+        <h2>Get in touch.</h2>
+        <p class="contact-sub">Want to work together or chat? Find me here.</p>
+        <div class="contact-links">
+          <a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer"
+            class="contact-link">LinkedIn</a>
+          <a href="https://medium.com/@dylanrolfe8" target="_blank" rel="noopener noreferrer"
+            class="contact-link">Medium</a>
+          <a href="https://substack.com/@dylanrolfe" target="_blank" rel="noopener noreferrer"
+            class="contact-link">Follow the Journey</a>
+        </div>
+        <p class="contact-copyright">&copy; 2026 Dylan Rolfe</p>
+      </div>
+    </div>
+    <div class="contact-pixel-wrap">
+      <div class="pixel-bubble"><span class="pixel-bubble-text"></span></div>
+      <img src="Images/Pixel Wave.png" alt="" class="contact-pixel-char" aria-hidden="true" />
+    </div>
+  </section>
+
+  <script src="script.js?v=3"></script>
 </body>
+
 </html>
