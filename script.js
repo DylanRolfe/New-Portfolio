@@ -1,3 +1,22 @@
+// Hamburger nav toggle
+(function () {
+  var nav = document.getElementById('nav');
+  var toggle = document.querySelector('.nav-toggle');
+  if (!nav || !toggle) return;
+  toggle.addEventListener('click', function () {
+    var isOpen = nav.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      nav.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+    });
+  });
+})();
+
 // Hero GIF cycling
 (function () {
   var gifs = ['Images/Idle.gif', 'Images/Wiring.gif', 'Images/Curl.gif'];
