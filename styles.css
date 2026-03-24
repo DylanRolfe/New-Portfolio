@@ -728,17 +728,25 @@ ul {
     background-attachment: scroll;
   }
 
-  /* Lighter background on mobile so the GIF shows through more */
+  /* Remove all overlays on mobile so GIF is fully visible */
   #bg-gif {
-    opacity: 0.8;
+    opacity: 1;
   }
 
   body::before {
-    background: rgba(0, 0, 0, 0.2);
+    display: none;
   }
 
   .section {
-    background: rgba(0, 0, 0, 0.2);
+    background: transparent;
+  }
+
+  .writing-card {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .exp-card {
+    background: rgba(0, 0, 0, 0.5);
   }
 
   .section {
