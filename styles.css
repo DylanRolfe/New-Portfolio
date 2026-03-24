@@ -725,8 +725,20 @@ ul {
 @media (max-width: 768px) {
   body {
     font-size: 16px;
-    /* On mobile, fixed background can cause issues — switch to scroll */
     background-attachment: scroll;
+  }
+
+  /* Lighter background on mobile so the GIF shows through more */
+  #bg-gif {
+    opacity: 0.55;
+  }
+
+  body::before {
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .section {
+    background: rgba(0, 0, 0, 0.45);
   }
 
   .section {
