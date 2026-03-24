@@ -17,10 +17,10 @@
   });
 })();
 
-// Hero GIF cycling
+// Background GIF cycling
 (function () {
   var gifs = ['Images/Idle.gif', 'Images/Wiring.gif', 'Images/Curl.gif'];
-  var img = document.querySelector('.hero-character img');
+  var img = document.getElementById('bg-gif');
   if (!img) return;
   var current = 0;
   setInterval(function () {
@@ -28,8 +28,8 @@
     setTimeout(function () {
       current = (current + 1) % gifs.length;
       img.src = gifs[current];
-      img.style.opacity = '1';
-    }, 300);
+      img.style.opacity = '0.35';
+    }, 400);
   }, 8000);
 })();
 
@@ -87,80 +87,3 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
   });
 });
 
-// Scroll-linked background video
-(function () {
-  var video = document.getElementById('bg-video');
-  if (!video) return;
-
-  var duration   = 0;
-  var targetTime = 0;   // updated on scroll
-  var dispTime   = 0;   // lerped toward targetTime each rAF
-  var unlocked   = false;
-  var loopActive = false;
-
-  // Chrome requires play()/pause() before currentTime writes are allowed
-  function unlock() {
-    if (unlocked) return;
-    unlocked = true;
-    video.play().then(function () {
-      video.pause();
-    }).catch(function (err) {
-      console.warn('[bg-video] unlock play() failed:', err);
-    });
-  }
-
-  // rAF loop: lerp dispTime toward targetTime, write to video.currentTime
-  function loop() {
-    if (duration > 0) {
-      var diff = targetTime - dispTime;
-      if (Math.abs(diff) > 0.001) {
-        dispTime += diff * 0.12;  // ~12% closer each frame (~80ms convergence at 60fps)
-        dispTime = Math.min(duration, Math.max(0, dispTime));
-        video.currentTime = dispTime;
-        console.log('[bg-video] currentTime ' + dispTime.toFixed(3) + ' \u2192 target ' + targetTime.toFixed(3));
-      }
-    }
-    requestAnimationFrame(loop);
-  }
-
-  // Scroll handler: update targetTime only
-  window.addEventListener('scroll', function () {
-    unlock();
-    if (duration > 0) {
-      var scrollTop = window.scrollY || document.documentElement.scrollTop;
-      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      var fraction  = maxScroll > 0 ? Math.min(1, Math.max(0, scrollTop / maxScroll)) : 0;
-      targetTime = fraction * duration;
-      console.log('[bg-video] scroll ' + Math.round(fraction * 100) + '%');
-    }
-  }, { passive: true });
-
-  // Metadata ready: capture duration, start rAF loop
-  video.addEventListener('loadedmetadata', function () {
-    duration = video.duration;
-    console.log('[bg-video] ready, duration:', duration);
-    if (!loopActive) {
-      loopActive = true;
-      requestAnimationFrame(loop);
-    }
-  });
-
-  video.addEventListener('error', function () {
-    console.warn('[bg-video] failed to load, using fallback background');
-    video.style.display = 'none';
-  });
-
-  // Fetch preload: download full video into memory as Blob for zero-latency seeks
-  fetch('Images/0318-scroll.mp4')
-    .then(function (res) { return res.blob(); })
-    .then(function (blob) {
-      console.log('[bg-video] preloaded ' + (blob.size / 1024 / 1024).toFixed(1) + ' MB');
-      video.src = URL.createObjectURL(blob);
-      video.load();
-    })
-    .catch(function (err) {
-      console.warn('[bg-video] fetch preload failed, using direct src:', err);
-      video.src = 'Images/0318-scroll.mp4';
-      video.load();
-    });
-})();
