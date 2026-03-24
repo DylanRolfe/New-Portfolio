@@ -17,6 +17,19 @@
   });
 })();
 
+// Hero parallax exit
+(function () {
+  var heroEl = document.querySelector('.hero');
+  var heroInner = document.querySelector('.hero-inner');
+  if (!heroEl || !heroInner) return;
+  window.addEventListener('scroll', function () {
+    var h = heroEl.offsetHeight;
+    var progress = Math.min(1, window.scrollY / h);
+    heroInner.style.transform = 'translateY(' + (-progress * 70) + 'px)';
+    heroInner.style.opacity = String(1 - progress * 1.4);
+  }, { passive: true });
+})();
+
 // Background GIF cycling
 (function () {
   var gifs = ['Images/Idle.gif', 'Images/Wiring.gif', 'Images/Curl.gif'];
