@@ -730,15 +730,15 @@ ul {
 
   /* Lighter background on mobile so the GIF shows through more */
   #bg-gif {
-    opacity: 0.55;
+    opacity: 0.8;
   }
 
   body::before {
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.2);
   }
 
   .section {
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.2);
   }
 
   .section {
