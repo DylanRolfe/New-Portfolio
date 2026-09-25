@@ -1,102 +1,177 @@
-// Hamburger nav toggle
+// Mobile navigation
 (function () {
-  var nav = document.getElementById('nav');
-  var toggle = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('nav');
+  const toggle = document.querySelector('.nav-toggle');
   if (!nav || !toggle) return;
+
+  function closeMenu() {
+    nav.classList.remove('nav-open');
+    document.body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+  }
+
   toggle.addEventListener('click', function () {
-    var isOpen = nav.classList.toggle('nav-open');
-    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    const isOpen = nav.classList.toggle('nav-open');
+    document.body.classList.toggle('menu-open', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
     toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
   });
+
   document.querySelectorAll('.nav-links a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      nav.classList.remove('nav-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'Open menu');
-    });
+    link.addEventListener('click', closeMenu);
+  });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 700) closeMenu();
   });
 })();
 
-// Hero parallax exit
+// Give the navigation a quiet surface after leaving the hero.
 (function () {
-  var heroEl = document.querySelector('.hero');
-  var heroInner = document.querySelector('.hero-inner');
-  if (!heroEl || !heroInner) return;
-  window.addEventListener('scroll', function () {
-    var h = heroEl.offsetHeight;
-    var progress = Math.min(1, window.scrollY / h);
-    heroInner.style.transform = 'translateY(' + (-progress * 70) + 'px)';
-    heroInner.style.opacity = String(1 - progress * 1.4);
+  const nav = document.getElementById('nav');
+  if (!nav) return;
+
+  function updateNav() {
+    nav.classList.toggle('scrolled', window.scrollY > 24);
+  }
+
+  updateNav();
+  window.addEventListener('scroll', updateNav, { passive: true });
+})();
+
+// Reveal content as it enters the viewport.
+(function () {
+  const elements = document.querySelectorAll('.reveal');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    elements.forEach(function (element) {
+      element.classList.add('visible');
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -35px' });
+
+  elements.forEach(function (element) {
+    observer.observe(element);
+  });
+})();
+
+// Open the three FuelGo links from either project trigger.
+(function () {
+  const dialog = document.getElementById('fuelgo-dialog');
+  const triggers = document.querySelectorAll('.project-menu-trigger');
+  if (!dialog || !dialog.showModal || !triggers.length) return;
+
+  let lastTrigger = null;
+  triggers.forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      lastTrigger = trigger;
+      dialog.showModal();
+      document.body.classList.add('fuelgo-open');
+      dialog.querySelector('.fuelgo-dialog-close').focus();
+    });
+  });
+
+  dialog.querySelector('.fuelgo-dialog-close').addEventListener('click', function () {
+    dialog.close();
+  });
+  dialog.addEventListener('click', function (event) {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('close', function () {
+    document.body.classList.remove('fuelgo-open');
+    if (lastTrigger) lastTrigger.focus();
+  });
+})();
+
+// Start the launch video from an explicit click so browsers allow its audio.
+(function () {
+  const frame = document.querySelector('.hobby-video-frame');
+  if (!frame) return;
+  const video = frame.querySelector('video');
+  const button = frame.querySelector('.video-sound-button');
+
+  button.addEventListener('click', function () {
+    video.muted = false;
+    video.volume = 1;
+    const attempt = video.play();
+    if (attempt && attempt.catch) attempt.catch(function () {});
+  });
+  video.addEventListener('playing', function () {
+    frame.classList.add('has-played');
+  });
+  video.addEventListener('ended', function () {
+    frame.classList.remove('has-played');
+  });
+})();
+
+// Let visitors see the gallery photos at full size without leaving the page.
+(function () {
+  const dialog = document.querySelector('.gallery-dialog');
+  const photos = Array.from(document.querySelectorAll('.hobby-photo'));
+  if (!dialog || !photos.length || !dialog.showModal) return;
+
+  const largeImage = dialog.querySelector('.gallery-image');
+  const caption = dialog.querySelector('.gallery-caption');
+  const count = dialog.querySelector('.gallery-count');
+  let currentIndex = 0;
+  let lastTrigger = null;
+  let touchStartX = 0;
+
+  function showPhoto(index) {
+    currentIndex = (index + photos.length) % photos.length;
+    const photo = photos[currentIndex];
+    const source = photo.querySelector('img');
+    largeImage.src = source.currentSrc || source.src;
+    largeImage.alt = source.alt;
+    caption.textContent = photo.closest('figure').querySelector('figcaption').childNodes[0].textContent.trim();
+    count.textContent = (currentIndex + 1) + ' / ' + photos.length;
+  }
+
+  photos.forEach(function (photo, index) {
+    photo.addEventListener('click', function () {
+      lastTrigger = photo;
+      showPhoto(index);
+      dialog.showModal();
+      document.body.classList.add('gallery-open');
+    });
+  });
+
+  dialog.querySelector('.gallery-close').addEventListener('click', function () {
+    dialog.close();
+  });
+  dialog.querySelector('.gallery-prev').addEventListener('click', function () {
+    showPhoto(currentIndex - 1);
+  });
+  dialog.querySelector('.gallery-next').addEventListener('click', function () {
+    showPhoto(currentIndex + 1);
+  });
+
+  dialog.addEventListener('click', function (event) {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('keydown', function (event) {
+    if (event.key === 'ArrowLeft') showPhoto(currentIndex - 1);
+    if (event.key === 'ArrowRight') showPhoto(currentIndex + 1);
+  });
+  dialog.addEventListener('touchstart', function (event) {
+    touchStartX = event.changedTouches[0].screenX;
   }, { passive: true });
-})();
-
-// Background GIF cycling
-(function () {
-  var gifs = ['Images/Idle.gif', 'Images/Wiring.gif', 'Images/Curl.gif'];
-  var img = document.getElementById('bg-gif');
-  if (!img) return;
-  var current = 0;
-  setInterval(function () {
-    img.style.opacity = '0';
-    setTimeout(function () {
-      current = (current + 1) % gifs.length;
-      img.src = gifs[current];
-      img.style.opacity = '0.35';
-    }, 400);
-  }, 8000);
-})();
-
-// Pixel character speech bubble
-(function () {
-  var messages = [
-    "hey, click something!",
-    "nice to meet you \uD83D\uDC4B",
-    "let's build something cool",
-    "you scrolled all the way down?",
-    "hire me for co-op maybe?",
-    "I also make cool 3D prints",
-    "currently tinkering with AI",
-    "this site was fun to build"
-  ];
-
-  var wrap = document.querySelector('.contact-pixel-wrap');
-  var textEl = document.querySelector('.pixel-bubble-text');
-  if (!wrap || !textEl) return;
-
-  // Pre-populate so the bubble has a size before first hover
-  textEl.textContent = messages[Math.floor(Math.random() * messages.length)];
-
-  wrap.addEventListener('mouseenter', function () {
-    textEl.textContent = messages[Math.floor(Math.random() * messages.length)];
+  dialog.addEventListener('touchend', function (event) {
+    const distance = event.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(distance) > 55) showPhoto(currentIndex + (distance < 0 ? 1 : -1));
+  }, { passive: true });
+  dialog.addEventListener('close', function () {
+    document.body.classList.remove('gallery-open');
+    if (lastTrigger) lastTrigger.focus();
   });
 })();
-
-// Fade-in on scroll
-const fadeEls = document.querySelectorAll('.fade-in');
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.12 }
-);
-
-fadeEls.forEach((el) => observer.observe(el));
-
-// Smooth scroll for nav links (fallback for browsers that ignore CSS scroll-behavior)
-document.querySelectorAll('a[href^="#"]').forEach((link) => {
-  link.addEventListener('click', (e) => {
-    const id = link.getAttribute('href');
-    const target = document.querySelector(id);
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-
