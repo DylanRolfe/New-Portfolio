@@ -335,6 +335,13 @@ button { font: inherit; text-transform: inherit; }
   z-index: 5;
 }
 
+.hero-hud a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.hero-hud a:hover { color: #fff; }
+
 .hero-copy {
   animation: home-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   margin: 0 auto;
@@ -756,16 +763,6 @@ button { font: inherit; text-transform: inherit; }
   height: 48px;
   object-fit: cover;
   width: 48px;
-}
-
-.trail-logo.trail-logo-wordmark {
-  aspect-ratio: auto;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  height: 42px;
-  object-fit: contain;
-  width: auto;
 }
 
 .trail-logo-pair {
