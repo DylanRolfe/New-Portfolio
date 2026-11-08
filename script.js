@@ -1,3 +1,5 @@
+document.documentElement.classList.add('js');
+
 // Mobile navigation
 (function () {
   const nav = document.getElementById('nav');
@@ -31,14 +33,8 @@
 (function () {
   if (!document.documentElement.classList.contains('page-home')) return;
 
-  function shouldAllow(event) {
-    if (document.body.classList.contains('menu-open')) return true;
-    const main = document.querySelector('.home-main');
-    return !!(main && main.contains(event.target) && main.scrollHeight > main.clientHeight + 2);
-  }
-
   function lockScroll(event) {
-    if (shouldAllow(event)) return;
+    if (document.body.classList.contains('menu-open')) return;
     event.preventDefault();
   }
 
@@ -46,20 +42,41 @@
   window.addEventListener('touchmove', lockScroll, { passive: false });
   window.addEventListener('keydown', function (event) {
     const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
-    if (keys.indexOf(event.key) === -1 || document.body.classList.contains('menu-open')) return;
-    const main = document.querySelector('.home-main');
-    if (main && main.scrollHeight > main.clientHeight + 2) return;
-    event.preventDefault();
+    if (keys.indexOf(event.key) !== -1 && !document.body.classList.contains('menu-open')) {
+      event.preventDefault();
+    }
   });
 })();
 
-// Subtle mouse parallax on the home mountain photo.
+// Hero: optional layers + subtle mouse parallax (transform only)
 (function () {
-  const img = document.querySelector('.home-parallax-img');
-  if (!img) return;
+  const root = document.querySelector('[data-parallax-root]');
+  if (!root) return;
 
+  const layers = Array.prototype.slice.call(root.querySelectorAll('[data-parallax-depth]'));
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced || window.matchMedia('(pointer: coarse)').matches) return;
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+
+  // Optional sky/fg: only show if the dedicated asset exists.
+  layers.forEach(function (layer) {
+    const src = layer.getAttribute('data-layer-src');
+    if (!src) return;
+    const probe = new Image();
+    probe.onload = function () {
+      layer.style.backgroundImage = 'url("' + src + '")';
+      layer.style.backgroundSize = 'cover';
+      layer.style.backgroundPosition = 'center';
+      layer.classList.add('is-ready');
+      layer.removeAttribute('hidden');
+    };
+    probe.onerror = function () {
+      layer.classList.add('is-missing');
+      layer.setAttribute('hidden', '');
+    };
+    probe.src = src;
+  });
+
+  if (reduced || coarse) return;
 
   let targetX = 0;
   let targetY = 0;
@@ -68,18 +85,23 @@
   let ticking = false;
 
   function render() {
-    currentX += (targetX - currentX) * 0.08;
-    currentY += (targetY - currentY) * 0.08;
-    img.style.transform =
-      'translate(calc(-50% + ' + currentX.toFixed(2) + 'px), calc(-50% + ' + currentY.toFixed(2) + 'px)) scale(1.12)';
+    currentX += (targetX - currentX) * 0.1;
+    currentY += (targetY - currentY) * 0.1;
+    layers.forEach(function (layer) {
+      if (layer.hasAttribute('hidden')) return;
+      const depth = Number(layer.getAttribute('data-parallax-depth') || 10);
+      const x = currentX * (depth / 18);
+      const y = currentY * (depth / 18);
+      layer.style.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) scale(1.08)';
+    });
     ticking = false;
   }
 
   window.addEventListener('mousemove', function (event) {
     const nx = (event.clientX / window.innerWidth - 0.5) * 2;
     const ny = (event.clientY / window.innerHeight - 0.5) * 2;
-    targetX = nx * -18;
-    targetY = ny * -12;
+    targetX = nx * -16;
+    targetY = ny * -10;
     if (!ticking) {
       ticking = true;
       requestAnimationFrame(render);
@@ -87,17 +109,14 @@
   }, { passive: true });
 })();
 
-// Reveal content as it enters the viewport.
+// Reveal on scroll
 (function () {
   const elements = document.querySelectorAll('.reveal');
   if (!elements.length) return;
-
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (reducedMotion || !('IntersectionObserver' in window)) {
-    elements.forEach(function (element) {
-      element.classList.add('visible');
-    });
+    elements.forEach(function (el) { el.classList.add('visible'); });
     return;
   }
 
@@ -109,36 +128,92 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -35px' });
 
-  elements.forEach(function (element) {
-    observer.observe(element);
+  elements.forEach(function (el) { observer.observe(el); });
+})();
+
+// Trail timeline: sync aria, waypoint fill on scroll; collapse enhancement when JS on
+(function () {
+  const trail = document.querySelector('[data-trail]');
+  if (!trail) return;
+
+  const rows = Array.prototype.slice.call(trail.querySelectorAll('.trail-row'));
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  rows.forEach(function (row) {
+    const details = row.querySelector('details');
+    if (!details) return;
+    // Progressive enhancement: start collapsed when JS is available
+    details.open = false;
+    details.addEventListener('toggle', function () {
+      details.setAttribute('aria-expanded', String(details.open));
+    });
+    details.setAttribute('aria-expanded', 'false');
+  });
+
+  if (!('IntersectionObserver' in window)) {
+    rows.forEach(function (row) { row.classList.add('is-active'); });
+    return;
+  }
+
+  const dotObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) entry.target.classList.add('is-active');
+    });
+  }, { threshold: 0.45 });
+
+  rows.forEach(function (row) { dotObserver.observe(row); });
+
+  if (reduced) {
+    rows.forEach(function (row) { row.classList.add('is-active'); });
+  }
+})();
+
+// Photo lightbox (about page cards)
+(function () {
+  const dialog = document.getElementById('lightbox');
+  if (!dialog || !dialog.showModal) return;
+
+  const image = dialog.querySelector('.lightbox-image');
+  const caption = dialog.querySelector('.lightbox-caption');
+  const closeBtn = dialog.querySelector('.lightbox-close');
+  const triggers = Array.prototype.slice.call(document.querySelectorAll('[data-lightbox-src]'));
+  let lastTrigger = null;
+
+  function openLightbox(trigger) {
+    lastTrigger = trigger;
+    image.src = trigger.getAttribute('data-lightbox-src');
+    image.alt = trigger.getAttribute('data-lightbox-alt') || '';
+    const fig = trigger.closest('figure');
+    const cap = fig ? fig.querySelector('figcaption') : null;
+    caption.textContent = cap ? cap.textContent.trim() : '';
+    dialog.showModal();
+    document.body.classList.add('lightbox-open');
+    closeBtn.focus();
+  }
+
+  triggers.forEach(function (trigger) {
+    trigger.addEventListener('click', function () { openLightbox(trigger); });
+  });
+
+  function closeLightbox() {
+    dialog.close();
+  }
+
+  closeBtn.addEventListener('click', closeLightbox);
+  dialog.addEventListener('click', function (event) {
+    if (event.target === dialog) closeLightbox();
+  });
+  dialog.addEventListener('cancel', function () {
+    document.body.classList.remove('lightbox-open');
+  });
+  dialog.addEventListener('close', function () {
+    document.body.classList.remove('lightbox-open');
+    image.removeAttribute('src');
+    if (lastTrigger) lastTrigger.focus();
   });
 })();
 
-// Draw the experience vine as you scroll.
-(function () {
-  const vine = document.querySelector('[data-vine]');
-  const path = document.querySelector('.vine-path');
-  if (!vine || !path) return;
-
-  const length = path.getTotalLength();
-  path.style.strokeDasharray = String(length);
-  path.style.strokeDashoffset = String(length);
-
-  function updateVine() {
-    const rect = vine.getBoundingClientRect();
-    const view = window.innerHeight || 1;
-    const start = view * 0.85;
-    const end = -rect.height + view * 0.25;
-    const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
-    path.style.strokeDashoffset = String(length * (1 - progress));
-  }
-
-  updateVine();
-  window.addEventListener('scroll', updateVine, { passive: true });
-  window.addEventListener('resize', updateVine);
-})();
-
-// Open the three FuelGo links from either project trigger.
+// FuelGo dialog
 (function () {
   const dialog = document.getElementById('fuelgo-dialog');
   const triggers = document.querySelectorAll('.project-menu-trigger');

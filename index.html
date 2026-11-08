@@ -16,20 +16,15 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <link rel="preload" as="image" href="images/hero-hike.jpg" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20" />
+  <link rel="stylesheet" href="styles.css?v=23" />
 </head>
 
 <body>
   <a class="skip-link" href="#main">skip to content</a>
-
-  <div class="home-bleed" aria-hidden="true">
-    <img class="home-parallax-img" src="Images/Mountain.jpg" width="2160" height="2880" alt="" />
-    <div class="home-veil"></div>
-    <div class="glyph-watermark glyph-watermark-home">gb</div>
-  </div>
 
   <nav class="nav nav-home" id="nav" aria-label="primary navigation">
     <div class="nav-inner">
@@ -48,30 +43,54 @@
   </nav>
 
   <main id="main" class="home-main">
-    <div class="home-copy">
-      <h1 class="home-brand">dylan rolfe</h1>
-      <ul class="home-bullets">
-        <li>from yvr &amp; lhr · based in waterloo</li>
-        <li class="home-quote">“the best way to predict the future is to invent it” <span class="quote-attr">— alan kay</span></li>
-        <li class="home-alum">
-          <img class="inline-logo" src="Images/TKS.png" width="225" height="225" alt="" />
-          <span>tks alum</span>
-        </li>
-        <li><span class="chip chip-tan">studying mechatronics engineering @ uwaterloo</span></li>
-        <li>looking for <span class="chip chip-grey">summer 2027 internships</span></li>
-      </ul>
-
-      <div class="home-now">
-        <p class="home-now-label">currently working on</p>
-        <ul>
-          <li>an autonomous gantry robot that solves the tower of hanoi</li>
-          <li>a fairyweight combat robot for watbots</li>
-        </ul>
+    <header class="hero" id="top">
+      <div class="hero-stage" data-parallax-root aria-hidden="true">
+        <div class="hero-layer hero-layer-sky" data-parallax-depth="6" data-layer-src="images/hero-sky.webp" hidden></div>
+        <div class="hero-layer hero-layer-mid is-ready" data-parallax-depth="12">
+          <picture>
+            <img
+              src="images/hero-hike.jpg"
+              width="2160"
+              height="2880"
+              alt="alpine ridge above a sea of clouds — placeholder hike photo"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </picture>
+        </div>
+        <div class="hero-layer hero-layer-fg" data-parallax-depth="18" data-layer-src="images/hero-fg.webp" hidden></div>
+        <div class="hero-scrim"></div>
       </div>
-    </div>
+
+      <p class="hero-hud" aria-label="hike telemetry placeholder">
+        49.xxxx° n, 123.xxxx° w · 1,6xx m · trail name
+      </p>
+
+      <div class="hero-copy">
+        <h1 class="home-brand">dylan rolfe</h1>
+        <ul class="home-bullets">
+          <li>from yvr &amp; lhr · based in waterloo</li>
+          <li class="home-quote">“the best way to predict the future is to invent it” <span class="quote-attr">— alan kay</span></li>
+          <li class="home-alum">
+            <img class="inline-logo" src="Images/TKS.png" width="225" height="225" alt="" />
+            <span>tks alum</span>
+          </li>
+          <li><span class="chip chip-tan">studying mechatronics engineering @ uwaterloo</span></li>
+          <li>looking for <span class="chip chip-grey">summer 2027 internships</span></li>
+        </ul>
+
+        <div class="home-now">
+          <p class="home-now-label">currently working on</p>
+          <ul>
+            <li>an autonomous gantry robot that solves the tower of hanoi</li>
+            <li>a fairyweight combat robot for watbots</li>
+          </ul>
+        </div>
+      </div>
+    </header>
   </main>
 
-  <script src="script.js?v=20"></script>
+  <script src="script.js?v=23"></script>
 </body>
 
 </html>
