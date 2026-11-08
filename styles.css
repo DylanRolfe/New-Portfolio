@@ -320,8 +320,29 @@ button { font: inherit; text-transform: inherit; }
     linear-gradient(180deg, rgba(5, 5, 5, 0.42) 0%, rgba(5, 5, 5, 0.12) 42%, rgba(5, 5, 5, 0.58) 100%),
     linear-gradient(90deg, rgba(5, 5, 5, 0.45) 0%, rgba(5, 5, 5, 0.12) 55%, rgba(5, 5, 5, 0.2) 100%);
   inset: 0;
+  pointer-events: none;
   position: absolute;
   z-index: 4;
+}
+
+.cinematic-skip {
+  backdrop-filter: blur(10px);
+  background: rgba(5, 5, 5, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 999px;
+  bottom: 22px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 600;
+  left: 28px;
+  padding: 8px 14px;
+  position: absolute;
+  z-index: 6;
+}
+
+.cinematic-skip:hover {
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .hero-hud {
@@ -1171,6 +1192,7 @@ summary:focus-visible {
 
   .hero { padding: 96px 18px 40px; }
   .hero-hud { bottom: 14px; font-size: 0.62rem; right: 18px; left: 18px; }
+  .cinematic-skip { bottom: 48px; left: 18px; }
   .home-brand { font-size: clamp(1.8rem, 10vw, 2.4rem); }
   .hero-copy { width: 100%; }
   .home-bullets > li,

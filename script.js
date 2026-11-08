@@ -42,9 +42,10 @@ document.documentElement.classList.add('js');
   window.addEventListener('touchmove', lockScroll, { passive: false });
   window.addEventListener('keydown', function (event) {
     const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
-    if (keys.indexOf(event.key) !== -1 && !document.body.classList.contains('menu-open')) {
-      event.preventDefault();
-    }
+    if (keys.indexOf(event.key) === -1 || document.body.classList.contains('menu-open')) return;
+    const target = event.target;
+    if (target && target.closest && target.closest('button, a, input, textarea, select, summary')) return;
+    event.preventDefault();
   });
 })();
 

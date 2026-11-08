@@ -16,11 +16,13 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
-  <link rel="preload" as="image" href="images/hero-hike.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/hike-opening.webp" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=34" />
+  <link rel="stylesheet" href="styles.css?v=35" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css" />
+  <noscript><style>[data-stage="poster"] .cinematic-video{visibility:hidden}</style></noscript>
 </head>
 
 <body>
@@ -44,24 +46,25 @@
   </nav>
 
   <main id="main" class="home-main">
-    <header class="hero" id="top">
-      <div class="hero-stage" data-parallax-root aria-hidden="true">
-        <div class="hero-layer hero-layer-sky" data-parallax-depth="6" data-layer-src="images/hero-sky.webp" hidden></div>
-        <div class="hero-layer hero-layer-mid is-ready" data-parallax-depth="12">
+    <header class="hero" id="top" data-cinematic-hero data-stage="poster">
+      <div class="cinematic-media" aria-hidden="true">
+        <img class="cinematic-freeze" src="assets/cinematic/Images/campsite-freeze-exact.png" alt="">
+        <div class="cinematic-art">
           <picture>
-            <img
-              src="images/hero-hike.jpg"
-              width="2160"
-              height="2880"
-              alt="alpine ridge above a sea of clouds — placeholder hike photo"
-              decoding="async"
-              fetchpriority="high"
-            />
+            <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                    data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png"
+                    data-anchor=".53,.585,.475">
+            <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+                 data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png"
+                 data-anchor=".558,.548,.217">
           </picture>
+          <canvas class="cinematic-canvas"></canvas>
         </div>
-        <div class="hero-layer hero-layer-fg" data-parallax-depth="18" data-layer-src="images/hero-fg.webp" hidden></div>
-        <div class="hero-scrim"></div>
+        <video class="cinematic-video" muted playsinline preload="none" poster="assets/cinematic/Images/hike-opening.webp"
+               data-src="assets/cinematic/Images/cinematic-hike.mp4"></video>
+        <div class="cinematic-vignette"></div>
       </div>
+      <div class="hero-scrim"></div>
 
       <p class="hero-hud">
         49.4339° n, 123.0069° w · 1,441 m ·
@@ -92,10 +95,13 @@
           </ul>
         </div>
       </div>
+      <button type="button" class="cinematic-skip" data-skip hidden>Skip animation <span aria-hidden="true">↗</span></button>
+      <span class="cinematic-screenreader" role="status" aria-live="polite"></span>
     </header>
   </main>
 
-  <script src="script.js?v=23"></script>
+  <script src="script.js?v=24"></script>
+  <script src="assets/cinematic/cinematic-hero.js" type="module"></script>
 </body>
 
 </html>
