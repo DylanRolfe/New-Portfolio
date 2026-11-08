@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="ClearCraft">
+  <rect width="128" height="128" rx="16" fill="#111"/>
+  <rect x="18" y="18" width="92" height="92" rx="10" fill="none" stroke="#7ec8ff" stroke-width="3"/>
+  <path d="M34 78 L54 42 L70 62 L86 36 L94 78 Z" fill="none" stroke="#7ec8ff" stroke-width="3" stroke-linejoin="round"/>
+  <text x="64" y="108" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#9ad0ff">cc</text>
+</svg>

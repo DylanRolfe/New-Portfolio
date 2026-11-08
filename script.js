@@ -8,14 +8,14 @@
     nav.classList.remove('nav-open');
     document.body.classList.remove('menu-open');
     toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Open menu');
+    toggle.setAttribute('aria-label', 'open menu');
   }
 
   toggle.addEventListener('click', function () {
     const isOpen = nav.classList.toggle('nav-open');
     document.body.classList.toggle('menu-open', isOpen);
     toggle.setAttribute('aria-expanded', String(isOpen));
-    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    toggle.setAttribute('aria-label', isOpen ? 'close menu' : 'open menu');
   });
 
   document.querySelectorAll('.nav-links a').forEach(function (link) {
@@ -27,22 +27,71 @@
   });
 })();
 
-// Give the navigation a quiet surface after leaving the hero.
+// Lock the home page so the document never scrolls.
 (function () {
-  const nav = document.getElementById('nav');
-  if (!nav) return;
+  if (!document.documentElement.classList.contains('page-home')) return;
 
-  function updateNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
+  function shouldAllow(event) {
+    if (document.body.classList.contains('menu-open')) return true;
+    const main = document.querySelector('.home-main');
+    return !!(main && main.contains(event.target) && main.scrollHeight > main.clientHeight + 2);
   }
 
-  updateNav();
-  window.addEventListener('scroll', updateNav, { passive: true });
+  function lockScroll(event) {
+    if (shouldAllow(event)) return;
+    event.preventDefault();
+  }
+
+  window.addEventListener('wheel', lockScroll, { passive: false });
+  window.addEventListener('touchmove', lockScroll, { passive: false });
+  window.addEventListener('keydown', function (event) {
+    const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+    if (keys.indexOf(event.key) === -1 || document.body.classList.contains('menu-open')) return;
+    const main = document.querySelector('.home-main');
+    if (main && main.scrollHeight > main.clientHeight + 2) return;
+    event.preventDefault();
+  });
+})();
+
+// Subtle mouse parallax on the home mountain photo.
+(function () {
+  const img = document.querySelector('.home-parallax-img');
+  if (!img) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || window.matchMedia('(pointer: coarse)').matches) return;
+
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let ticking = false;
+
+  function render() {
+    currentX += (targetX - currentX) * 0.08;
+    currentY += (targetY - currentY) * 0.08;
+    img.style.transform =
+      'translate(calc(-50% + ' + currentX.toFixed(2) + 'px), calc(-50% + ' + currentY.toFixed(2) + 'px)) scale(1.12)';
+    ticking = false;
+  }
+
+  window.addEventListener('mousemove', function (event) {
+    const nx = (event.clientX / window.innerWidth - 0.5) * 2;
+    const ny = (event.clientY / window.innerHeight - 0.5) * 2;
+    targetX = nx * -18;
+    targetY = ny * -12;
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(render);
+    }
+  }, { passive: true });
 })();
 
 // Reveal content as it enters the viewport.
 (function () {
   const elements = document.querySelectorAll('.reveal');
+  if (!elements.length) return;
+
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (reducedMotion || !('IntersectionObserver' in window)) {
@@ -63,6 +112,30 @@
   elements.forEach(function (element) {
     observer.observe(element);
   });
+})();
+
+// Draw the experience vine as you scroll.
+(function () {
+  const vine = document.querySelector('[data-vine]');
+  const path = document.querySelector('.vine-path');
+  if (!vine || !path) return;
+
+  const length = path.getTotalLength();
+  path.style.strokeDasharray = String(length);
+  path.style.strokeDashoffset = String(length);
+
+  function updateVine() {
+    const rect = vine.getBoundingClientRect();
+    const view = window.innerHeight || 1;
+    const start = view * 0.85;
+    const end = -rect.height + view * 0.25;
+    const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
+    path.style.strokeDashoffset = String(length * (1 - progress));
+  }
+
+  updateVine();
+  window.addEventListener('scroll', updateVine, { passive: true });
+  window.addEventListener('resize', updateVine);
 })();
 
 // Open the three FuelGo links from either project trigger.
@@ -89,89 +162,6 @@
   });
   dialog.addEventListener('close', function () {
     document.body.classList.remove('fuelgo-open');
-    if (lastTrigger) lastTrigger.focus();
-  });
-})();
-
-// Start the launch video from an explicit click so browsers allow its audio.
-(function () {
-  const frame = document.querySelector('.hobby-video-frame');
-  if (!frame) return;
-  const video = frame.querySelector('video');
-  const button = frame.querySelector('.video-sound-button');
-
-  button.addEventListener('click', function () {
-    video.muted = false;
-    video.volume = 1;
-    const attempt = video.play();
-    if (attempt && attempt.catch) attempt.catch(function () {});
-  });
-  video.addEventListener('playing', function () {
-    frame.classList.add('has-played');
-  });
-  video.addEventListener('ended', function () {
-    frame.classList.remove('has-played');
-  });
-})();
-
-// Let visitors see the gallery photos at full size without leaving the page.
-(function () {
-  const dialog = document.querySelector('.gallery-dialog');
-  const photos = Array.from(document.querySelectorAll('.hobby-photo'));
-  if (!dialog || !photos.length || !dialog.showModal) return;
-
-  const largeImage = dialog.querySelector('.gallery-image');
-  const caption = dialog.querySelector('.gallery-caption');
-  const count = dialog.querySelector('.gallery-count');
-  let currentIndex = 0;
-  let lastTrigger = null;
-  let touchStartX = 0;
-
-  function showPhoto(index) {
-    currentIndex = (index + photos.length) % photos.length;
-    const photo = photos[currentIndex];
-    const source = photo.querySelector('img');
-    largeImage.src = source.currentSrc || source.src;
-    largeImage.alt = source.alt;
-    caption.textContent = photo.closest('figure').querySelector('figcaption').childNodes[0].textContent.trim();
-    count.textContent = (currentIndex + 1) + ' / ' + photos.length;
-  }
-
-  photos.forEach(function (photo, index) {
-    photo.addEventListener('click', function () {
-      lastTrigger = photo;
-      showPhoto(index);
-      dialog.showModal();
-      document.body.classList.add('gallery-open');
-    });
-  });
-
-  dialog.querySelector('.gallery-close').addEventListener('click', function () {
-    dialog.close();
-  });
-  dialog.querySelector('.gallery-prev').addEventListener('click', function () {
-    showPhoto(currentIndex - 1);
-  });
-  dialog.querySelector('.gallery-next').addEventListener('click', function () {
-    showPhoto(currentIndex + 1);
-  });
-
-  dialog.addEventListener('click', function (event) {
-    if (event.target === dialog) dialog.close();
-  });
-  dialog.addEventListener('keydown', function (event) {
-    if (event.key === 'ArrowLeft') showPhoto(currentIndex - 1);
-    if (event.key === 'ArrowRight') showPhoto(currentIndex + 1);
-  });
-  dialog.addEventListener('touchstart', function (event) {
-    touchStartX = event.changedTouches[0].screenX;
-  }, { passive: true });
-  dialog.addEventListener('touchend', function (event) {
-    const distance = event.changedTouches[0].screenX - touchStartX;
-    if (Math.abs(distance) > 55) showPhoto(currentIndex + (distance < 0 ? 1 : -1));
-  }, { passive: true });
-  dialog.addEventListener('close', function () {
-    document.body.classList.remove('gallery-open');
     if (lastTrigger) lastTrigger.focus();
   });
 })();
