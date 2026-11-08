@@ -518,21 +518,16 @@ button { font: inherit; text-transform: inherit; }
   width: clamp(240px, 48vw, 720px);
 }
 
-.life-card-portrait {
+.life-card.life-card-portrait {
   /* Match landscape photo height while keeping the Batman figure's 3:4 frame. */
-  flex-basis: calc(clamp(240px, 48vw, 720px) * 3 / 4 * 3 / 4);
-  width: calc(clamp(240px, 48vw, 720px) * 3 / 4 * 3 / 4);
+  flex: 0 0 calc(clamp(240px, 48vw, 720px) * 9 / 16);
+  width: calc(clamp(240px, 48vw, 720px) * 9 / 16);
 }
 
-.life-card-portrait .life-photo img {
-  aspect-ratio: 3 / 4;
-  object-position: center top;
-}
-
-.life-card-video {
+.life-card.life-card-video {
   /* Match photo card height while keeping the portrait 9:16 launch clip. */
-  flex-basis: calc(clamp(240px, 48vw, 720px) * 3 / 4 * 9 / 16);
-  width: calc(clamp(240px, 48vw, 720px) * 3 / 4 * 9 / 16);
+  flex: 0 0 calc(clamp(240px, 48vw, 720px) * 27 / 64);
+  width: calc(clamp(240px, 48vw, 720px) * 27 / 64);
 }
 
 .life-photo {
@@ -554,9 +549,21 @@ button { font: inherit; text-transform: inherit; }
   width: 100%;
 }
 
+.life-card.life-card-portrait .life-photo img {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
+}
+
 .life-photo:hover img,
 .life-photo:focus-visible img {
   transform: scale(1.03);
+}
+
+.life-card.life-card-portrait .life-photo:hover img,
+.life-card.life-card-portrait .life-photo:focus-visible img {
+  transform: none;
 }
 
 .life-video {
@@ -1132,26 +1139,27 @@ summary:focus-visible {
   }
 
   .life-card {
-    flex-basis: min(82vw, 420px);
+    flex: 0 0 min(82vw, 420px);
     width: min(82vw, 420px);
   }
 
-  .life-card-portrait {
-    flex-basis: calc(min(82vw, 420px) * 3 / 4 * 3 / 4);
-    width: calc(min(82vw, 420px) * 3 / 4 * 3 / 4);
+  .life-card.life-card-portrait {
+    flex: 0 0 calc(min(82vw, 420px) * 9 / 16);
+    width: calc(min(82vw, 420px) * 9 / 16);
   }
 
-  .life-card-video {
-    flex-basis: calc(min(82vw, 420px) * 3 / 4 * 9 / 16);
-    width: calc(min(82vw, 420px) * 3 / 4 * 9 / 16);
+  .life-card.life-card-video {
+    flex: 0 0 calc(min(82vw, 420px) * 27 / 64);
+    width: calc(min(82vw, 420px) * 27 / 64);
   }
 
   .life-photo img {
     aspect-ratio: 4 / 3;
   }
 
-  .life-card-portrait .life-photo img {
+  .life-card.life-card-portrait .life-photo img {
     aspect-ratio: 3 / 4;
+    object-fit: contain;
   }
 
   .life-video {
