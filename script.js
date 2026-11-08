@@ -93,12 +93,42 @@
   });
 })();
 
+// Pause the hobby belt while someone is interacting on touch devices.
+(function () {
+  const belt = document.querySelector('.hobby-belt');
+  if (!belt) return;
+
+  let resumeTimer = null;
+
+  function pauseBelt() {
+    belt.classList.add('is-paused');
+    if (resumeTimer) window.clearTimeout(resumeTimer);
+  }
+
+  function scheduleResume() {
+    if (resumeTimer) window.clearTimeout(resumeTimer);
+    resumeTimer = window.setTimeout(function () {
+      if (!belt.matches(':hover, :focus-within')) {
+        belt.classList.remove('is-paused');
+      }
+    }, 1800);
+  }
+
+  belt.addEventListener('touchstart', pauseBelt, { passive: true });
+  belt.addEventListener('touchend', scheduleResume, { passive: true });
+  belt.addEventListener('touchcancel', scheduleResume, { passive: true });
+  belt.addEventListener('pointerdown', function (event) {
+    if (event.pointerType === 'touch' || event.pointerType === 'pen') pauseBelt();
+  });
+})();
+
 // Start the launch video from an explicit click so browsers allow its audio.
 (function () {
-  const frame = document.querySelector('.hobby-video-frame');
+  const frame = document.querySelector('.hobby-belt-set:not([aria-hidden]) .hobby-video-frame');
   if (!frame) return;
   const video = frame.querySelector('video');
   const button = frame.querySelector('.video-sound-button');
+  if (!video || !button) return;
 
   button.addEventListener('click', function () {
     video.muted = false;
@@ -117,7 +147,9 @@
 // Let visitors see the gallery photos at full size without leaving the page.
 (function () {
   const dialog = document.querySelector('.gallery-dialog');
-  const photos = Array.from(document.querySelectorAll('.hobby-photo'));
+  // Only the first belt set drives gallery order/count; clones stay clickable but are not listed twice.
+  const photos = Array.from(document.querySelectorAll('.hobby-belt-set:not(.hobby-belt-set-clone) button.hobby-photo'));
+  const allTriggers = Array.from(document.querySelectorAll('button.hobby-photo'));
   if (!dialog || !photos.length || !dialog.showModal) return;
 
   const largeImage = dialog.querySelector('.gallery-image');
@@ -126,6 +158,14 @@
   let currentIndex = 0;
   let lastTrigger = null;
   let touchStartX = 0;
+
+  function indexForTrigger(trigger) {
+    const src = trigger.querySelector('img').getAttribute('src');
+    const match = photos.findIndex(function (photo) {
+      return photo.querySelector('img').getAttribute('src') === src;
+    });
+    return match < 0 ? 0 : match;
+  }
 
   function showPhoto(index) {
     currentIndex = (index + photos.length) % photos.length;
@@ -137,10 +177,10 @@
     count.textContent = (currentIndex + 1) + ' / ' + photos.length;
   }
 
-  photos.forEach(function (photo, index) {
+  allTriggers.forEach(function (photo) {
     photo.addEventListener('click', function () {
-      lastTrigger = photo;
-      showPhoto(index);
+      lastTrigger = photos[indexForTrigger(photo)] || photo;
+      showPhoto(indexForTrigger(photo));
       dialog.showModal();
       document.body.classList.add('gallery-open');
     });

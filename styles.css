@@ -509,18 +509,15 @@ em {
   line-height: 1.55;
 }
 
-.hobbies {
-  border-top: 1px solid var(--line);
-  padding-top: 45px;
-}
-
 .hobbies-intro {
   align-items: baseline;
+  border-top: 1px solid var(--line);
   display: flex;
   flex-wrap: wrap;
   gap: 12px 30px;
   justify-content: space-between;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
+  padding-top: 45px;
 }
 
 .hobbies-intro h3 {
@@ -529,63 +526,120 @@ em {
 
 .hobbies-intro p {
   font-size: 0.9rem;
+  max-width: 34rem;
 }
 
-.hobby-grid {
-  display: grid;
-  gap: 58px 24px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.hobbies {
+  width: 100%;
+}
+
+.hobby-belt {
+  outline: none;
+  overflow: hidden;
+  padding: 4px 0 8px;
+  position: relative;
+  width: 100%;
+}
+
+.hobby-belt::before,
+.hobby-belt::after {
+  content: "";
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: min(72px, 8vw);
+  z-index: 2;
+}
+
+.hobby-belt::before {
+  background: linear-gradient(90deg, var(--white), transparent);
+  left: 0;
+}
+
+.hobby-belt::after {
+  background: linear-gradient(270deg, var(--white), transparent);
+  right: 0;
+}
+
+.hobby-belt-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: hobby-belt-scroll 55s linear infinite;
+}
+
+.hobby-belt:hover .hobby-belt-track,
+.hobby-belt:focus-within .hobby-belt-track,
+.hobby-belt.is-paused .hobby-belt-track {
+  animation-play-state: paused;
+}
+
+.hobby-belt-set {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1.1rem;
+  padding-right: 1.1rem;
 }
 
 .hobby-item {
+  flex: 0 0 clamp(260px, 47vw, 760px);
   min-width: 0;
+  width: clamp(260px, 47vw, 760px);
 }
 
 .hobby-photo {
   background: #f0eee8;
   border: 0;
   border-radius: 16px;
-  cursor: zoom-in;
+  color: inherit;
   display: block;
   overflow: hidden;
+  padding: 0;
   position: relative;
+  text-align: left;
   width: 100%;
 }
 
+button.hobby-photo {
+  cursor: zoom-in;
+  font: inherit;
+}
+
 .hobby-photo img {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   display: block;
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
   width: 100%;
 }
 
 .hobby-photo-action {
   background: rgba(255, 255, 255, 0.94);
   border-radius: 999px;
-  bottom: 18px;
+  bottom: 16px;
   color: var(--ink);
   font-size: 0.78rem;
   font-weight: 800;
-  left: 18px;
+  left: 16px;
   padding: 10px 15px;
   position: absolute;
   transition: transform 0.2s ease;
 }
 
-.hobby-photo:hover .hobby-photo-action,
-.hobby-photo:focus-visible .hobby-photo-action {
+button.hobby-photo:hover .hobby-photo-action,
+button.hobby-photo:focus-visible .hobby-photo-action {
   transform: translateY(-4px);
 }
 
-.hobby-photo:focus-visible {
+button.hobby-photo:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 4px;
 }
 
 .hobby-video-frame {
   align-items: center;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   background: #171b1e;
   border-radius: 16px;
   display: flex;
@@ -597,8 +651,8 @@ em {
 .hobby-video-frame video {
   display: block;
   height: 100%;
-  max-width: 100%;
-  width: auto;
+  object-fit: cover;
+  width: 100%;
 }
 
 .video-sound-button {
@@ -617,6 +671,7 @@ em {
   top: 50%;
   transform: translate(-50%, -50%);
   white-space: nowrap;
+  z-index: 1;
 }
 
 .hobby-video-frame.has-played .video-sound-button {
@@ -630,9 +685,10 @@ em {
 
 .hobby-item figcaption {
   color: var(--ink);
-  font-size: 1.08rem;
+  font-size: 1rem;
   font-weight: 800;
-  margin-top: 16px;
+  margin-top: 12px;
+  padding-left: 2px;
 }
 
 .hobby-note {
@@ -643,6 +699,11 @@ em {
   letter-spacing: 0.04em;
   margin-top: 5px;
   text-transform: uppercase;
+}
+
+@keyframes hobby-belt-scroll {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
 /* Full-screen photo viewer */
@@ -1087,7 +1148,7 @@ button.project-visual {
 .experience {
   background: var(--white);
   border-top: 1px solid var(--line);
-  margin-bottom: 110px;
+  margin-bottom: 0;
   padding-top: 90px;
 }
 
@@ -1262,6 +1323,32 @@ button:focus-visible {
     transition-duration: 0.01ms !important;
   }
   .reveal { opacity: 1; transform: none; }
+
+  .hobby-belt {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hobby-belt::before,
+  .hobby-belt::after {
+    display: none;
+  }
+
+  .hobby-belt-track {
+    animation: none !important;
+    transform: none !important;
+    width: max-content;
+  }
+
+  .hobby-belt-set-clone {
+    display: none;
+  }
+
+  .hobby-item {
+    scroll-snap-align: center;
+  }
 }
 
 /* Tablet */
@@ -1326,10 +1413,26 @@ button:focus-visible {
   .about-layout { grid-template-columns: 1fr; margin-bottom: 55px; }
   .about-copy { padding-top: 0; }
   .about-copy .about-lead { font-size: 1.15rem; }
-  .experience { margin-bottom: 70px; padding-top: 65px; }
-  .hobby-grid { gap: 38px; grid-template-columns: 1fr; }
-  .hobby-video-frame { aspect-ratio: 9 / 16; }
-  .hobby-video-frame video { width: 100%; }
+  .experience { margin-bottom: 0; padding-top: 65px; }
+  .hobbies-intro {
+    margin-bottom: 28px;
+    padding-top: 36px;
+  }
+  .hobby-belt-set {
+    gap: 0.85rem;
+    padding-right: 0.85rem;
+  }
+  .hobby-item {
+    flex-basis: min(82vw, 420px);
+    width: min(82vw, 420px);
+  }
+  .hobby-photo img,
+  .hobby-video-frame {
+    aspect-ratio: 3 / 4;
+  }
+  .hobby-item figcaption {
+    font-size: 0.95rem;
+  }
   .gallery-dialog { padding: 65px 18px 55px; }
   .gallery-image { max-height: calc(100dvh - 160px); }
   .gallery-nav { bottom: 13px; top: auto; transform: none; }
