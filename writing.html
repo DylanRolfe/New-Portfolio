@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=23" />
+  <link rel="stylesheet" href="styles.css?v=31" />
 </head>
 
 <body>
@@ -31,6 +31,7 @@
         <li><a href="about.html">about</a></li>
         <li><a href="stay-in-touch.html">stay in touch</a></li>
         <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
       </ul>
       <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
         <span></span><span></span>
@@ -46,21 +47,38 @@
           <p class="section-sub">field notes from whatever i'm learning, building, or trying to explain to myself.</p>
         </div>
 
-        <div class="writing-list">
-          <a class="writing-row reveal"
-            href="https://medium.com/@dylanrolfe8/revolutionizing-vision-how-ai-is-empowering-the-blind-9fb2c3c4eed8"
-            target="_blank" rel="noopener noreferrer">
-            <span class="writing-tag">ai / vision</span>
-            <span class="writing-title">how image recognition can help people see</span>
-            <span class="writing-arrow" aria-hidden="true">↗</span>
-          </a>
-          <a class="writing-row reveal"
-            href="https://medium.com/@dylanrolfe8/why-your-next-hand-could-feel-real-the-tech-behind-haptic-prosthetics-cb63879ab84d"
-            target="_blank" rel="noopener noreferrer">
-            <span class="writing-tag">hardware / health</span>
-            <span class="writing-title">why your next hand could feel real</span>
-            <span class="writing-arrow" aria-hidden="true">↗</span>
-          </a>
+        <div class="project-grid project-grid-equal">
+          <article class="project reveal">
+            <a class="project-media"
+              href="https://medium.com/@dylanrolfe8/revolutionizing-vision-how-ai-is-empowering-the-blind-9fb2c3c4eed8"
+              target="_blank" rel="noopener noreferrer"
+              aria-label="read how image recognition can help people see">
+              <img src="Images/MNIST.webp" width="800" height="545" alt="A person with a white cane sitting on a park bench" loading="lazy" decoding="async" />
+            </a>
+            <div class="project-meta">
+              <h2>
+                <a href="https://medium.com/@dylanrolfe8/revolutionizing-vision-how-ai-is-empowering-the-blind-9fb2c3c4eed8" target="_blank" rel="noopener noreferrer">how image recognition can help people see</a>
+              </h2>
+              <p class="project-stack">ai / vision</p>
+              <p class="project-desc">how computer vision can describe the world for people who are blind.</p>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <a class="project-media"
+              href="https://medium.com/@dylanrolfe8/why-your-next-hand-could-feel-real-the-tech-behind-haptic-prosthetics-cb63879ab84d"
+              target="_blank" rel="noopener noreferrer"
+              aria-label="read why your next hand could feel real">
+              <img src="Images/Haptic.webp" width="1920" height="1081" alt="A person holding a ball with a bionic prosthetic hand" loading="lazy" decoding="async" />
+            </a>
+            <div class="project-meta">
+              <h2>
+                <a href="https://medium.com/@dylanrolfe8/why-your-next-hand-could-feel-real-the-tech-behind-haptic-prosthetics-cb63879ab84d" target="_blank" rel="noopener noreferrer">why your next hand could feel real</a>
+              </h2>
+              <p class="project-stack">hardware / health</p>
+              <p class="project-desc">the tech behind haptic prosthetics that can pass sensation back to the wearer.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>

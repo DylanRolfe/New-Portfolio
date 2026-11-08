@@ -168,6 +168,43 @@ document.documentElement.classList.add('js');
   }
 })();
 
+// Outside the workshop: duplicate the media set for a seamless rightward belt.
+(function () {
+  const belt = document.querySelector('[data-life-belt]');
+  if (!belt) return;
+
+  const track = belt.querySelector('.life-belt-track');
+  const set = belt.querySelector('.life-belt-set');
+  if (!track || !set) return;
+
+  function primeVideos(root) {
+    root.querySelectorAll('video').forEach(function (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute('muted', '');
+      video.playsInline = true;
+      video.loop = true;
+      video.autoplay = true;
+      const attempt = video.play();
+      if (attempt && attempt.catch) attempt.catch(function () {});
+    });
+  }
+
+  primeVideos(set);
+
+  const clone = set.cloneNode(true);
+  clone.classList.add('life-belt-set-clone');
+  clone.setAttribute('aria-hidden', 'true');
+  clone.querySelectorAll('img').forEach(function (img) {
+    img.alt = '';
+  });
+  clone.querySelectorAll('button, a, video').forEach(function (el) {
+    el.setAttribute('tabindex', '-1');
+  });
+  track.appendChild(clone);
+  primeVideos(clone);
+})();
+
 // Photo lightbox (about page cards)
 (function () {
   const dialog = document.getElementById('lightbox');
@@ -176,14 +213,30 @@ document.documentElement.classList.add('js');
   const image = dialog.querySelector('.lightbox-image');
   const caption = dialog.querySelector('.lightbox-caption');
   const closeBtn = dialog.querySelector('.lightbox-close');
-  const triggers = Array.prototype.slice.call(document.querySelectorAll('[data-lightbox-src]'));
+  // Prefer the live belt set so cloned marquee buttons do not double-count.
+  const primaryTriggers = Array.prototype.slice.call(
+    document.querySelectorAll('.life-belt-set:not(.life-belt-set-clone) [data-lightbox-src]')
+  );
+  const triggers = primaryTriggers.length
+    ? primaryTriggers
+    : Array.prototype.slice.call(document.querySelectorAll('[data-lightbox-src]'));
+  const allTriggers = Array.prototype.slice.call(document.querySelectorAll('[data-lightbox-src]'));
   let lastTrigger = null;
 
+  function resolveTrigger(trigger) {
+    const src = trigger.getAttribute('data-lightbox-src');
+    const match = triggers.find(function (item) {
+      return item.getAttribute('data-lightbox-src') === src;
+    });
+    return match || trigger;
+  }
+
   function openLightbox(trigger) {
-    lastTrigger = trigger;
-    image.src = trigger.getAttribute('data-lightbox-src');
-    image.alt = trigger.getAttribute('data-lightbox-alt') || '';
-    const fig = trigger.closest('figure');
+    const resolved = resolveTrigger(trigger);
+    lastTrigger = resolved;
+    image.src = resolved.getAttribute('data-lightbox-src');
+    image.alt = resolved.getAttribute('data-lightbox-alt') || '';
+    const fig = resolved.closest('figure');
     const cap = fig ? fig.querySelector('figcaption') : null;
     caption.textContent = cap ? cap.textContent.trim() : '';
     dialog.showModal();
@@ -191,7 +244,7 @@ document.documentElement.classList.add('js');
     closeBtn.focus();
   }
 
-  triggers.forEach(function (trigger) {
+  allTriggers.forEach(function (trigger) {
     trigger.addEventListener('click', function () { openLightbox(trigger); });
   });
 

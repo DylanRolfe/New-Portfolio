@@ -335,12 +335,19 @@ button { font: inherit; text-transform: inherit; }
   z-index: 5;
 }
 
+.hero-hud a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.hero-hud a:hover { color: #fff; }
+
 .hero-copy {
   animation: home-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   margin: 0 auto;
-  max-width: 640px;
+  max-width: 100%;
   position: relative;
-  width: 100%;
+  width: max-content;
   z-index: 5;
 }
 
@@ -351,6 +358,7 @@ button { font: inherit; text-transform: inherit; }
   letter-spacing: -0.045em;
   line-height: 1;
   margin-bottom: 28px;
+  padding-left: 0.95rem;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
 }
 
@@ -360,31 +368,33 @@ button { font: inherit; text-transform: inherit; }
   gap: 12px;
 }
 
-.home-bullets > li {
+.home-bullets > li,
+.home-now li {
   color: rgba(255, 255, 255, 0.88);
   font-size: clamp(0.82rem, 1.5vw, 0.95rem);
   line-height: 1.55;
-  max-width: 48ch;
+  padding-left: 0.95rem;
+  position: relative;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
 }
 
-.home-bullets > li:not(.home-quote)::before {
+.home-bullets > li::before,
+.home-now li::before {
   color: var(--blue);
-  content: "· ";
+  content: "·";
+  left: 0;
+  position: absolute;
 }
 
 .home-quote {
   color: rgba(255, 255, 255, 0.92);
   font-style: italic;
-  max-width: 40ch;
 }
-.home-quote::before { content: none; }
 
 .quote-attr {
   color: rgba(255, 255, 255, 0.58);
-  display: inline-block;
   font-style: normal;
-  margin-top: 4px;
 }
 
 .home-alum {
@@ -400,6 +410,11 @@ button { font: inherit; text-transform: inherit; }
   width: 22px;
 }
 
+.inline-logo-crest {
+  background: transparent;
+  object-fit: contain;
+}
+
 .home-now {
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   margin-top: 28px;
@@ -411,6 +426,7 @@ button { font: inherit; text-transform: inherit; }
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   margin-bottom: 10px;
+  padding-left: 0.95rem;
 }
 
 .home-now ul {
@@ -420,18 +436,8 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .home-now li {
-  color: rgba(255, 255, 255, 0.88);
   font-size: 0.86rem;
-  padding-left: 1em;
-  position: relative;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
-}
-
-.home-now li::before {
-  color: var(--blue);
-  content: "–";
-  left: 0;
-  position: absolute;
 }
 
 @keyframes home-rise {
@@ -458,16 +464,70 @@ button { font: inherit; text-transform: inherit; }
 }
 .button-primary:hover { background: var(--blue-deep); }
 
-/* Outside the workshop — photo cards */
-.life-grid {
-  display: grid;
-  gap: 40px 22px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+/* Outside the workshop — full-bleed media belt */
+.life {
+  overflow: hidden;
+}
+
+.life .section-heading {
+  margin-bottom: 36px;
+}
+
+.life-belt {
+  outline: none;
+  overflow: hidden;
+  padding: 4px 0 10px;
+  position: relative;
+  width: 100%;
+}
+
+.life-belt::before,
+.life-belt::after {
+  content: "";
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: min(88px, 10vw);
+  z-index: 2;
+}
+
+.life-belt::before {
+  background: linear-gradient(90deg, var(--bg), transparent);
+  left: 0;
+}
+
+.life-belt::after {
+  background: linear-gradient(270deg, var(--bg), transparent);
+  right: 0;
+}
+
+.life-belt-track {
+  animation: life-belt-scroll 58s linear infinite;
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.life-belt-set {
+  align-items: flex-start;
+  display: flex;
+  flex-shrink: 0;
+  gap: 14px;
+  padding-right: 14px;
 }
 
 .life-card {
+  flex: 0 0 clamp(240px, 48vw, 720px);
   margin: 0;
   min-width: 0;
+  width: clamp(240px, 48vw, 720px);
+}
+
+.life-card.life-card-video {
+  /* Match photo card height while keeping the portrait 9:16 launch clip. */
+  flex: 0 0 calc(clamp(240px, 48vw, 720px) * 27 / 64);
+  width: calc(clamp(240px, 48vw, 720px) * 27 / 64);
 }
 
 .life-photo {
@@ -483,10 +543,17 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .life-photo img {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   transition: transform 0.45s ease;
   width: 100%;
+}
+
+/* Portrait subjects (Batman): keep the shared card size, never crop the figure. */
+.life-card.life-card-portrait .life-photo img {
+  background: #111;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .life-photo:hover img,
@@ -494,8 +561,13 @@ button { font: inherit; text-transform: inherit; }
   transform: scale(1.03);
 }
 
+.life-card.life-card-portrait .life-photo:hover img,
+.life-card.life-card-portrait .life-photo:focus-visible img {
+  transform: none;
+}
+
 .life-video {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 9 / 16;
   background: #0a0a0a;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -504,8 +576,10 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .life-video video {
+  display: block;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
   width: 100%;
 }
 
@@ -513,6 +587,12 @@ button { font: inherit; text-transform: inherit; }
   font-size: 0.86rem;
   font-weight: 600;
   margin-top: 12px;
+  padding-left: 2px;
+}
+
+@keyframes life-belt-scroll {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
 /* Lightbox */
@@ -837,27 +917,7 @@ html:not(.js) .trail-card summary::after { display: none; }
   max-width: 52ch;
 }
 
-/* Writing */
-.writing-list { border-top: 1px solid var(--line); }
-
-.writing-row {
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 150px 1fr auto;
-  padding: 22px 0;
-}
-
-.writing-row:hover {
-  background: rgba(255, 255, 255, 0.03);
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.writing-tag { color: var(--muted); font-size: 0.72rem; }
-.writing-title { font-size: clamp(0.95rem, 1.8vw, 1.15rem); font-weight: 600; }
-.writing-arrow { color: var(--blue); }
+/* Writing uses the same card grid as projects. */
 
 /* Stay in touch */
 .touch-main { min-height: 100svh; }
@@ -871,6 +931,21 @@ html:not(.js) .trail-card summary::after { display: none; }
   color: var(--muted);
   font-size: 1.05rem;
   margin: 18px 0 28px;
+}
+
+.button-substack {
+  background: #ff6719;
+  box-shadow: none;
+  color: #fff;
+  gap: 10px;
+}
+.button-substack:hover { background: #e4570e; }
+
+.substack-icon {
+  display: block;
+  fill: currentColor;
+  height: 16px;
+  width: 16px;
 }
 
 /* Contact */
@@ -993,6 +1068,32 @@ summary:focus-visible {
   .reveal { opacity: 1; transform: none; }
   .hero-layer { transform: none !important; }
   .trail-row { transition: none; }
+
+  .life-belt {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .life-belt::before,
+  .life-belt::after {
+    display: none;
+  }
+
+  .life-belt-track {
+    animation: none !important;
+    transform: none !important;
+    width: max-content;
+  }
+
+  .life-belt-set-clone {
+    display: none;
+  }
+
+  .life-card {
+    scroll-snap-align: center;
+  }
 }
 
 
@@ -1015,11 +1116,6 @@ summary:focus-visible {
     margin-top: 8px;
   }
 
-  .writing-row {
-    gap: 10px;
-    grid-template-columns: 1fr auto;
-  }
-  .writing-tag { grid-column: 1 / -1; }
 }
 
 @media (max-width: 700px) {
@@ -1027,7 +1123,32 @@ summary:focus-visible {
   .container, .nav-inner { padding-left: 18px; padding-right: 18px; }
   .section { padding: 56px 0; }
   .page-section { padding-top: 96px; }
-  .life-grid { grid-template-columns: 1fr; gap: 32px; }
+  .life-belt-set {
+    gap: 10px;
+    padding-right: 10px;
+  }
+
+  .life-card {
+    flex: 0 0 min(82vw, 420px);
+    width: min(82vw, 420px);
+  }
+
+  .life-card.life-card-video {
+    flex: 0 0 calc(min(82vw, 420px) * 27 / 64);
+    width: calc(min(82vw, 420px) * 27 / 64);
+  }
+
+  .life-photo img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .life-card.life-card-portrait .life-photo img {
+    object-fit: contain;
+  }
+
+  .life-video {
+    aspect-ratio: 9 / 16;
+  }
 
   .nav-toggle { display: block; z-index: 2; }
   .nav.nav-open .nav-toggle span:first-child { top: 19px; transform: rotate(45deg); }
@@ -1051,6 +1172,9 @@ summary:focus-visible {
   .hero { padding: 96px 18px 40px; }
   .hero-hud { bottom: 14px; font-size: 0.62rem; right: 18px; left: 18px; }
   .home-brand { font-size: clamp(1.8rem, 10vw, 2.4rem); }
+  .hero-copy { width: 100%; }
+  .home-bullets > li,
+  .home-now li { white-space: normal; }
 
   .contact { padding: 90px 0 60px; }
   .contact-actions { flex-direction: column; align-items: flex-start; }
