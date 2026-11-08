@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=24" />
+  <link rel="stylesheet" href="styles.css?v=25" />
 </head>
 
 <body>
@@ -203,15 +203,14 @@
       <div class="container">
         <div class="section-heading reveal">
           <h2 class="section-title">outside the workshop</h2>
-          <p class="section-sub">a slow belt of places, projects, and moments — hover or tap to pause, click a photo to zoom.</p>
+          <p class="section-sub">a slow belt of places, projects, and moments — click a photo to zoom.</p>
         </div>
       </div>
 
       <div
         class="life-belt reveal"
         data-life-belt
-        tabindex="0"
-        aria-label="outside the workshop media belt. motion pauses while hovered or focused."
+        aria-label="outside the workshop media belt"
       >
         <div class="life-belt-track">
           <div class="life-belt-set">
@@ -245,7 +244,17 @@
 
             <figure class="life-card life-card-video">
               <div class="life-video">
-                <video controls playsinline preload="metadata" src="Images/CanSat-launch.mp4" width="1080" height="1920" aria-label="cansat rocket launch"></video>
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                  src="Images/CanSat-launch.mp4"
+                  width="1080"
+                  height="1920"
+                  aria-label="cansat rocket launch"
+                ></video>
               </div>
               <figcaption>launching rockets</figcaption>
             </figure>
@@ -276,7 +285,7 @@
     <p class="lightbox-caption"></p>
   </dialog>
 
-  <script src="script.js?v=24"></script>
+  <script src="script.js?v=25"></script>
 </body>
 
 </html>

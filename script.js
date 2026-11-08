@@ -177,6 +177,21 @@ document.documentElement.classList.add('js');
   const set = belt.querySelector('.life-belt-set');
   if (!track || !set) return;
 
+  function primeVideos(root) {
+    root.querySelectorAll('video').forEach(function (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute('muted', '');
+      video.playsInline = true;
+      video.loop = true;
+      video.autoplay = true;
+      const attempt = video.play();
+      if (attempt && attempt.catch) attempt.catch(function () {});
+    });
+  }
+
+  primeVideos(set);
+
   const clone = set.cloneNode(true);
   clone.classList.add('life-belt-set-clone');
   clone.setAttribute('aria-hidden', 'true');
@@ -185,35 +200,9 @@ document.documentElement.classList.add('js');
   });
   clone.querySelectorAll('button, a, video').forEach(function (el) {
     el.setAttribute('tabindex', '-1');
-    if (el.tagName === 'VIDEO') {
-      el.removeAttribute('controls');
-      el.muted = true;
-    }
   });
   track.appendChild(clone);
-
-  let resumeTimer = null;
-
-  function pauseBelt() {
-    belt.classList.add('is-paused');
-    if (resumeTimer) window.clearTimeout(resumeTimer);
-  }
-
-  function scheduleResume() {
-    if (resumeTimer) window.clearTimeout(resumeTimer);
-    resumeTimer = window.setTimeout(function () {
-      if (!belt.matches(':hover, :focus-within')) {
-        belt.classList.remove('is-paused');
-      }
-    }, 1800);
-  }
-
-  belt.addEventListener('touchstart', pauseBelt, { passive: true });
-  belt.addEventListener('touchend', scheduleResume, { passive: true });
-  belt.addEventListener('touchcancel', scheduleResume, { passive: true });
-  belt.addEventListener('pointerdown', function (event) {
-    if (event.pointerType === 'touch' || event.pointerType === 'pen') pauseBelt();
-  });
+  primeVideos(clone);
 })();
 
 // Photo lightbox (about page cards)
