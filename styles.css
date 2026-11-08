@@ -338,9 +338,9 @@ button { font: inherit; text-transform: inherit; }
 .hero-copy {
   animation: home-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   margin: 0 auto;
-  max-width: 640px;
+  max-width: 100%;
   position: relative;
-  width: 100%;
+  width: max-content;
   z-index: 5;
 }
 
@@ -351,6 +351,7 @@ button { font: inherit; text-transform: inherit; }
   letter-spacing: -0.045em;
   line-height: 1;
   margin-bottom: 28px;
+  padding-left: 0.95rem;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
 }
 
@@ -360,31 +361,33 @@ button { font: inherit; text-transform: inherit; }
   gap: 12px;
 }
 
-.home-bullets > li {
+.home-bullets > li,
+.home-now li {
   color: rgba(255, 255, 255, 0.88);
   font-size: clamp(0.82rem, 1.5vw, 0.95rem);
   line-height: 1.55;
-  max-width: 48ch;
+  padding-left: 0.95rem;
+  position: relative;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
 }
 
-.home-bullets > li:not(.home-quote)::before {
+.home-bullets > li::before,
+.home-now li::before {
   color: var(--blue);
-  content: "· ";
+  content: "·";
+  left: 0;
+  position: absolute;
 }
 
 .home-quote {
   color: rgba(255, 255, 255, 0.92);
   font-style: italic;
-  max-width: 40ch;
 }
-.home-quote::before { content: none; }
 
 .quote-attr {
   color: rgba(255, 255, 255, 0.58);
-  display: inline-block;
   font-style: normal;
-  margin-top: 4px;
 }
 
 .home-alum {
@@ -411,6 +414,7 @@ button { font: inherit; text-transform: inherit; }
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   margin-bottom: 10px;
+  padding-left: 0.95rem;
 }
 
 .home-now ul {
@@ -420,18 +424,8 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .home-now li {
-  color: rgba(255, 255, 255, 0.88);
   font-size: 0.86rem;
-  padding-left: 1em;
-  position: relative;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
-}
-
-.home-now li::before {
-  color: var(--blue);
-  content: "–";
-  left: 0;
-  position: absolute;
 }
 
 @keyframes home-rise {
@@ -1176,6 +1170,9 @@ summary:focus-visible {
   .hero { padding: 96px 18px 40px; }
   .hero-hud { bottom: 14px; font-size: 0.62rem; right: 18px; left: 18px; }
   .home-brand { font-size: clamp(1.8rem, 10vw, 2.4rem); }
+  .hero-copy { width: 100%; }
+  .home-bullets > li,
+  .home-now li { white-space: normal; }
 
   .contact { padding: 90px 0 60px; }
   .contact-actions { flex-direction: column; align-items: flex-start; }
