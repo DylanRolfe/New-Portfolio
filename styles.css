@@ -549,11 +549,22 @@ button { font: inherit; text-transform: inherit; }
   width: 100%;
 }
 
-.life-card.life-card-portrait .life-photo img {
+.life-card.life-card-portrait .life-photo {
+  align-items: center;
   aspect-ratio: 3 / 4;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  padding: 14px 10px 10px;
+}
+
+.life-card.life-card-portrait .life-photo img {
+  aspect-ratio: auto;
   height: auto;
+  max-height: 100%;
   object-fit: contain;
-  object-position: center top;
+  object-position: center center;
+  width: 100%;
 }
 
 .life-photo:hover img,
