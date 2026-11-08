@@ -758,6 +758,16 @@ button { font: inherit; text-transform: inherit; }
   width: 48px;
 }
 
+.trail-logo.trail-logo-wordmark {
+  aspect-ratio: auto;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  height: 42px;
+  object-fit: contain;
+  width: auto;
+}
+
 .trail-logo-pair {
   display: flex;
   gap: 6px;
@@ -919,6 +929,21 @@ html:not(.js) .trail-card summary::after { display: none; }
   color: var(--muted);
   font-size: 1.05rem;
   margin: 18px 0 28px;
+}
+
+.button-substack {
+  background: #ff6719;
+  box-shadow: none;
+  color: #fff;
+  gap: 10px;
+}
+.button-substack:hover { background: #e4570e; }
+
+.substack-icon {
+  display: block;
+  fill: currentColor;
+  height: 16px;
+  width: 16px;
 }
 
 /* Contact */
