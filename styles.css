@@ -458,16 +458,69 @@ button { font: inherit; text-transform: inherit; }
 }
 .button-primary:hover { background: var(--blue-deep); }
 
-/* Outside the workshop — photo cards */
-.life-grid {
-  display: grid;
-  gap: 40px 22px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+/* Outside the workshop — full-bleed media belt */
+.life {
+  overflow: hidden;
+}
+
+.life .section-heading {
+  margin-bottom: 36px;
+}
+
+.life-belt {
+  outline: none;
+  overflow: hidden;
+  padding: 4px 0 10px;
+  position: relative;
+  width: 100%;
+}
+
+.life-belt::before,
+.life-belt::after {
+  content: "";
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: min(88px, 10vw);
+  z-index: 2;
+}
+
+.life-belt::before {
+  background: linear-gradient(90deg, var(--bg), transparent);
+  left: 0;
+}
+
+.life-belt::after {
+  background: linear-gradient(270deg, var(--bg), transparent);
+  right: 0;
+}
+
+.life-belt-track {
+  animation: life-belt-scroll 58s linear infinite;
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.life-belt:hover .life-belt-track,
+.life-belt:focus-within .life-belt-track,
+.life-belt.is-paused .life-belt-track {
+  animation-play-state: paused;
+}
+
+.life-belt-set {
+  display: flex;
+  flex-shrink: 0;
+  gap: 14px;
+  padding-right: 14px;
 }
 
 .life-card {
+  flex: 0 0 clamp(240px, 48vw, 720px);
   margin: 0;
   min-width: 0;
+  width: clamp(240px, 48vw, 720px);
 }
 
 .life-photo {
@@ -483,7 +536,7 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .life-photo img {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   transition: transform 0.45s ease;
   width: 100%;
@@ -495,7 +548,7 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .life-video {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   background: #0a0a0a;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -513,6 +566,12 @@ button { font: inherit; text-transform: inherit; }
   font-size: 0.86rem;
   font-weight: 600;
   margin-top: 12px;
+  padding-left: 2px;
+}
+
+@keyframes life-belt-scroll {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
 /* Lightbox */
@@ -993,6 +1052,32 @@ summary:focus-visible {
   .reveal { opacity: 1; transform: none; }
   .hero-layer { transform: none !important; }
   .trail-row { transition: none; }
+
+  .life-belt {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .life-belt::before,
+  .life-belt::after {
+    display: none;
+  }
+
+  .life-belt-track {
+    animation: none !important;
+    transform: none !important;
+    width: max-content;
+  }
+
+  .life-belt-set-clone {
+    display: none;
+  }
+
+  .life-card {
+    scroll-snap-align: center;
+  }
 }
 
 
@@ -1027,7 +1112,20 @@ summary:focus-visible {
   .container, .nav-inner { padding-left: 18px; padding-right: 18px; }
   .section { padding: 56px 0; }
   .page-section { padding-top: 96px; }
-  .life-grid { grid-template-columns: 1fr; gap: 32px; }
+  .life-belt-set {
+    gap: 10px;
+    padding-right: 10px;
+  }
+
+  .life-card {
+    flex-basis: min(82vw, 420px);
+    width: min(82vw, 420px);
+  }
+
+  .life-photo img,
+  .life-video {
+    aspect-ratio: 4 / 3;
+  }
 
   .nav-toggle { display: block; z-index: 2; }
   .nav.nav-open .nav-toggle span:first-child { top: 19px; transform: rotate(45deg); }

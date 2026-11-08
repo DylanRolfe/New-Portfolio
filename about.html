@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=23" />
+  <link rel="stylesheet" href="styles.css?v=24" />
 </head>
 
 <body>
@@ -203,44 +203,53 @@
       <div class="container">
         <div class="section-heading reveal">
           <h2 class="section-title">outside the workshop</h2>
-          <p class="section-sub">places, projects, and moments worth a closer look.</p>
+          <p class="section-sub">a slow belt of places, projects, and moments — hover or tap to pause, click a photo to zoom.</p>
         </div>
+      </div>
 
-        <div class="life-grid">
-          <figure class="life-card reveal">
-            <button class="life-photo" type="button" data-lightbox-src="Images/Mountain.jpg" data-lightbox-alt="Tent pitched above a sea of clouds" aria-label="open photo: new biome unlocked">
-              <img src="Images/Mountain.jpg" width="2160" height="2880" alt="Tent pitched above a sea of clouds" loading="lazy" decoding="async" />
-            </button>
-            <figcaption>new biome unlocked</figcaption>
-          </figure>
+      <div
+        class="life-belt reveal"
+        data-life-belt
+        tabindex="0"
+        aria-label="outside the workshop media belt. motion pauses while hovered or focused."
+      >
+        <div class="life-belt-track">
+          <div class="life-belt-set">
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/Mountain.jpg" data-lightbox-alt="Tent pitched above a sea of clouds" aria-label="open photo: new biome unlocked">
+                <img src="Images/Mountain.jpg" width="2160" height="2880" alt="Tent pitched above a sea of clouds" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>new biome unlocked</figcaption>
+            </figure>
 
-          <figure class="life-card reveal">
-            <button class="life-photo" type="button" data-lightbox-src="Images/3dprint.jpg" data-lightbox-alt="A full 3D-printed Batman figure on a desk" aria-label="open photo: a 3d-printed batman">
-              <img src="Images/3dprint.jpg" width="2160" height="2880" alt="A full 3D-printed Batman figure on a desk" loading="lazy" decoding="async" />
-            </button>
-            <figcaption>a 3d-printed batman</figcaption>
-          </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/3dprint.jpg" data-lightbox-alt="A full 3D-printed Batman figure on a desk" aria-label="open photo: a 3d-printed batman">
+                <img src="Images/3dprint.jpg" width="2160" height="2880" alt="A full 3D-printed Batman figure on a desk" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>a 3d-printed batman</figcaption>
+            </figure>
 
-          <figure class="life-card reveal">
-            <button class="life-photo" type="button" data-lightbox-src="Images/Tentview.jpg" data-lightbox-alt="Sunrise over mountains from inside a tent" aria-label="open photo: just an average morning">
-              <img src="Images/Tentview.jpg" width="1656" height="2208" alt="Sunrise over mountains from inside a tent" loading="lazy" decoding="async" />
-            </button>
-            <figcaption>just an average morning</figcaption>
-          </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/Tentview.jpg" data-lightbox-alt="Sunrise over mountains from inside a tent" aria-label="open photo: just an average morning">
+                <img src="Images/Tentview.jpg" width="1656" height="2208" alt="Sunrise over mountains from inside a tent" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>just an average morning</figcaption>
+            </figure>
 
-          <figure class="life-card reveal">
-            <button class="life-photo" type="button" data-lightbox-src="Images/view.jpg" data-lightbox-alt="Looking toward a glacier in Alaska" aria-label="open photo: feeling small in the best way">
-              <img src="Images/view.jpg" width="2160" height="2880" alt="Looking toward a glacier in Alaska" loading="lazy" decoding="async" />
-            </button>
-            <figcaption>feeling small in the best way</figcaption>
-          </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/view.jpg" data-lightbox-alt="Looking toward a glacier in Alaska" aria-label="open photo: feeling small in the best way">
+                <img src="Images/view.jpg" width="2160" height="2880" alt="Looking toward a glacier in Alaska" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>feeling small in the best way</figcaption>
+            </figure>
 
-          <figure class="life-card life-card-video reveal">
-            <div class="life-video">
-              <video controls playsinline preload="metadata" src="Images/CanSat-launch.mp4" width="1080" height="1920" aria-label="cansat rocket launch"></video>
-            </div>
-            <figcaption>launching rockets</figcaption>
-          </figure>
+            <figure class="life-card life-card-video">
+              <div class="life-video">
+                <video controls playsinline preload="metadata" src="Images/CanSat-launch.mp4" width="1080" height="1920" aria-label="cansat rocket launch"></video>
+              </div>
+              <figcaption>launching rockets</figcaption>
+            </figure>
+          </div>
         </div>
       </div>
     </section>
@@ -267,7 +276,7 @@
     <p class="lightbox-caption"></p>
   </dialog>
 
-  <script src="script.js?v=23"></script>
+  <script src="script.js?v=24"></script>
 </body>
 
 </html>
