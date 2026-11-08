@@ -905,27 +905,7 @@ html:not(.js) .trail-card summary::after { display: none; }
   max-width: 52ch;
 }
 
-/* Writing */
-.writing-list { border-top: 1px solid var(--line); }
-
-.writing-row {
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 150px 1fr auto;
-  padding: 22px 0;
-}
-
-.writing-row:hover {
-  background: rgba(255, 255, 255, 0.03);
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.writing-tag { color: var(--muted); font-size: 0.72rem; }
-.writing-title { font-size: clamp(0.95rem, 1.8vw, 1.15rem); font-weight: 600; }
-.writing-arrow { color: var(--blue); }
+/* Writing uses the same card grid as projects. */
 
 /* Stay in touch */
 .touch-main { min-height: 100svh; }
@@ -1109,11 +1089,6 @@ summary:focus-visible {
     margin-top: 8px;
   }
 
-  .writing-row {
-    gap: 10px;
-    grid-template-columns: 1fr auto;
-  }
-  .writing-tag { grid-column: 1 / -1; }
 }
 
 @media (max-width: 700px) {
