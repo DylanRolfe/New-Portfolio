@@ -518,6 +518,17 @@ button { font: inherit; text-transform: inherit; }
   width: clamp(240px, 48vw, 720px);
 }
 
+.life-card-portrait {
+  /* Match landscape photo height while keeping the Batman figure's 3:4 frame. */
+  flex-basis: calc(clamp(240px, 48vw, 720px) * 3 / 4 * 3 / 4);
+  width: calc(clamp(240px, 48vw, 720px) * 3 / 4 * 3 / 4);
+}
+
+.life-card-portrait .life-photo img {
+  aspect-ratio: 3 / 4;
+  object-position: center top;
+}
+
 .life-card-video {
   /* Match photo card height while keeping the portrait 9:16 launch clip. */
   flex-basis: calc(clamp(240px, 48vw, 720px) * 3 / 4 * 9 / 16);
@@ -1125,6 +1136,11 @@ summary:focus-visible {
     width: min(82vw, 420px);
   }
 
+  .life-card-portrait {
+    flex-basis: calc(min(82vw, 420px) * 3 / 4 * 3 / 4);
+    width: calc(min(82vw, 420px) * 3 / 4 * 3 / 4);
+  }
+
   .life-card-video {
     flex-basis: calc(min(82vw, 420px) * 3 / 4 * 9 / 16);
     width: calc(min(82vw, 420px) * 3 / 4 * 9 / 16);
@@ -1132,6 +1148,10 @@ summary:focus-visible {
 
   .life-photo img {
     aspect-ratio: 4 / 3;
+  }
+
+  .life-card-portrait .life-photo img {
+    aspect-ratio: 3 / 4;
   }
 
   .life-video {
