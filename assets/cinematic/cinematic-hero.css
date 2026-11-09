@@ -41,6 +41,21 @@
 [data-stage="dissolving"] .cinematic-vignette { z-index: 3; }
 [data-stage="revealing"] .cinematic-art picture { visibility: hidden; }
 .cinematic-media .cinematic-art[data-displaying-gl] .cinematic-canvas { visibility: visible; }
+/* About-only mountain plate. It sits above the shared WebGL surface but below
+   the scrim, and is removed on navigation so every other page keeps the
+   original campsite untouched. */
+.mountain-canvas {
+  display: block;
+  inset: 0;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 0.32s ease;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.mountain-canvas.is-leaving { opacity: 0; }
 .cinematic-media .cinematic-vignette {
   z-index: 3;
   background: linear-gradient(90deg, rgba(5,13,27,.72), rgba(5,13,27,.48) 38%, rgba(5,13,27,.12) 74%),
@@ -117,20 +132,6 @@ body:has(.site-backdrop) .project {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   padding: 12px 12px 18px;
-}
-body:has(.site-backdrop) .trail {
-  max-width: none;
-}
-body:has(.site-backdrop) .trail-row {
-  margin-bottom: 22px;
-}
-body:has(.site-backdrop) .trail-card {
-  background: rgba(5, 5, 5, 0.58);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-}
-body:has(.site-backdrop) .trail-year {
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
 }
 body:has(.site-backdrop) .life-belt::before {
   background: linear-gradient(90deg, rgba(5, 5, 5, 0.15), transparent);

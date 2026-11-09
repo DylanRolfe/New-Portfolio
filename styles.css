@@ -682,132 +682,402 @@ button { font: inherit; text-transform: inherit; }
   width: 100%;
 }
 
-/* Trail timeline */
-.trail {
-  margin: 0 auto;
-  max-width: 860px;
+/* Expedition — About-page route through the living painting */
+.expedition {
   position: relative;
-}
-
-.trail::before {
-  background: var(--line);
-  bottom: 12px;
-  content: "";
-  left: calc(110px + 18px);
-  position: absolute;
-  top: 12px;
-  width: 1px;
-}
-
-.trail-row {
-  align-items: start;
-  display: grid;
-  gap: 18px;
-  grid-template-columns: 110px 18px minmax(0, 1fr);
-  margin-bottom: 18px;
-  position: relative;
-}
-
-.trail-year {
-  color: var(--blue);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding-top: 22px;
-  text-align: right;
-}
-
-.trail-dot {
-  background: #1a1a1a;
-  border: 2px solid var(--line);
-  border-radius: 50%;
-  height: 12px;
-  justify-self: center;
-  margin-top: 24px;
-  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-  width: 12px;
   z-index: 1;
 }
 
-.trail-row.is-active .trail-dot {
-  background: var(--blue);
-  border-color: var(--blue);
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18);
-}
-
-.trail-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.trail-card summary {
+.expedition-intro {
   align-items: center;
-  cursor: pointer;
   display: flex;
-  gap: 14px;
-  list-style: none;
-  padding: 16px 18px;
+  min-height: 84svh;
+  padding: 150px 0 90px;
 }
 
-.trail-card summary::-webkit-details-marker { display: none; }
-
-.trail-card summary::after {
-  color: var(--muted);
-  content: "+";
-  font-size: 1rem;
-  margin-left: auto;
+.expedition-heading {
+  max-width: 760px;
 }
 
-.trail-card[open] summary::after { content: "–"; }
+.expedition-coordinates {
+  color: #8fb9ff;
+  font-size: 0.68rem;
+  letter-spacing: 0.045em;
+  margin-bottom: 22px;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
+}
 
-.trail-logo,
-.trail-logo-pair .trail-logo {
-  aspect-ratio: 1 / 1;
-  background: #111;
+.expedition-heading .section-title {
+  font-size: clamp(2.4rem, 5.2vw, 4.5rem);
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  max-width: 13ch;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+}
+
+.expedition-heading .section-sub {
+  color: #d4d4d4;
+  font-size: 0.94rem;
+  line-height: 1.75;
+  margin-top: 26px;
+  max-width: 550px;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+}
+
+.expedition-intro-cue {
+  align-items: center;
+  color: rgba(255, 255, 255, 0.52);
+  display: flex;
+  font-size: 0.68rem;
+  gap: 12px;
+  margin-top: 48px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+}
+
+.expedition-intro-cue span {
+  background: linear-gradient(90deg, var(--blue), rgba(59, 130, 246, 0.2));
+  height: 1px;
+  width: 42px;
+}
+
+.expedition-runway {
+  position: relative;
+}
+
+.expedition-stage {
+  position: relative;
+}
+
+.expedition-map,
+.expedition-checkpoints,
+.expedition-cue {
+  display: none;
+}
+
+/* No-JS / pre-controller fallback: a plain, readable experience list. */
+.expedition-info {
+  margin: 0 auto;
+  max-width: 720px;
+  padding: 0 28px 72px;
+}
+
+.experience-panel {
+  border-bottom: 1px solid var(--line);
+  padding: 30px 0;
+}
+
+.experience-panel:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.experience-panel-head {
+  align-items: flex-start;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.experience-logo,
+.experience-logos .experience-logo {
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 7px;
   flex: 0 0 auto;
-  height: 48px;
-  object-fit: cover;
-  width: 48px;
+  height: 52px;
+  object-fit: contain;
+  padding: 5px;
+  width: 52px;
 }
 
-.trail-logo-pair {
+.experience-logos {
   display: flex;
-  gap: 6px;
+  gap: 7px;
 }
 
-.trail-summary-text {
+.experience-meta {
+  color: var(--muted);
   display: flex;
   flex-direction: column;
+  font-size: 0.66rem;
   gap: 4px;
-  min-width: 0;
+  line-height: 1.5;
+  text-align: right;
 }
 
-.trail-org {
-  font-size: 0.95rem;
-  font-weight: 700;
+.experience-dates {
+  color: var(--ink);
 }
 
-.trail-role {
-  color: var(--muted);
-  font-size: 0.8rem;
+.experience-camp {
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.trail-panel {
-  border-top: 1px solid var(--line);
-  padding: 0 18px 16px;
+.experience-org {
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  margin-top: 24px;
 }
 
-.trail-panel p {
-  color: var(--muted);
-  font-size: 0.86rem;
-  margin-top: 12px;
+.experience-role {
+  color: #8fb9ff;
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin-top: 9px;
 }
 
-/* Without JS, details stay open via HTML open attr — panels always readable */
-html:not(.js) .trail-card summary::after { display: none; }
+.experience-summary {
+  color: #d2d2d2;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  margin-top: 10px;
+  max-width: 37ch;
+}
+
+.experience-panel .inline-link {
+  margin-top: 18px;
+}
+
+/* Live, scroll-linked expedition stage. */
+.expedition.is-live .expedition-runway {
+  height: calc(100svh + 5 * 64svh);
+}
+
+.expedition.is-live .expedition-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  gap: clamp(24px, 6vw, 96px);
+  height: 100svh;
+  overflow: hidden;
+  padding: 104px 28px 36px;
+  position: sticky;
+  top: 0;
+}
+
+.expedition.is-live .expedition-map {
+  display: block;
+  height: 100%;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 0.7s ease;
+  width: 100%;
+  z-index: 1;
+}
+
+.expedition-route-base,
+.expedition-route-glow,
+.expedition-route-lit {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.expedition-route-base {
+  stroke: rgba(143, 185, 255, 0.24);
+  stroke-width: 2;
+}
+
+.expedition-route-glow {
+  opacity: 0.28;
+  stroke: var(--blue);
+  stroke-width: 8;
+}
+
+.expedition-route-lit {
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.6));
+  stroke: #3b82f6;
+  stroke-width: 2.4;
+}
+
+.expedition.is-live .expedition-checkpoints {
+  display: block;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+  z-index: 3;
+}
+
+.expedition.is-live .checkpoint {
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 44px;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease;
+  width: 44px;
+}
+
+.expedition.is-live .checkpoint::before {
+  background: #071321;
+  border: 1px solid rgba(143, 185, 255, 0.6);
+  border-radius: 50%;
+  content: "";
+  height: 7px;
+  left: 50%;
+  margin: -3.5px 0 0 -3.5px;
+  position: absolute;
+  top: 50%;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, height 0.3s ease, margin 0.3s ease, width 0.3s ease;
+  width: 7px;
+}
+
+.checkpoint-ring {
+  border: 1px solid transparent;
+  border-radius: 50%;
+  height: 28px;
+  left: 50%;
+  margin: -14px 0 0 -14px;
+  position: absolute;
+  top: 50%;
+  transition: border-color 0.3s ease, height 0.3s ease, margin 0.3s ease, width 0.3s ease;
+  width: 28px;
+}
+
+.expedition.is-live .checkpoint.is-complete::before {
+  background: rgba(59, 130, 246, 0.7);
+  border-color: rgba(143, 185, 255, 0.8);
+  box-shadow: 0 0 9px rgba(59, 130, 246, 0.45);
+}
+
+.expedition.is-live .checkpoint.is-active::before {
+  background: #80b5ff;
+  border-color: #cfe4ff;
+  box-shadow: 0 0 14px rgba(128, 181, 255, 0.85), 0 0 32px rgba(59, 130, 246, 0.35);
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  width: 12px;
+}
+
+.expedition.is-live .checkpoint.is-active .checkpoint-ring {
+  border-color: rgba(128, 181, 255, 0.55);
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  width: 34px;
+}
+
+.expedition.is-live .checkpoint:focus-visible {
+  outline: 2px solid #80b5ff;
+  outline-offset: 5px;
+}
+
+.expedition.is-live .expedition-info {
+  align-self: center;
+  background: linear-gradient(90deg, rgba(5, 5, 5, 0) 0%, rgba(5, 5, 5, 0.61) 10%, rgba(5, 5, 5, 0.78) 100%);
+  border-left: 1px solid rgba(255, 255, 255, 0.17);
+  grid-column: 2;
+  justify-self: end;
+  margin: 4vh max(0px, calc((100vw - 1080px) / 2)) 0 0;
+  max-width: 100%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+  opacity: 0;
+  padding: 30px 0 30px clamp(24px, 3vw, 42px);
+  transition: opacity 0.6s ease;
+  visibility: hidden;
+  width: 100%;
+  z-index: 4;
+}
+
+.expedition.is-live .expedition-panels {
+  display: grid;
+}
+
+.expedition.is-live .experience-panel {
+  border: 0;
+  grid-area: 1 / 1;
+  opacity: 0;
+  padding: 0;
+  transform: translateY(9px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+  visibility: hidden;
+}
+
+.expedition.is-live .experience-panel.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.28s ease 0.12s, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, visibility 0s;
+  visibility: visible;
+}
+
+.expedition.is-live .experience-summary {
+  max-width: 35ch;
+}
+
+.expedition.is-live .experience-panel .inline-link {
+  margin-top: 20px;
+}
+
+.expedition.is-live .expedition-info .experience-panel-head {
+  min-height: 52px;
+}
+
+.expedition.is-live .experience-org {
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+}
+
+.expedition.is-live .expedition-cue {
+  align-items: center;
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  font-size: 0.66rem;
+  gap: 11px;
+  left: max(28px, calc((100vw - 1024px) / 2));
+  bottom: 30px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+  transition: opacity 0.35s ease;
+  z-index: 3;
+}
+
+.expedition-cue span {
+  background: rgba(143, 185, 255, 0.55);
+  height: 24px;
+  width: 1px;
+}
+
+.expedition.is-live[data-route-ready] .expedition-map,
+.expedition.is-live[data-route-ready] .expedition-info,
+.expedition.is-live[data-route-ready] .expedition-cue {
+  opacity: 1;
+  visibility: visible;
+}
+
+.expedition.is-live[data-route-ready] .expedition-checkpoints {
+  visibility: visible;
+}
+
+.expedition.is-live[data-route-ready] .checkpoint {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.expedition.is-live[data-route-ready] .expedition-cue {
+  opacity: 1;
+}
+
+.expedition.is-live.is-started .expedition-cue {
+  opacity: 0;
+}
+
+.expedition.is-static .expedition-map,
+.expedition.is-static .expedition-info,
+.expedition.is-static .expedition-cue,
+.expedition.is-static .checkpoint,
+.expedition.is-static .experience-panel {
+  transition: none;
+}
 
 .inline-links {
   display: flex;
@@ -1019,7 +1289,6 @@ summary:focus-visible {
   }
   .reveal { opacity: 1; transform: none; }
   .hero-layer { transform: none !important; }
-  .trail-row { transition: none; }
 
   .life-belt {
     overflow-x: auto;
@@ -1053,21 +1322,131 @@ summary:focus-visible {
   .about-top { grid-template-columns: 1fr; }
   .about-portrait { justify-self: start; max-width: 220px; }
   .project-grid-equal { grid-template-columns: 1fr; }
+}
 
-  .trail::before { left: 8px; }
-  .trail-row {
-    grid-template-columns: 18px minmax(0, 1fr);
+@media (orientation: portrait) {
+  .expedition-intro {
+    min-height: 78svh;
+    padding: 122px 0 58px;
   }
-  .trail-year {
-    grid-column: 2;
-    padding-top: 0;
-    text-align: left;
+
+  .expedition-heading .section-sub {
+    font-size: 0.88rem;
+    margin-top: 22px;
   }
-  .trail-dot {
-    grid-row: 1 / span 2;
+
+  .expedition-intro-cue {
+    margin-top: 38px;
+  }
+
+  .expedition.is-live .expedition-stage {
+    display: block;
+    padding: 84px 18px 0;
+  }
+
+  .expedition.is-live .expedition-info {
+    background: linear-gradient(180deg, rgba(5, 5, 5, 0.18) 0%, rgba(5, 5, 5, 0.82) 14%, rgba(5, 5, 5, 0.93) 100%);
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    max-height: 46svh;
+    -webkit-mask-image: none;
+    mask-image: none;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+    position: absolute;
+    right: 0;
+    width: auto;
+  }
+
+  .expedition.is-live .expedition-info .experience-panel-head {
+    min-height: 44px;
+  }
+
+  .expedition.is-live .experience-logo,
+  .expedition.is-live .experience-logos .experience-logo {
+    height: 44px;
+    padding: 4px;
+    width: 44px;
+  }
+
+  .expedition.is-live .experience-meta {
+    font-size: 0.62rem;
+  }
+
+  .expedition.is-live .experience-org {
+    font-size: clamp(1.35rem, 6vw, 1.65rem);
+    margin-top: 16px;
+  }
+
+  .expedition.is-live .experience-role {
+    font-size: 0.78rem;
+  }
+
+  .expedition.is-live .experience-summary {
+    font-size: 0.86rem;
+    line-height: 1.62;
+    max-width: none;
+  }
+
+  .expedition.is-live .experience-panel .inline-link {
+    margin-top: 12px;
+  }
+
+  .expedition.is-live .expedition-cue {
+    display: none;
+  }
+}
+
+@media (max-height: 620px) and (orientation: landscape) {
+  .expedition-intro {
+    min-height: 100svh;
+    padding-bottom: 46px;
+    padding-top: 116px;
+  }
+
+  .expedition.is-live .expedition-stage {
+    gap: 24px;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    padding-bottom: 18px;
+    padding-top: 78px;
+  }
+
+  .expedition.is-live .expedition-info {
+    margin-top: 0;
+    max-height: calc(100svh - 96px);
+    overflow-y: auto;
+    padding-bottom: 14px;
+    padding-top: 14px;
+  }
+
+  .expedition.is-live .experience-org {
+    font-size: 1.25rem;
+    margin-top: 10px;
+  }
+
+  .expedition.is-live .experience-role {
+    font-size: 0.72rem;
+    margin-top: 5px;
+  }
+
+  .expedition.is-live .experience-logo,
+  .expedition.is-live .experience-logos .experience-logo {
+    height: 36px;
+    width: 36px;
+  }
+
+  .expedition.is-live .experience-summary {
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .expedition.is-live .experience-panel .inline-link {
     margin-top: 8px;
   }
-
 }
 
 @media (max-width: 700px) {
