@@ -325,24 +325,13 @@ button { font: inherit; text-transform: inherit; }
   z-index: 4;
 }
 
-.cinematic-skip {
-  backdrop-filter: blur(10px);
-  background: rgba(5, 5, 5, 0.42);
-  border: 1px solid rgba(255, 255, 255, 0.62);
-  border-radius: 999px;
-  bottom: 22px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 0.72rem;
-  font-weight: 600;
-  left: 28px;
-  padding: 8px 14px;
-  position: absolute;
-  z-index: 6;
-}
-
-.cinematic-skip:hover {
-  background: rgba(255, 255, 255, 0.16);
+@media (prefers-contrast: more) {
+  .nav-home .nav-mark,
+  .nav-home .nav-links a,
+  .hero-hud,
+  .home-brand {
+    text-shadow: 0 0 1px #000, 0 1px 2px #000, 0 0 12px #000;
+  }
 }
 
 .hero-hud {
@@ -477,13 +466,6 @@ button { font: inherit; text-transform: inherit; }
   transition: transform 0.2s ease, background 0.2s ease;
 }
 .button:hover { transform: translateY(-2px); }
-
-.button-primary {
-  background: var(--blue);
-  box-shadow: 0 10px 28px rgba(59, 130, 246, 0.35);
-  color: #fff;
-}
-.button-primary:hover { background: var(--blue-deep); }
 
 /* Outside the workshop — full-bleed media belt */
 .life {
@@ -844,15 +826,6 @@ html:not(.js) .trail-card summary::after { display: none; }
 }
 .inline-link:hover { color: #93c5fd; }
 
-.text-link {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.84rem;
-  font-weight: 600;
-  padding-bottom: 2px;
-}
-.text-link:hover { border-color: #fff; color: #fff; }
-
 /* Projects */
 .project-grid-equal {
   display: grid;
@@ -967,48 +940,6 @@ html:not(.js) .trail-card summary::after { display: none; }
   fill: currentColor;
   height: 16px;
   width: 16px;
-}
-
-/* Contact */
-.contact {
-  min-height: 60svh;
-  overflow: hidden;
-  padding: 120px 0 80px;
-  position: relative;
-  z-index: 1;
-}
-
-.contact-bleed { inset: 0; position: absolute; }
-.contact-bleed img {
-  filter: grayscale(0.35) contrast(1.05);
-  height: 100%;
-  object-fit: cover;
-  object-position: center 55%;
-  width: 100%;
-}
-
-.contact-veil {
-  background: linear-gradient(180deg, rgba(5, 5, 5, 0.7) 0%, rgba(5, 5, 5, 0.55) 40%, rgba(5, 5, 5, 0.88) 100%);
-  inset: 0;
-  position: absolute;
-}
-
-.contact-inner { position: relative; z-index: 1; }
-
-.contact-title {
-  font-size: clamp(2rem, 5.5vw, 3.6rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-  margin-bottom: 36px;
-  max-width: 16ch;
-}
-
-.contact-actions {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px;
 }
 
 /* Dialogs */
@@ -1192,12 +1123,8 @@ summary:focus-visible {
 
   .hero { padding: 96px 18px 40px; }
   .hero-hud { bottom: 14px; font-size: 0.62rem; right: 18px; left: 18px; }
-  .cinematic-skip { bottom: 48px; left: 18px; }
   .home-brand { font-size: clamp(1.8rem, 10vw, 2.4rem); }
   .hero-copy { width: 100%; }
   .home-bullets > li,
   .home-now li { white-space: normal; }
-
-  .contact { padding: 90px 0 60px; }
-  .contact-actions { flex-direction: column; align-items: flex-start; }
 }

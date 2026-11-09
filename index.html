@@ -16,13 +16,16 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
-  <link rel="preload" as="image" href="assets/cinematic/Images/hike-opening.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/opening-desktop.webp" media="(orientation: landscape)" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/opening-mobile.webp" media="(orientation: portrait)" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/painting-desktop.webp" media="(orientation: landscape)" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/painting-mobile.webp" media="(orientation: portrait)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=35" />
-  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css" />
-  <noscript><style>[data-stage="poster"] .cinematic-video{visibility:hidden}</style></noscript>
+  <link rel="stylesheet" href="styles.css?v=37" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=6" />
+  <noscript><style>[data-stage="poster"] .cinematic-opening{visibility:hidden}</style></noscript>
 </head>
 
 <body>
@@ -35,8 +38,9 @@
         <li><a href="projects.html">projects</a></li>
         <li><a href="writing.html">writing</a></li>
         <li><a href="about.html">about</a></li>
-        <li><a href="stay-in-touch.html">stay in touch</a></li>
+        <li><a href="stay-in-touch.html">follow the journey</a></li>
         <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+        <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
         <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
       </ul>
       <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
@@ -48,20 +52,22 @@
   <main id="main" class="home-main">
     <header class="hero" id="top" data-cinematic-hero data-stage="poster">
       <div class="cinematic-media" aria-hidden="true">
-        <img class="cinematic-freeze" src="assets/cinematic/Images/campsite-freeze-exact.png" alt="">
         <div class="cinematic-art">
           <picture>
             <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
                     data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png"
-                    data-anchor=".53,.585,.475">
+                    data-intro="assets/cinematic/Images/hike-mobile.mp4" data-poster="assets/cinematic/Images/opening-mobile.webp">
             <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
                  data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png"
-                 data-anchor=".558,.548,.217">
+                 data-intro="assets/cinematic/Images/hike-desktop.mp4" data-poster="assets/cinematic/Images/opening-desktop.webp">
           </picture>
           <canvas class="cinematic-canvas"></canvas>
         </div>
-        <video class="cinematic-video" muted playsinline preload="none" poster="assets/cinematic/Images/hike-opening.webp"
-               data-src="assets/cinematic/Images/cinematic-hike.mp4"></video>
+        <picture class="cinematic-opening">
+          <source media="(orientation: portrait)" srcset="assets/cinematic/Images/opening-mobile.webp">
+          <img src="assets/cinematic/Images/opening-desktop.webp" alt="">
+        </picture>
+        <video class="cinematic-video" muted playsinline preload="none"></video>
         <div class="cinematic-vignette"></div>
       </div>
       <div class="hero-scrim"></div>
@@ -95,13 +101,12 @@
           </ul>
         </div>
       </div>
-      <button type="button" class="cinematic-skip" data-skip hidden>Skip animation <span aria-hidden="true">↗</span></button>
       <span class="cinematic-screenreader" role="status" aria-live="polite"></span>
     </header>
   </main>
 
   <script src="script.js?v=24"></script>
-  <script src="assets/cinematic/cinematic-hero.js" type="module"></script>
+  <script src="assets/cinematic/cinematic-hero.js?v=7" type="module"></script>
 </body>
 
 </html>

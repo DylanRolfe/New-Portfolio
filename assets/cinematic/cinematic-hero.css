@@ -12,7 +12,7 @@
   overflow: hidden;
   pointer-events: none;
 }
-.cinematic-media :is(.cinematic-freeze, .cinematic-art, picture, .cinematic-painting,
+.cinematic-media :is(.cinematic-opening img, .cinematic-art, picture, .cinematic-painting,
   .cinematic-canvas, .cinematic-video, .cinematic-vignette) {
   display: block;
   position: absolute;
@@ -22,10 +22,20 @@
 }
 .cinematic-media :is(img, video) { object-fit: cover; object-position: center; }
 .cinematic-media .cinematic-video, .cinematic-media .cinematic-canvas { visibility: hidden; }
-[data-stage="poster"] .cinematic-video, [data-stage="playing"] .cinematic-video { visibility: visible; }
-[data-stage="playing"] .cinematic-art, [data-stage="freeze"] .cinematic-art { opacity: 0; }
+[data-stage="playing"] .cinematic-video,
+[data-stage="revealing"] .cinematic-video,
+[data-stage="dissolving"] .cinematic-video { visibility: visible; }
+[data-stage="revealing"] .cinematic-opening,
+[data-stage="painted"] .cinematic-opening,
+[data-stage="dissolving"] .cinematic-opening { visibility: hidden; }
+/* The held video stays underneath the brush. Copy, scrim, and vignette stay above it. */
+[data-stage="revealing"] .cinematic-art { z-index: 2; }
+[data-stage="revealing"] .cinematic-video { z-index: 1; }
+[data-stage="revealing"] .cinematic-vignette,
+[data-stage="painted"] .cinematic-vignette,
+[data-stage="dissolving"] .cinematic-vignette { z-index: 3; }
+[data-stage="revealing"] .cinematic-art picture { visibility: hidden; }
 .cinematic-media .cinematic-art[data-displaying-gl] .cinematic-canvas { visibility: visible; }
-.cinematic-media .cinematic-freeze { transform-origin: 50% 50%; }
 .cinematic-media .cinematic-vignette {
   background: linear-gradient(90deg, rgba(5,13,27,.72), rgba(5,13,27,.48) 38%, rgba(5,13,27,.12) 74%),
               linear-gradient(0deg, rgba(8,14,29,.48), transparent 27%, transparent 82%, rgba(8,14,29,.24));
@@ -41,5 +51,77 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  [data-cinematic-hero] .cinematic-video, [data-cinematic-hero] .cinematic-canvas { visibility: hidden; }
+  [data-cinematic-hero] :is(.cinematic-video,.cinematic-opening,.cinematic-canvas) { visibility: hidden; }
+}
+
+/* Inner pages share the painted campsite, held still behind the copy. */
+body:has(.site-backdrop) { background: #101830; }
+.site-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #101830;
+}
+.site-backdrop :is(.cinematic-art, picture, .cinematic-painting, .cinematic-canvas, .site-backdrop-scrim) {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.site-backdrop img { object-fit: cover; object-position: center; }
+.site-backdrop .cinematic-canvas { visibility: hidden; }
+.site-backdrop .cinematic-art[data-displaying-gl] .cinematic-canvas { visibility: visible; }
+.site-backdrop-scrim {
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.34), rgba(5, 5, 5, 0.16) 30%, rgba(5, 5, 5, 0.42));
+}
+body:has(.site-backdrop) { --muted: #d2d2d2; }
+body:has(.site-backdrop) .section-title,
+body:has(.site-backdrop) .section-sub {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85);
+}
+body:has(.site-backdrop) .touch-inner {
+  background: rgba(5, 5, 5, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding-bottom: 36px;
+  padding-top: 32px;
+}
+body:has(.site-backdrop) .project-grid-equal {
+  gap: 28px 22px;
+}
+body:has(.site-backdrop) .project {
+  background: rgba(5, 5, 5, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 12px 12px 18px;
+}
+body:has(.site-backdrop) .trail {
+  max-width: none;
+}
+body:has(.site-backdrop) .trail-row {
+  margin-bottom: 22px;
+}
+body:has(.site-backdrop) .trail-card {
+  background: rgba(5, 5, 5, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+}
+body:has(.site-backdrop) .trail-year {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+}
+body:has(.site-backdrop) .life-belt::before {
+  background: linear-gradient(90deg, rgba(5, 5, 5, 0.15), transparent);
+}
+body:has(.site-backdrop) .life-belt::after {
+  background: linear-gradient(270deg, rgba(5, 5, 5, 0.15), transparent);
+}
+body:has(.site-backdrop) .life-card figcaption {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.75);
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-backdrop .cinematic-canvas { visibility: hidden; }
 }

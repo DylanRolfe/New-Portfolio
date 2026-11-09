@@ -12,14 +12,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=33" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=36" />
 </head>
 
 <body>
   <a class="skip-link" href="#main">skip to content</a>
 
-  <div class="site-atmosphere" aria-hidden="true">
-    <div class="dot-grid"></div>
-    <div class="glyph-watermark">gb</div>
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
   </div>
 
   <nav class="nav nav-solid" id="nav" aria-label="primary navigation">
@@ -29,8 +38,9 @@
         <li><a href="projects.html">projects</a></li>
         <li><a href="writing.html">writing</a></li>
         <li><a href="about.html" aria-current="page">about</a></li>
-        <li><a href="stay-in-touch.html">stay in touch</a></li>
+        <li><a href="stay-in-touch.html">follow the journey</a></li>
         <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+        <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
         <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
       </ul>
       <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
@@ -226,21 +236,6 @@
         </div>
       </div>
     </section>
-
-    <section class="contact" id="contact">
-      <div class="contact-bleed" aria-hidden="true">
-        <img src="Images/Tentview.jpg" width="1656" height="2208" alt="" />
-        <div class="contact-veil"></div>
-      </div>
-      <div class="container contact-inner reveal">
-        <h2 class="contact-title">let's make something<br />worth talking about</h2>
-        <div class="contact-actions">
-          <a class="button button-primary" href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">message me</a>
-          <a class="text-link" href="https://medium.com/@dylanrolfe8" target="_blank" rel="noopener noreferrer">medium</a>
-          <a class="text-link" href="stay-in-touch.html">stay in touch</a>
-        </div>
-      </div>
-    </section>
   </main>
 
   <dialog class="lightbox" id="lightbox" aria-label="photo viewer">
@@ -250,6 +245,7 @@
   </dialog>
 
   <script src="script.js?v=29"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=7" type="module"></script>
 </body>
 
 </html>

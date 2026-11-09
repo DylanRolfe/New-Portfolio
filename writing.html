@@ -12,14 +12,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=31" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=36" />
 </head>
 
 <body>
   <a class="skip-link" href="#main">skip to content</a>
 
-  <div class="site-atmosphere" aria-hidden="true">
-    <div class="dot-grid"></div>
-    <div class="glyph-watermark">gb</div>
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
   </div>
 
   <nav class="nav nav-solid" id="nav" aria-label="primary navigation">
@@ -29,8 +38,9 @@
         <li><a href="projects.html">projects</a></li>
         <li><a href="writing.html" aria-current="page">writing</a></li>
         <li><a href="about.html">about</a></li>
-        <li><a href="stay-in-touch.html">stay in touch</a></li>
+        <li><a href="stay-in-touch.html">follow the journey</a></li>
         <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+        <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
         <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
       </ul>
       <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
@@ -85,6 +95,7 @@
   </main>
 
   <script src="script.js?v=23"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=7" type="module"></script>
 </body>
 
 </html>
