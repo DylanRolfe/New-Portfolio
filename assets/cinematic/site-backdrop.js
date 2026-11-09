@@ -1,4 +1,4 @@
-import { createPaintMotion } from './paint-motion.js?v=9';
+import { createPaintMotion } from './paint-motion.js?v=11';
 import { skyTime } from './sky-clock.js?v=9';
 
 const root = document.querySelector('[data-site-backdrop]');

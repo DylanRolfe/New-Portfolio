@@ -1,4 +1,4 @@
-import { createPaintMotion } from './paint-motion.js?v=9';
+import { createPaintMotion } from './paint-motion.js?v=11';
 import { skyTime } from './sky-clock.js?v=9';
 
 function startHero(hero) {
@@ -12,7 +12,9 @@ function startHero(hero) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const allowed = () => !reduced.matches && !navigator.connection?.saveData;
   const selected = () => portrait.matches ? mobile : painting;
-  const scene = createPaintMotion(hero, art, painting, selected, allowed, hero, true, skyTime);
+  // Listen on document so the sky keeps receiving the pointer after this hero
+  // node is left behind during a tab change.
+  const scene = createPaintMotion(hero, art, painting, selected, allowed, document, true, skyTime);
   let filmVersion = 0;
   let resumeTime = 0;
   let handoff = false;
@@ -55,7 +57,7 @@ function startHero(hero) {
     return document.hidden;
   }
   function onScreen() {
-    const box = hero.getBoundingClientRect();
+    const box = art.getBoundingClientRect();
     return box.width > 1 && box.height > 1 && box.bottom > 0 && box.top < window.innerHeight;
   }
 
@@ -144,17 +146,24 @@ function startHero(hero) {
   navigator.connection?.addEventListener('change', () => {
     if (!allowed()) showStill();
   });
+  function parkedSky() {
+    return art.isConnected && !art.closest('[data-cinematic-hero]');
+  }
   function visibility() {
     playback();
-    if (away() || !onScreen()) scene.sleep();
-    else {
+    if (away()) { scene.sleep(); return; }
+    // Once the painting lives in the fixed backdrop, tab changes must not
+    // pause it just because the original hero is gone.
+    if (parkedSky() || onScreen()) {
       scene.resume();
-      if (atEnd() && hero.dataset.stage === 'playing') beginReveal();
+      if (!parkedSky() && atEnd() && hero.dataset.stage === 'playing') beginReveal();
+      return;
     }
+    scene.sleep();
   }
   document.addEventListener('visibilitychange', visibility);
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(() => visibility()).observe(hero);
+    new IntersectionObserver(() => visibility()).observe(art);
   }
   if (!allowed()) showStill();
   else if (alreadyPainted()) {

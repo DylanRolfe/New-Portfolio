@@ -168,16 +168,19 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
       motion=t*t*(3-2*t);
       brush=0; reveal=1;
       if (t>=1) phase='live';
-    } else if (phase==='live' && manual) {
+    } else if (phase==='live') {
       motion=1; brush=0; reveal=1;
     }
     return clockNow;
   }
   function render(now, clockNow) {
     if (!ready||!motionAllowed()||!passes) return false;
-    if(urlKey!==sourceUrl()||painting.currentSrc!==urlKey) { sleep(); return false; }
+    // A tab change can blip the image URL for a frame. Keep drawing rather than
+    // stopping the sky on that frame.
+    if(urlKey!==sourceUrl()||painting.currentSrc!==urlKey) return null;
     const view=sizeField();
-    if (!view) return false;
+    // Null means the canvas is between layouts. False means stop drawing.
+    if (!view) return null;
     const dt=Math.min(.064,Math.max(.001,lastTime?(now-lastTime)/1000:.016));
     lastTime=now;
     const clock=clockSource?clockSource():manual?(settleStart?(clockNow-settleStart)/1000:0):now/1000;
@@ -234,7 +237,9 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     const clockNow=now-skew;
     const finishing=phase==='reveal'&&(clockNow-revealStart)>=revealMs;
     grade(now);
-    if (!render(now, clockNow)) return;
+    const drawn=render(now, clockNow);
+    if (drawn===null) { animation=requestAnimationFrame(draw); return; }
+    if (!drawn) return;
     art.dataset.displayingGl='';
     if (finishing&&!notified) { notified=true; onRevealed&&onRevealed(); }
     animation=requestAnimationFrame(draw);
@@ -289,6 +294,7 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     lastTime=performance.now();
     animation=requestAnimationFrame(draw);
   }
+  document.addEventListener('sky:resume', () => { if (phase!=='hold') resume(); });
   pointerTarget.addEventListener('pointerdown',stir,{passive:true});
   pointerTarget.addEventListener('pointermove',stir,{passive:true});
   for (const name of ['pointerleave','pointerup','pointercancel']) pointerTarget.addEventListener(name,()=>{previous=null;},{passive:true});
