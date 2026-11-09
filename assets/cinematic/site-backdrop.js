@@ -1,4 +1,5 @@
-import { createPaintMotion } from './paint-motion.js?v=7';
+import { createPaintMotion } from './paint-motion.js?v=9';
+import { skyTime } from './sky-clock.js?v=9';
 
 const root = document.querySelector('[data-site-backdrop]');
 if (root) {
@@ -14,7 +15,9 @@ if (root) {
     painting,
     () => portrait.matches ? mobile : painting,
     allowed,
-    document
+    document,
+    false,
+    skyTime
   );
 
   function wake() { scene.refresh(); }

@@ -13,7 +13,7 @@
   pointer-events: none;
 }
 .cinematic-media :is(.cinematic-opening img, .cinematic-art, picture, .cinematic-painting,
-  .cinematic-canvas, .cinematic-video, .cinematic-vignette) {
+  .cinematic-canvas, .cinematic-video, .cinematic-hold, .cinematic-vignette) {
   display: block;
   position: absolute;
   inset: 0;
@@ -21,6 +21,10 @@
   height: 100%;
 }
 .cinematic-media :is(img, video) { object-fit: cover; object-position: center; }
+.cinematic-hold { object-fit: cover; object-position: center; visibility: hidden; }
+[data-held-frame] .cinematic-hold { visibility: visible; z-index: 1; }
+[data-held-frame] .cinematic-video { visibility: hidden !important; }
+[data-stage="painted"] .cinematic-hold { visibility: hidden; }
 .cinematic-media .cinematic-video, .cinematic-media .cinematic-canvas { visibility: hidden; }
 [data-stage="playing"] .cinematic-video,
 [data-stage="revealing"] .cinematic-video,
@@ -29,7 +33,8 @@
 [data-stage="painted"] .cinematic-opening,
 [data-stage="dissolving"] .cinematic-opening { visibility: hidden; }
 /* The held video stays underneath the brush. Copy, scrim, and vignette stay above it. */
-[data-stage="revealing"] .cinematic-art { z-index: 2; }
+[data-stage="revealing"] .cinematic-art,
+[data-stage="painted"] .cinematic-art { z-index: 2; }
 [data-stage="revealing"] .cinematic-video { z-index: 1; }
 [data-stage="revealing"] .cinematic-vignette,
 [data-stage="painted"] .cinematic-vignette,
@@ -37,6 +42,7 @@
 [data-stage="revealing"] .cinematic-art picture { visibility: hidden; }
 .cinematic-media .cinematic-art[data-displaying-gl] .cinematic-canvas { visibility: visible; }
 .cinematic-media .cinematic-vignette {
+  z-index: 3;
   background: linear-gradient(90deg, rgba(5,13,27,.72), rgba(5,13,27,.48) 38%, rgba(5,13,27,.12) 74%),
               linear-gradient(0deg, rgba(8,14,29,.48), transparent 27%, transparent 82%, rgba(8,14,29,.24));
 }
@@ -51,7 +57,7 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  [data-cinematic-hero] :is(.cinematic-video,.cinematic-opening,.cinematic-canvas) { visibility: hidden; }
+  [data-cinematic-hero] :is(.cinematic-video,.cinematic-opening,.cinematic-canvas,.cinematic-hold) { visibility: hidden !important; }
 }
 
 /* Inner pages share the painted campsite, held still behind the copy. */
@@ -75,8 +81,21 @@ body:has(.site-backdrop) { background: #101830; }
 .site-backdrop .cinematic-canvas { visibility: hidden; }
 .site-backdrop .cinematic-art[data-displaying-gl] .cinematic-canvas { visibility: visible; }
 .site-backdrop-scrim {
+  z-index: 3;
   background:
-    linear-gradient(180deg, rgba(5, 5, 5, 0.34), rgba(5, 5, 5, 0.16) 30%, rgba(5, 5, 5, 0.42));
+    linear-gradient(180deg, rgba(5, 5, 5, 0.42) 0%, rgba(5, 5, 5, 0.12) 42%, rgba(5, 5, 5, 0.58) 100%),
+    linear-gradient(90deg, rgba(5, 5, 5, 0.45) 0%, rgba(5, 5, 5, 0.12) 55%, rgba(5, 5, 5, 0.2) 100%),
+    linear-gradient(90deg, rgba(5, 13, 27, 0.72), rgba(5, 13, 27, 0.48) 38%, rgba(5, 13, 27, 0.12) 74%),
+    linear-gradient(0deg, rgba(8, 14, 29, 0.48), transparent 27%, transparent 82%, rgba(8, 14, 29, 0.24));
+}
+@media (orientation: portrait) {
+  .site-backdrop-scrim {
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, 0.42) 0%, rgba(5, 5, 5, 0.12) 42%, rgba(5, 5, 5, 0.58) 100%),
+      linear-gradient(90deg, rgba(5, 5, 5, 0.45) 0%, rgba(5, 5, 5, 0.12) 55%, rgba(5, 5, 5, 0.2) 100%),
+      linear-gradient(90deg, rgba(5, 13, 27, 0.47), rgba(5, 13, 27, 0.13)),
+      linear-gradient(0deg, rgba(8, 14, 29, 0.30), transparent 25%, rgba(5, 13, 27, 0.27) 62%, rgba(8, 14, 29, 0.19));
+  }
 }
 body:has(.site-backdrop) { --muted: #d2d2d2; }
 body:has(.site-backdrop) .section-title,

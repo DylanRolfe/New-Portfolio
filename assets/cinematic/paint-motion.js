@@ -1,8 +1,9 @@
 import { BrushField } from './brush-field.js?v=7';
+import { PaintReveal, REVEAL_MS } from './paint-reveal.js?v=8';
 
 async function program(gl, name, attributes, uniformNames) {
   const sources = await Promise.all(['vert','frag'].map(async ext => {
-    const response = await fetch(new URL('./shaders/'+name+'.'+ext+'?v=7',import.meta.url), {cache:'no-store'});
+    const response = await fetch(new URL('./shaders/'+name+'.'+ext+'?v=8',import.meta.url), {cache:'no-store'});
     if (!response.ok) throw new Error('Missing '+name+'.'+ext);
     return response.text();
   }));
@@ -43,12 +44,12 @@ async function imageAt(url) {
 
 async function pipeline(gl) {
   const [warp,flecks]=await Promise.all([
-    program(gl,'paint',['aPosition'],['uArt','uMask','uFlow','uField','uView','uCover','uTime','uMotion','uReveal','uBrush']),
-    program(gl,'flecks',['aHome','aShift','aHeat','aSeed'],['uArt','uFlow','uView','uCover','uDpr'])
+    program(gl,'paint',['aPosition'],['uArt','uMask','uField','uRevealMask','uView','uCover','uTime','uMotion']),
+    program(gl,'flecks',['aHome','aShift','aHeat','aSeed'],['uArt','uMask','uFlow','uView','uCover','uDpr','uMotion'])
   ]);
   for (const pass of [warp,flecks]) {
     gl.useProgram(pass.handle);
-    const samplers=['uArt','uMask','uFlow','uField'];
+    const samplers=['uArt','uMask','uFlow','uField','uRevealMask'];
     samplers.forEach((name,i)=>{ if (pass.uniforms[name]) gl.uniform1i(pass.uniforms[name],i); });
   }
   const quad=gl.createBuffer();
@@ -60,9 +61,10 @@ async function pipeline(gl) {
   return {warp,flecks,quad,points:gl.createBuffer()};
 }
 
-export function createPaintMotion(hero,art,painting,selected,motionAllowed,pointerTarget=hero,manual=false) {
+export function createPaintMotion(hero,art,painting,selected,motionAllowed,pointerTarget=hero,manual=false,clockSource=null) {
   const canvas=art.querySelector('canvas');
-  const revealMs=1400, settleMs=2000;
+  const revealMs=REVEAL_MS, settleMs=2000;
+  const revealMask=manual?new PaintReveal():null;
   let gl, pipelinePromise, passes, field, textures=[];
   let ticket=0, urlKey='', ready=false, animation=0, lastTime=0, previous=null, priming=null, flight=null, flightUrl='';
   let phase=manual?'hold':'live';
@@ -72,16 +74,16 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     cancelAnimationFrame(animation);
     animation=0;
     previous=null;
-    field=null;
-    if (!hiddenAt && document.hidden && (phase==='reveal'||phase==='settle')) hiddenAt=performance.now();
-    art.removeAttribute('data-displaying-gl');
+    if (!hiddenAt && phase!=='hold') hiddenAt=performance.now();
   }
   function release() {
     ready=false;
+    art.removeAttribute('data-displaying-gl');
     art.removeAttribute('data-gl-ready');
     textures.forEach(tex=>gl.deleteTexture(tex));
     textures=[];
     sleep();
+    if(manual && phase==='reveal') { cancel(); hero.dataset.stage='painted'; }
   }
   function sourceUrl() {
     const entry=selected();
@@ -101,7 +103,11 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
       const [built,mask,flow]=await Promise.all([pipelinePromise,imageAt(entry.dataset.mask),imageAt(entry.dataset.flow)]);
       if (ticket!==generation||!motionAllowed()||painting.currentSrc!==sourceUrl()) return false;
       passes=built;
-      textures=[painting,mask,flow,null].map((img,i)=>texture(gl,i,img));
+      textures=[painting,mask,flow,null,null].map((img,i)=>texture(gl,i,img));
+      gl.activeTexture(gl.TEXTURE4);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([255,255,255,255]));
+      field=null;
+      if(revealMask) revealMask.width=0;
       if (gl.getError()!==gl.NO_ERROR) throw new Error('Texture upload failed');
       ready=true;
       art.dataset.glReady='';
@@ -145,6 +151,7 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     if (!field||field.width!==width||field.height!==height) {
       field=new BrushField(width,height);
       gl.activeTexture(gl.TEXTURE3);
+      gl.bindTexture(gl.TEXTURE_2D,textures[3]);
       gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,field.cols,field.rows,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
     }
     return {width,height};
@@ -153,7 +160,7 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     const clockNow=now-skew;
     if (phase==='reveal') {
       const t=Math.min(1,(clockNow-revealStart)/revealMs);
-      reveal=t*t*(3-2*t);
+      reveal=t;
       motion=0; brush=1;
       if (t>=1) { reveal=1; brush=0; motion=0; phase='settle'; settleStart=clockNow; }
     } else if (phase==='settle') {
@@ -168,14 +175,24 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
   }
   function render(now, clockNow) {
     if (!ready||!motionAllowed()||!passes) return false;
+    if(urlKey!==sourceUrl()||painting.currentSrc!==urlKey) { sleep(); return false; }
     const view=sizeField();
     if (!view) return false;
     const dt=Math.min(.064,Math.max(.001,lastTime?(now-lastTime)/1000:.016));
     lastTime=now;
-    const clock=manual?(settleStart?(clockNow-settleStart)/1000:0):now/1000;
+    const clock=clockSource?clockSource():manual?(settleStart?(clockNow-settleStart)/1000:0):now/1000;
     const {active,count}=field.advance(dt,clock,motion);
     if (!active&&phase==='live') { sleep(); return false; }
     const {width,height}=view;
+    if(revealMask && phase!=='hold') {
+      const resized=revealMask.resize(width,height,painting.naturalWidth,painting.naturalHeight);
+      const changed=revealMask.advance(reveal*revealMs);
+      if(resized||changed) {
+        gl.activeTexture(gl.TEXTURE4);
+        gl.bindTexture(gl.TEXTURE_2D,textures[4]);
+        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,revealMask.canvas);
+      }
+    }
     const dpr=Math.min(devicePixelRatio||1,1.5,2300/Math.max(width,height));
     const w=Math.max(1,Math.round(width*dpr)), h=Math.max(1,Math.round(height*dpr));
     if (canvas.width!==w||canvas.height!==h) { canvas.width=w; canvas.height=h; }
@@ -192,8 +209,6 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     bind(passes.warp);
     gl.uniform1f(passes.warp.uniforms.uTime, clock);
     gl.uniform1f(passes.warp.uniforms.uMotion, motion);
-    gl.uniform1f(passes.warp.uniforms.uReveal, reveal);
-    gl.uniform1f(passes.warp.uniforms.uBrush, brush);
     gl.bindBuffer(gl.ARRAY_BUFFER,passes.quad);
     for(let i=1;i<4;i++) gl.disableVertexAttribArray(i);
     gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
@@ -201,6 +216,7 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     if (count&&brush<0.5&&motion>0.02) {
       bind(passes.flecks);
       gl.uniform1f(passes.flecks.uniforms.uDpr,dpr);
+      gl.uniform1f(passes.flecks.uniforms.uMotion,motion);
       gl.bindBuffer(gl.ARRAY_BUFFER,passes.points);
       gl.bufferData(gl.ARRAY_BUFFER,field.flecks.subarray(0,count*6),gl.DYNAMIC_DRAW);
       [2,2,1,1].forEach((size,i)=>{
@@ -239,15 +255,25 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
   function cancel() {
     notified=true;
     onRevealed=null;
-    if (!manual||phase==='hold') return;
-    if (phase==='reveal') {
-      phase='settle';
-      settleStart=performance.now();
-      reveal=1; brush=0; motion=0;
+    if (!manual) return;
+    phase='settle';
+    settleStart=performance.now()-skew;
+    reveal=1; brush=0; motion=0;
+    revealMask.finish();
+  }
+  function present() {
+    if(!manual) return;
+    onRevealed=null; notified=true;
+    revealMask.finish();
+    phase='live'; reveal=1; motion=1; brush=0; settleStart=0;
+    if(ready) {
+      render(performance.now(),performance.now()-skew);
+      art.dataset.displayingGl='';
+      resume();
     }
   }
   function stir(event) {
-    if (phase==='hold'||!ready||!motionAllowed()||!event.isPrimary) return;
+    if (phase==='hold'||phase==='reveal'||!ready||!motionAllowed()||!event.isPrimary) return;
     const rect=canvas.getBoundingClientRect();
     sizeField();
     if (!field) return;
@@ -269,7 +295,8 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
   canvas.addEventListener('webglcontextlost',event=>{
     event.preventDefault();
     ticket++; urlKey=''; textures=[]; pipelinePromise=null; release();
+    if(manual) { cancel(); hero.dataset.stage='painted'; }
   });
   canvas.addEventListener('webglcontextrestored',refresh);
-  return {sleep,refresh,resume,prime,startReveal,cancel};
+  return {sleep,refresh,resume,prime,startReveal,cancel,present};
 }
