@@ -24,15 +24,16 @@ const base = process.env.TEST_URL || 'http://127.0.0.1:8766';
         const r = new PaintReveal();
         r.resize(innerWidth,innerHeight,innerWidth>innerHeight?1672:941,innerWidth>innerHeight?941:1672);
         const mid=Math.ceil(r.strokes.length/2);
-        const timing=r.strokes.map(s=>({start:s.start,end:s.end,duration:s.duration}));
+        const timing=r.strokes.map(s=>({start:s.start,end:s.end,duration:s.duration,delay:s.delay||0}));
         r.advance(120);
         return {duration:REVEAL_MS,mid,timing,slowMiddle:r.strokes.filter(s=>s.wet&&s.duration>600).length,first:r.strokes[0].drawn,second:r.strokes[mid].drawn,next:r.strokes[1].drawn};
       });
       assert.equal(plan.duration,7680);
       assert.equal(plan.slowMiddle,1,'only the broad middle pass gets the extra slowdown');
+      assert.equal(plan.timing.filter(s=>s.delay===3000).length,1,'only the middle pass waits an additional three seconds');
       assert.ok(plan.first>0 && plan.second>0 && plan.next===0,'both chains start together');
       plan.timing.forEach((s,i)=>{
-        assert.equal(s.start,(i%plan.mid)*240);
+        assert.equal(s.start,(i%plan.mid)*240+s.delay);
         assert.ok(Math.abs(s.end-s.start-s.duration*1.2)<.001);
         assert.ok(s.end<=plan.duration,'all gestures finish before settling');
       });

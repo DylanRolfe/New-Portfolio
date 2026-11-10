@@ -133,12 +133,13 @@ export class PaintReveal {
       // gestures. Half its speed without changing any other stroke's timing.
       const duration = (380 + 200 * random(i + 123)) * (i === centerTile ? 2 : 1);
       add(path,h/rows*1.7,duration,true);
+      if (i === centerTile) strokes[strokes.length - 1].delay = 3000;
     }
     // Split the ordered plan in half. Both chains start together and keep their
     // original geometry, bristles, and ordering. Stretch their timing by 20%.
     const midpoint = Math.ceil(strokes.length / 2);
     strokes.forEach((s,i)=>{
-      s.start=(i%midpoint)*200*STROKE_PACE;
+      s.start=(i%midpoint)*200*STROKE_PACE+(s.delay||0);
       s.end=s.start+s.duration*STROKE_PACE;
     });
     return strokes;
