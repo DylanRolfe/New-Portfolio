@@ -20,10 +20,13 @@ function startHero(hero) {
   let handoff = false;
   let preparing = false;
   let frameRequest = 0;
+  let playPending = false;
+  let retryTimer = 0;
+  let retryCount = 0;
   // These six-second assets contain a baked-in morph after the photographic
   // five-second mark. End the displayed cut here; never seek/reload at handoff.
   const cutEnd = () => Math.min(Number(video.dataset.photoEnd) || Infinity, video.duration || Infinity);
-  const atEnd = () => video.ended || video.currentTime >= cutEnd();
+  const atEnd = () => video.ended || (video.currentTime > 0 && video.currentTime >= cutEnd());
 
   function holdFrame() {
     if (hero.hasAttribute('data-held-frame') || video.readyState < 2) return;
@@ -56,6 +59,7 @@ function startHero(hero) {
     if (status) status.textContent = 'Starry Night campsite painting.';
   }
   function showStill() {
+    clearTimeout(retryTimer);
     handoff = true;
     filmVersion++;
     video.pause();
@@ -72,6 +76,7 @@ function startHero(hero) {
     if (preparing || handoff || hero.dataset.stage === 'revealing' || hero.dataset.stage === 'painted') return;
     if (away() || !onScreen()) return;
     preparing = true;
+    clearTimeout(retryTimer);
     const version = filmVersion;
     video.pause();
     holdFrame();
@@ -94,22 +99,34 @@ function startHero(hero) {
     announce();
   }
   function playback() {
-    if (hero.dataset.stage !== 'playing' || preparing || atEnd()) return;
+    if (hero.dataset.stage !== 'playing' || preparing || playPending || atEnd()) return;
     if (away() || !onScreen()) { video.pause(); return; }
     const version = filmVersion;
+    clearTimeout(retryTimer);
+    playPending = true;
     video.play().catch(error => {
       if (version !== filmVersion || hero.dataset.stage !== 'playing') return;
-      if (error.name !== 'AbortError') beginReveal();
+      // Mobile browsers can reject play while loading or becoming visible.
+      // A policy rejection is not the end of the film: keep the opening and
+      // retry rather than skipping straight into the finished scene.
+      if (error.name === 'NotSupportedError') { beginReveal(); return; }
+      if (retryCount++ < 3) retryTimer = setTimeout(playback, 500);
+    }).finally(() => {
+      if (version === filmVersion) playPending = false;
     });
     watchFrames();
   }
   function loadCut(time) {
     filmVersion++;
+    playPending = false;
+    retryCount = 0;
+    clearTimeout(retryTimer);
     if (frameRequest) video.cancelVideoFrameCallback(frameRequest);
     frameRequest = 0;
     resumeTime = time;
     video.muted = true;
     video.defaultMuted = true;
+    video.playsInline = true;
     video.poster = selected().dataset.poster;
     video.src = selected().dataset.intro;
     video.load();
@@ -121,6 +138,8 @@ function startHero(hero) {
       resumeTime = 0;
     }
   });
+  video.addEventListener('canplay', playback);
+  video.addEventListener('playing', () => { retryCount = 0; watchFrames(); });
   // Keep the paused last frame on screen until the brush canvas is ready.
   video.addEventListener('ended', () => {
     const version = filmVersion;
@@ -156,6 +175,11 @@ function startHero(hero) {
     scene.sleep();
   }
   document.addEventListener('visibilitychange', visibility);
+  window.addEventListener('pageshow', visibility);
+  // Some phone power-saving policies require a gesture. Retry on ordinary
+  // page interaction without introducing an extra control or skipping film.
+  document.addEventListener('touchend', playback, { passive: true });
+  document.addEventListener('click', playback);
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(() => visibility()).observe(art);
   }
