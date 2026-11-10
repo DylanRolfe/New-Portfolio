@@ -25,7 +25,10 @@
 [data-held-frame] .cinematic-hold { visibility: visible; z-index: 1; }
 [data-held-frame] .cinematic-video { visibility: hidden !important; }
 [data-stage="painted"] .cinematic-hold { visibility: hidden; }
-.cinematic-media .cinematic-video, .cinematic-media .cinematic-canvas { visibility: hidden; }
+.cinematic-media .cinematic-canvas { visibility: hidden; }
+/* iPhone autoplay waits for a visible video. Keep it visible from the first
+   layout, before the module changes the hero from poster to playing. */
+[data-stage="painted"] .cinematic-video { visibility: hidden; }
 [data-stage="playing"] .cinematic-video,
 [data-stage="revealing"] .cinematic-video,
 [data-stage="dissolving"] .cinematic-video { visibility: visible; }

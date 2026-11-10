@@ -90,6 +90,8 @@ function startHero(hero) {
       if (version !== filmVersion) return;
       hero.dataset.stage = 'painted';
       // The painted surface now owns the view; release the decoder and held frame.
+      video.autoplay = false;
+      video.querySelectorAll('source').forEach(source => source.remove());
       video.removeAttribute('src');
       video.load();
       held.width = held.height = 1;
@@ -128,8 +130,14 @@ function startHero(hero) {
     video.defaultMuted = true;
     video.playsInline = true;
     video.poster = selected().dataset.poster;
-    video.src = selected().dataset.intro;
-    video.load();
+    const intro = new URL(selected().dataset.intro, document.baseURI).href;
+    // Let HTML's muted inline autoplay start the first cut. Replacing src and
+    // calling load() here would abort that initial browser-managed playback.
+    // Only reload when rotating to a different cut.
+    if (time > 0 || (video.currentSrc && video.currentSrc !== intro)) {
+      video.src = intro;
+      video.load();
+    }
     playback();
   }
   video.addEventListener('loadedmetadata', () => {
