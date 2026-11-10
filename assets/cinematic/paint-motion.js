@@ -168,7 +168,7 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     if (phase==='reveal') {
       const t=Math.min(1,(clockNow-revealStart)/revealMs);
       reveal=t;
-      motion=clockNow-revealStart >= (revealMask?.skyCompleteAt ?? revealMs) ? 1 : 0;
+      motion=0;
       brush=1;
       if (t>=1) { reveal=1; brush=0; motion=1; phase='settle'; settleStart=clockNow; }
     } else if (phase==='settle') {

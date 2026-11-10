@@ -1,4 +1,4 @@
-import { createPaintMotion } from './paint-motion.js?v=13';
+import { createPaintMotion } from './paint-motion.js?v=14';
 import { skyTime } from './sky-clock.js?v=9';
 
 function startHero(hero) {
