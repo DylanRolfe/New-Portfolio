@@ -7,7 +7,7 @@ const base = process.env.TEST_URL || 'http://127.0.0.1:8766';
 const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
 (async () => {
-  await fs.mkdir('tests/artifacts', { recursive: true });
+  await fs.mkdir('tests/artifacts/refine-validation', { recursive: true });
   const browser = await chromium.launch({ headless: true, executablePath: chrome });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await page.route('https://fonts.googleapis.com/**', route => route.fulfill({ status: 200, contentType: 'text/css', body: '' }));
@@ -35,12 +35,12 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
         elapsed: performance.now(),
       };
     });
-    const shot = `tests/artifacts/reveal-${String(at).padStart(4, '0')}ms.png`;
+    const shot = `tests/artifacts/refine-validation/reveal-${String(at).padStart(4, '0')}ms.png`;
     await page.screenshot({ path: shot });
     frames.push({ at, ...state, shot });
     console.log(at + 'ms', state);
   }
-  await fs.writeFile('tests/artifacts/reveal-frames.json', JSON.stringify(frames, null, 2));
+  await fs.writeFile('tests/artifacts/refine-validation/reveal-frames.json', JSON.stringify(frames, null, 2));
   const first = frames[0].coverage;
   const last = frames.at(-1).coverage;
   if (!(first < last) || last < 0.02) throw new Error('Mountain reveal was not progressive');

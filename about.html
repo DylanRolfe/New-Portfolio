@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=41" />
+  <link rel="stylesheet" href="styles.css?v=44" />
   <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=41" />
   <link rel="preload" as="image" href="assets/cinematic/Images/mountain-about-desktop.webp?v=1" media="(orientation: landscape)" />
   <link rel="preload" as="image" href="assets/cinematic/Images/mountain-about-mobile.webp?v=1" media="(orientation: portrait)" />
@@ -33,7 +33,7 @@
     <div class="site-backdrop-scrim"></div>
   </div>
 
-  <nav class="nav nav-solid" id="nav" aria-label="primary navigation">
+  <nav class="nav" id="nav" aria-label="primary navigation">
     <div class="nav-inner">
       <a class="nav-mark" href="index.html">dylan rolfe</a>
       <ul class="nav-links">
@@ -53,54 +53,64 @@
 
   <main id="main">
     <section class="expedition" id="experience" data-expedition aria-labelledby="expedition-title">
-      <div class="expedition-intro page-section">
-        <div class="container">
-          <div class="expedition-heading reveal">
-            <p class="expedition-coordinates">coliseum mountain · north shore, bc</p>
-            <h1 class="section-title" id="expedition-title">places i’ve learned by doing</h1>
-            <p class="section-sub">a route through the teams, challenges, and small bets that shaped how i work.
-              follow the trail from the foothills, or choose a camp to jump ahead.</p>
-            <p class="expedition-intro-cue" aria-hidden="true"><span></span>scroll to follow the route</p>
-          </div>
-        </div>
-      </div>
-
       <div class="expedition-runway" data-expedition-runway>
         <div class="expedition-stage" data-expedition-stage aria-busy="true">
+          <div class="expedition-intro page-section">
+            <div class="container">
+              <div class="expedition-heading">
+
+                <h1 class="section-title" id="expedition-title">places i’ve learned by doing</h1>
+                <p class="section-sub">teams, challenges, and small bets that shaped how i work.</p>
+              </div>
+            </div>
+          </div>
+
           <svg class="expedition-map" data-expedition-map viewBox="0 0 1672 941"
                preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
             <path class="expedition-route-base" data-route-base
-                  d="M 168 788 C 246 762 246 724 322 708 C 398 692 386 648 458 626 C 530 604 512 566 582 544 C 648 523 650 488 710 466 C 764 447 758 406 802 392 C 824 385 830 364 846 338" />
+                  d="M 260 792 C 254 750 388 742 350 680 C 302 625 355 610 448 616 C 520 623 580 621 570 590 C 560 559 475 562 501 538 C 532 510 654 551 650 515 C 646 486 713 486 751 469 C 790 452 796 440 755 440 C 699 441 726 411 774 398 C 818 385 819 367 839 350" />
             <path class="expedition-route-glow" data-route-glow
-                  d="M 168 788 C 246 762 246 724 322 708 C 398 692 386 648 458 626 C 530 604 512 566 582 544 C 648 523 650 488 710 466 C 764 447 758 406 802 392 C 824 385 830 364 846 338" />
+                  d="M 260 792 C 254 750 388 742 350 680 C 302 625 355 610 448 616 C 520 623 580 621 570 590 C 560 559 475 562 501 538 C 532 510 654 551 650 515 C 646 486 713 486 751 469 C 790 452 796 440 755 440 C 699 441 726 411 774 398 C 818 385 819 367 839 350" />
             <path class="expedition-route-lit" data-route-lit
-                  d="M 168 788 C 246 762 246 724 322 708 C 398 692 386 648 458 626 C 530 604 512 566 582 544 C 648 523 650 488 710 466 C 764 447 758 406 802 392 C 824 385 830 364 846 338" />
+                  d="M 260 792 C 254 750 388 742 350 680 C 302 625 355 610 448 616 C 520 623 580 621 570 590 C 560 559 475 562 501 538 C 532 510 654 551 650 515 C 646 486 713 486 751 469 C 790 452 796 440 755 440 C 699 441 726 411 774 398 C 818 385 819 367 839 350" />
           </svg>
 
           <div class="expedition-checkpoints" data-checkpoints role="group" aria-label="experience checkpoints">
             <button class="checkpoint" type="button" data-checkpoint="0"
                     aria-label="clearcraft, 2023 to 2024" aria-controls="experience-panel-0">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-label" aria-hidden="true"><small>2023&ndash;24</small>clearcraft</span>
+              <span class="checkpoint-number" aria-hidden="true">01</span>
             </button>
             <button class="checkpoint" type="button" data-checkpoint="1"
                     aria-label="junior achievement bc, 2024 to 2025" aria-controls="experience-panel-1">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-label" aria-hidden="true"><small>2024&ndash;25</small>junior achievement bc</span>
+              <span class="checkpoint-number" aria-hidden="true">02</span>
             </button>
             <button class="checkpoint" type="button" data-checkpoint="2"
                     aria-label="samsung and ikea, 2025" aria-controls="experience-panel-2">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-label" aria-hidden="true"><small>2025</small>samsung &amp; ikea</span>
+              <span class="checkpoint-number" aria-hidden="true">03</span>
             </button>
             <button class="checkpoint" type="button" data-checkpoint="3"
                     aria-label="strive, 2025 to 2026" aria-controls="experience-panel-3">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-label" aria-hidden="true"><small>2025&ndash;26</small>strive</span>
+              <span class="checkpoint-number" aria-hidden="true">04</span>
             </button>
             <button class="checkpoint" type="button" data-checkpoint="4"
                     aria-label="the knowledge society, 2025 to 2026" aria-controls="experience-panel-4">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-label" aria-hidden="true"><small>2025&ndash;26</small>the knowledge society</span>
+              <span class="checkpoint-number" aria-hidden="true">05</span>
             </button>
             <button class="checkpoint checkpoint-summit" type="button" data-checkpoint="5"
                     aria-label="university of waterloo, 2026 to now" aria-controls="experience-panel-5">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-label" aria-hidden="true"><small>2026&ndash;now</small>university of waterloo</span>
+              <span class="checkpoint-number" aria-hidden="true">06</span>
             </button>
           </div>
 
@@ -184,81 +194,12 @@
       </div>
     </section>
 
-    <section class="section life" id="life">
-      <div class="container">
-        <div class="section-heading reveal">
-          <h2 class="section-title">outside the workshop</h2>
-          <p class="section-sub">a slow belt of places, projects, and moments — click a photo to zoom.</p>
-        </div>
-      </div>
-
-      <div
-        class="life-belt reveal"
-        data-life-belt
-        aria-label="outside the workshop media belt"
-      >
-        <div class="life-belt-track">
-          <div class="life-belt-set">
-            <figure class="life-card">
-              <button class="life-photo" type="button" data-lightbox-src="Images/Mountain.jpg" data-lightbox-alt="Tent pitched above a sea of clouds" aria-label="open photo: new biome unlocked">
-                <img src="Images/Mountain.jpg" width="2160" height="2880" alt="Tent pitched above a sea of clouds" loading="lazy" decoding="async" />
-              </button>
-              <figcaption>new biome unlocked</figcaption>
-            </figure>
-
-            <figure class="life-card life-card-portrait">
-              <button class="life-photo" type="button" data-lightbox-src="Images/3dprint.jpg" data-lightbox-alt="A full 3D-printed Batman figure on a desk" aria-label="open photo: a 3d-printed batman">
-                <img src="Images/3dprint.jpg" width="2160" height="2880" alt="A full 3D-printed Batman figure on a desk" loading="lazy" decoding="async" />
-              </button>
-              <figcaption>a 3d-printed batman</figcaption>
-            </figure>
-
-            <figure class="life-card">
-              <button class="life-photo" type="button" data-lightbox-src="Images/Tentview.jpg" data-lightbox-alt="Sunrise over mountains from inside a tent" aria-label="open photo: just an average morning">
-                <img src="Images/Tentview.jpg" width="1656" height="2208" alt="Sunrise over mountains from inside a tent" loading="lazy" decoding="async" />
-              </button>
-              <figcaption>just an average morning</figcaption>
-            </figure>
-
-            <figure class="life-card">
-              <button class="life-photo" type="button" data-lightbox-src="Images/view.jpg" data-lightbox-alt="Looking toward a glacier in Alaska" aria-label="open photo: feeling small in the best way">
-                <img src="Images/view.jpg" width="2160" height="2880" alt="Looking toward a glacier in Alaska" loading="lazy" decoding="async" />
-              </button>
-              <figcaption>feeling small in the best way</figcaption>
-            </figure>
-
-            <figure class="life-card life-card-video">
-              <div class="life-video">
-                <video
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                  preload="auto"
-                  src="Images/CanSat-launch.mp4"
-                  width="1080"
-                  height="1920"
-                  aria-label="cansat rocket launch"
-                ></video>
-              </div>
-              <figcaption>launching rockets</figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
-
-  <dialog class="lightbox" id="lightbox" aria-label="photo viewer">
-    <button class="lightbox-close" type="button" aria-label="close photo">×</button>
-    <img class="lightbox-image" src="" alt="" />
-    <p class="lightbox-caption"></p>
-  </dialog>
 
   <script src="script.js?v=31"></script>
   <script src="assets/cinematic/site-nav.js?v=2"></script>
   <script src="assets/cinematic/site-backdrop.js?v=12" type="module"></script>
-  <script src="assets/cinematic/mountain-expedition.js?v=7" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
 </body>
 
 </html>

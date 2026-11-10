@@ -683,7 +683,38 @@ button { font: inherit; text-transform: inherit; }
 }
 
 /* Expedition — About-page route through the living painting */
+/* Local font alias keeps the other pages typography unchanged. SIL OFL in assets/fonts. */
+@font-face {
+  font-family: 'Expedition Plex';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-mono-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Expedition Plex';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-mono-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Expedition Plex';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-mono-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Expedition Plex';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-mono-700.woff2') format('woff2');
+}
+
 .expedition {
+  font-family: 'Expedition Plex', var(--font);
   position: relative;
   z-index: 1;
 }
@@ -691,8 +722,7 @@ button { font: inherit; text-transform: inherit; }
 .expedition-intro {
   align-items: center;
   display: flex;
-  min-height: 84svh;
-  padding: 150px 0 90px;
+  padding: 112px 0 30px;
 }
 
 .expedition-heading {
@@ -703,15 +733,15 @@ button { font: inherit; text-transform: inherit; }
   color: #8fb9ff;
   font-size: 0.68rem;
   letter-spacing: 0.045em;
-  margin-bottom: 22px;
+  margin-bottom: 12px;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
 }
 
 .expedition-heading .section-title {
-  font-size: clamp(2.4rem, 5.2vw, 4.5rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.5rem);
   letter-spacing: -0.055em;
-  line-height: 0.98;
-  max-width: 13ch;
+  line-height: 1.15;
+  max-width: 32ch;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -719,8 +749,8 @@ button { font: inherit; text-transform: inherit; }
   color: #d4d4d4;
   font-size: 0.94rem;
   line-height: 1.75;
-  margin-top: 26px;
-  max-width: 550px;
+  margin-top: 12px;
+  max-width: 640px;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
 }
 
@@ -844,15 +874,23 @@ button { font: inherit; text-transform: inherit; }
   height: calc(100svh + 5 * 64svh);
 }
 
+html:has(.expedition.is-live) { overscroll-behavior-y: none; }
+
 .expedition.is-live .expedition-stage {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
-  gap: clamp(24px, 6vw, 96px);
-  height: 100svh;
+  /* About ends with this scene. Pin it to the viewport so rounding at the
+     document's scroll limit cannot push the trail off the fixed painting. */
+  height: 100%;
+  width: 100%;
   overflow: hidden;
-  padding: 104px 28px 36px;
-  position: sticky;
-  top: 0;
+  position: fixed;
+  inset: 0;
+}
+
+.expedition.is-live .expedition-intro {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .expedition.is-live .expedition-map {
@@ -877,20 +915,19 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .expedition-route-base {
-  stroke: rgba(143, 185, 255, 0.24);
-  stroke-width: 2;
+  /* Geometry reference only: the unwalked trail stays invisible. */
+  stroke: none;
 }
 
 .expedition-route-glow {
-  opacity: 0.28;
-  stroke: var(--blue);
-  stroke-width: 8;
+  opacity: 0.16;
+  stroke: #3b82f6;
+  stroke-width: 6;
 }
 
 .expedition-route-lit {
-  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.6));
-  stroke: #3b82f6;
-  stroke-width: 2.4;
+  stroke: #80b5ff;
+  stroke-width: 2;
 }
 
 .expedition.is-live .expedition-checkpoints {
@@ -909,6 +946,7 @@ button { font: inherit; text-transform: inherit; }
   cursor: pointer;
   height: 44px;
   opacity: 0;
+  visibility: hidden;
   padding: 0;
   pointer-events: none;
   position: absolute;
@@ -952,7 +990,7 @@ button { font: inherit; text-transform: inherit; }
 .expedition.is-live .checkpoint.is-active::before {
   background: #80b5ff;
   border-color: #cfe4ff;
-  box-shadow: 0 0 14px rgba(128, 181, 255, 0.85), 0 0 32px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 0 12px rgba(128, 181, 255, 0.6);
   height: 12px;
   margin: -6px 0 0 -6px;
   width: 12px;
@@ -971,21 +1009,56 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .expedition.is-live .expedition-info {
-  align-self: center;
-  background: linear-gradient(90deg, rgba(5, 5, 5, 0) 0%, rgba(5, 5, 5, 0.61) 10%, rgba(5, 5, 5, 0.78) 100%);
-  border-left: 1px solid rgba(255, 255, 255, 0.17);
-  grid-column: 2;
-  justify-self: end;
-  margin: 4vh max(0px, calc((100vw - 1080px) / 2)) 0 0;
-  max-width: 100%;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5%, #000 95%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+  position: absolute;
+  top: 35%;
+  left: 65%;
+  width: min(29%, 340px);
+  max-width: none;
+  margin: 0;
+  padding: 16px 0 20px 22px;
+  border-left: 1px solid rgba(128, 181, 255, .28);
   opacity: 0;
-  padding: 30px 0 30px clamp(24px, 3vw, 42px);
-  transition: opacity 0.6s ease;
+  transition: opacity .45s ease;
   visibility: hidden;
-  width: 100%;
   z-index: 4;
+  text-shadow: 0 2px 12px #050505;
+}
+
+/* A feathered local scrim has no card edge and leaves the tent unobscured. */
+.expedition.is-live .expedition-info::before {
+  content: "";
+  position: absolute;
+  inset: -34px -28px;
+  background: radial-gradient(ellipse, rgba(5, 13, 27, .65), rgba(5, 13, 27, .3) 50%, transparent 73%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.checkpoint-label {
+  position: absolute;
+  left: 37px;
+  top: 10px;
+  width: max-content;
+  max-width: 190px;
+  text-align: left;
+  font-family: 'Expedition Plex', var(--font);
+  font-size: clamp(.62rem, .85vw, .76rem);
+  font-weight: 500;
+  line-height: 1.4;
+  color: #c2cbd8;
+  text-shadow: 0 1px 6px #050505, 0 2px 14px #050505;
+  pointer-events: none;
+}
+.checkpoint-label small { display: block; font-size: .62rem; font-weight: 400; color: #99a8bb; }
+.checkpoint.is-active .checkpoint-label { color: #80b5ff; }
+.checkpoint.label-left .checkpoint-label {
+  left: auto; right: 37px; text-align: right;
+}
+.checkpoint-number { display: none; }
+.checkpoint-summit .checkpoint-ring::after {
+  content: ""; position: absolute; left: 50%; bottom: 24px;
+  width: 10px; height: 16px; border-left: 1px solid #c2cbd8;
+  background: linear-gradient(155deg, #c2cbd8 0 35%, transparent 38%);
 }
 
 .expedition.is-live .expedition-panels {
@@ -1010,7 +1083,8 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .expedition.is-live .experience-summary {
-  max-width: 35ch;
+  font-size: .82rem;
+  max-width: 36ch;
 }
 
 .expedition.is-live .experience-panel .inline-link {
@@ -1018,11 +1092,12 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .expedition.is-live .expedition-info .experience-panel-head {
-  min-height: 52px;
+  min-height: 42px;
 }
 
 .expedition.is-live .experience-org {
-  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  margin-top: 16px;
 }
 
 .expedition.is-live .expedition-cue {
@@ -1058,9 +1133,11 @@ button { font: inherit; text-transform: inherit; }
   visibility: visible;
 }
 
-.expedition.is-live[data-route-ready] .checkpoint {
+.expedition.is-live[data-route-ready] .checkpoint.is-active,
+.expedition.is-live[data-route-ready] .checkpoint.is-complete {
   opacity: 1;
   pointer-events: auto;
+  visibility: visible;
 }
 
 .expedition.is-live[data-route-ready] .expedition-cue {
@@ -1325,128 +1402,57 @@ summary:focus-visible {
 }
 
 @media (orientation: portrait) {
-  .expedition-intro {
-    min-height: 78svh;
-    padding: 122px 0 58px;
-  }
-
-  .expedition-heading .section-sub {
-    font-size: 0.88rem;
-    margin-top: 22px;
-  }
-
-  .expedition-intro-cue {
-    margin-top: 38px;
-  }
-
-  .expedition.is-live .expedition-stage {
-    display: block;
-    padding: 84px 18px 0;
-  }
-
+  .expedition-intro { padding: 100px 0 0; }
+  .expedition-heading .section-title { font-size: clamp(1.45rem, 6vw, 2.2rem); max-width: 24ch; }
+  .expedition-heading .section-sub { font-size: .74rem; line-height: 1.6; margin-top: 12px; max-width: 40ch; }
+  .expedition-coordinates { font-size: .58rem; }
   .expedition.is-live .expedition-info {
-    background: linear-gradient(180deg, rgba(5, 5, 5, 0.18) 0%, rgba(5, 5, 5, 0.82) 14%, rgba(5, 5, 5, 0.93) 100%);
-    border-left: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    bottom: 0;
-    left: 0;
-    margin: 0;
-    max-height: 46svh;
-    -webkit-mask-image: none;
-    mask-image: none;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
-    position: absolute;
-    right: 0;
-    width: auto;
+    top: auto; bottom: max(24px, env(safe-area-inset-bottom));
+    left: 22px; right: 22px; width: auto;
+    border: 0; padding: 14px 0 0; max-height: none; overflow: visible;
   }
-
-  .expedition.is-live .expedition-info .experience-panel-head {
-    min-height: 44px;
+  .expedition.is-live .expedition-info::before {
+    inset: -24px -22px -40px;
+    background: linear-gradient(0deg, rgba(5,13,27,.92), rgba(5,13,27,.65) 70%, transparent);
   }
-
+  .expedition.is-live .experience-panel-head { min-height: 32px; }
   .expedition.is-live .experience-logo,
-  .expedition.is-live .experience-logos .experience-logo {
-    height: 44px;
-    padding: 4px;
-    width: 44px;
-  }
+  .expedition.is-live .experience-logos .experience-logo { width: 32px; height: 32px; padding: 2px; border-radius: 3px; }
+  .expedition.is-live .experience-meta { font-size: .6rem; flex-direction: row; gap: 12px; }
+  .expedition.is-live .experience-org { font-size: 1.2rem; margin-top: 9px; }
+  .expedition.is-live .experience-role { font-size: .7rem; margin-top: 5px; }
+  .expedition.is-live .experience-summary { font-size: .76rem; line-height: 1.55; margin-top: 8px; max-width: 44ch; }
+  .expedition.is-live .experience-panel .inline-link { font-size: .7rem; margin-top: 10px; }
+  .expedition.is-live .expedition-cue { display: none; }
+  .checkpoint-label { display: none; }
+  .checkpoint-number { display: block; position: absolute; left: 33px; top: 13px; color: #c2cbd8; font: 10px 'Expedition Plex', monospace; text-shadow: 0 1px 6px #050505; pointer-events: none; }
+  .checkpoint.is-active .checkpoint-number { color: #80b5ff; }
+}
 
-  .expedition.is-live .experience-meta {
-    font-size: 0.62rem;
-  }
-
-  .expedition.is-live .experience-org {
-    font-size: clamp(1.35rem, 6vw, 1.65rem);
-    margin-top: 16px;
-  }
-
-  .expedition.is-live .experience-role {
-    font-size: 0.78rem;
-  }
-
-  .expedition.is-live .experience-summary {
-    font-size: 0.86rem;
-    line-height: 1.62;
-    max-width: none;
-  }
-
-  .expedition.is-live .experience-panel .inline-link {
-    margin-top: 12px;
-  }
-
-  .expedition.is-live .expedition-cue {
-    display: none;
-  }
+@media (max-height: 700px) and (orientation: portrait) {
+  .expedition-intro { padding-top: 80px; }
+  .expedition-heading .section-sub { display: none; }
+  .expedition-coordinates { margin-bottom: 8px; }
+  .expedition.is-live .expedition-info { bottom: 16px; }
+  .expedition.is-live .experience-org { font-size: 1.1rem; }
+  .expedition.is-live .experience-summary { font-size: .72rem; }
 }
 
 @media (max-height: 620px) and (orientation: landscape) {
-  .expedition-intro {
-    min-height: 100svh;
-    padding-bottom: 46px;
-    padding-top: 116px;
-  }
-
-  .expedition.is-live .expedition-stage {
-    gap: 24px;
-    grid-template-columns: minmax(0, 1fr) 330px;
-    padding-bottom: 18px;
-    padding-top: 78px;
-  }
-
-  .expedition.is-live .expedition-info {
-    margin-top: 0;
-    max-height: calc(100svh - 96px);
-    overflow-y: auto;
-    padding-bottom: 14px;
-    padding-top: 14px;
-  }
-
-  .expedition.is-live .experience-org {
-    font-size: 1.25rem;
-    margin-top: 10px;
-  }
-
-  .expedition.is-live .experience-role {
-    font-size: 0.72rem;
-    margin-top: 5px;
-  }
-
+  .expedition-intro { padding-top: 76px; }
+  .expedition-heading .section-title { font-size: 1.45rem; }
+  .expedition-coordinates, .expedition-heading .section-sub { display: none; }
+  .expedition.is-live .expedition-info { top: 30%; left: 64%; width: 32%; padding: 8px 0 8px 16px; }
+  .expedition.is-live .experience-org { font-size: 1.1rem; margin-top: 8px; }
+  .expedition.is-live .experience-role { font-size: .65rem; margin-top: 5px; }
   .expedition.is-live .experience-logo,
-  .expedition.is-live .experience-logos .experience-logo {
-    height: 36px;
-    width: 36px;
-  }
-
-  .expedition.is-live .experience-summary {
-    font-size: 0.78rem;
-    line-height: 1.5;
-  }
-
-  .expedition.is-live .experience-panel .inline-link {
-    margin-top: 8px;
-  }
+  .expedition.is-live .experience-logos .experience-logo { height: 28px; width: 28px; padding: 2px; }
+  .expedition.is-live .expedition-info .experience-panel-head { min-height: 28px; }
+  .expedition.is-live .experience-summary { font-size: .7rem; line-height: 1.5; }
+  .expedition.is-live .experience-panel .inline-link { margin-top: 8px; font-size: .65rem; }
+  .checkpoint-label { display: none; }
+  .checkpoint-number { display: block; position: absolute; left: 33px; top: 13px; color: #c2cbd8; font: 10px 'Expedition Plex', monospace; }
+  .expedition.is-live .expedition-cue { bottom: 12px; font-size: .6rem; }
 }
 
 @media (max-width: 700px) {

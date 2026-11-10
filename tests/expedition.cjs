@@ -9,7 +9,7 @@ const base = process.env.TEST_URL || 'http://127.0.0.1:8766';
 const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
 (async () => {
-  await fs.mkdir('tests/artifacts', { recursive: true });
+  await fs.mkdir('tests/artifacts/refine-validation', { recursive: true });
   const browser = await chromium.launch({
     headless: true,
     executablePath: chrome,
@@ -153,10 +153,10 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     await desktop.goto(base + '/about.html', { waitUntil: 'domcontentloaded' });
     await desktop.waitForSelector('.mountain-canvas');
     await desktop.waitForTimeout(550);
-    await desktop.screenshot({ path: 'tests/artifacts/about-desktop-reveal.png' });
+    await desktop.screenshot({ path: 'tests/artifacts/refine-validation/about-desktop-reveal.png' });
     await ready(desktop);
     await desktop.waitForTimeout(350);
-    await desktop.screenshot({ path: 'tests/artifacts/about-desktop-intro.png' });
+    await desktop.screenshot({ path: 'tests/artifacts/refine-validation/about-desktop-intro.png' });
     assert.equal(await desktop.locator('.mountain-canvas').count(), 1, 'one mountain overlay is mounted');
     const coverage = await overlayCoverage(desktop);
     assert.ok(coverage > 0.02 && coverage < 0.95, `mountain overlay covers a band, got ${coverage}`);
@@ -178,8 +178,8 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     });
     assert.ok(layout.panelLeft > layout.width * 0.52, 'information rail sits in the right column');
     assert.ok(layout.panelRight <= layout.width, 'information rail stays inside the viewport');
-    assert.deepEqual(layout.hits, [true, true, true, true, true, true], 'every trail checkpoint is hittable');
-    await desktop.screenshot({ path: 'tests/artifacts/about-desktop-route-start.png' });
+    assert.deepEqual(layout.hits, [true, false, false, false, false, false], 'only the first camp is revealed at the start');
+    await desktop.screenshot({ path: 'tests/artifacts/refine-validation/about-desktop-route-start.png' });
 
     await scrollProgress(desktop, 0.5);
     state = await activePanel(desktop);
@@ -187,7 +187,7 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     assert.equal(state.org, 'samsung & ikea');
     assert.ok(state.dashOffset < state.dashLength);
     await desktop.waitForTimeout(450);
-    await desktop.screenshot({ path: 'tests/artifacts/about-desktop-route-mid.png' });
+    await desktop.screenshot({ path: 'tests/artifacts/refine-validation/about-desktop-route-mid.png' });
 
     await scrollProgress(desktop, 1);
     state = await activePanel(desktop);
@@ -195,12 +195,13 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     assert.equal(state.org, 'university of waterloo');
     assert.ok(state.dashOffset < 1);
     await desktop.waitForTimeout(450);
-    await desktop.screenshot({ path: 'tests/artifacts/about-desktop-route-end.png' });
+    await desktop.screenshot({ path: 'tests/artifacts/refine-validation/about-desktop-route-end.png' });
 
     await scrollProgress(desktop, 0.1);
     state = await activePanel(desktop);
     assert.equal(state.index, 0, 'reverse scroll returns to the first camp');
 
+    await scrollProgress(desktop, 1);
     await desktop.locator('[data-checkpoint="3"]').click();
     await desktop.waitForFunction(() => document.querySelector('.experience-panel.is-active')?.dataset.panel === '3');
     state = await activePanel(desktop);
@@ -210,6 +211,7 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
 
     await desktop.locator('[data-checkpoint="0"]').focus();
     await desktop.keyboard.press('End');
+    await desktop.waitForFunction(() => document.activeElement?.dataset?.checkpoint === '5');
     const focused = await desktop.evaluate(() => document.activeElement?.dataset?.checkpoint);
     assert.equal(focused, '5', 'arrow/End keys move between checkpoints');
 
@@ -235,7 +237,7 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     await mobile.goto(base + '/about.html', { waitUntil: 'domcontentloaded' });
     await ready(mobile);
     await mobile.waitForTimeout(250);
-    await mobile.screenshot({ path: 'tests/artifacts/about-mobile-intro.png' });
+    await mobile.screenshot({ path: 'tests/artifacts/refine-validation/about-mobile-intro.png' });
     const overflow = await mobile.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     assert.ok(overflow <= 1, `no horizontal overflow, got ${overflow}`);
     await scrollProgress(mobile, 0);
@@ -257,19 +259,20 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     assert.equal(mobileLayout.stageHeight, 844);
     assert.ok(mobileLayout.checkpoints.every(point => point.width >= 44 && point.height >= 44), '44px tap targets');
     assert.ok(mobileLayout.checkpoints.every(point => point.y + point.height / 2 <= mobileLayout.panelTop + 1), 'checkpoints sit above the panel');
-    await mobile.screenshot({ path: 'tests/artifacts/about-mobile-route-start.png' });
+    await mobile.screenshot({ path: 'tests/artifacts/refine-validation/about-mobile-route-start.png' });
     await scrollProgress(mobile, 0.5);
     const mobileState = await activePanel(mobile);
     assert.equal(mobileState.index, 2);
     await mobile.waitForTimeout(450);
-    await mobile.screenshot({ path: 'tests/artifacts/about-mobile-route-mid.png' });
-    await mobile.locator('[data-checkpoint="5"]').click();
+    await mobile.screenshot({ path: 'tests/artifacts/refine-validation/about-mobile-route-mid.png' });
+    await mobile.locator('[data-checkpoint="2"]').focus();
+    await mobile.keyboard.press('End');
     await mobile.waitForFunction(() => {
       const progress = parseFloat(getComputedStyle(document.querySelector('[data-expedition]')).getPropertyValue('--expedition-progress'));
       return progress > 0.94 && document.querySelector('.experience-panel.is-active')?.dataset.panel === '5';
     });
     await mobile.waitForTimeout(450);
-    await mobile.screenshot({ path: 'tests/artifacts/about-mobile-route-end.png' });
+    await mobile.screenshot({ path: 'tests/artifacts/refine-validation/about-mobile-route-end.png' });
 
     // Rotate: the shared canvas and route geometry swap, and the same camp is
     // preserved. Return to mid-route for a landscape frame.
@@ -280,7 +283,7 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     const landscapeState = await activePanel(mobile);
     assert.equal(landscapeState.index, 2);
     await mobile.waitForTimeout(450);
-    await mobile.screenshot({ path: 'tests/artifacts/about-mobile-landscape.png' });
+    await mobile.screenshot({ path: 'tests/artifacts/refine-validation/about-mobile-landscape.png' });
     await mobile.close();
 
     // Compact phone: every checkpoint must still sit above the information
@@ -310,7 +313,7 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     assert.ok(compactLayout.points.every(point => point.width >= 44 && point.height >= 44));
     assert.ok(compactLayout.minDistance > 36, `checkpoint targets remain distinct, got ${compactLayout.minDistance}`);
     assert.ok(compactLayout.overflow <= 1);
-    await compact.screenshot({ path: 'tests/artifacts/about-mobile-compact.png' });
+    await compact.screenshot({ path: 'tests/artifacts/refine-validation/about-mobile-compact.png' });
     await compact.close();
 
     // Reduced motion gets the final plate and a static trail immediately.
@@ -324,8 +327,8 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     }));
     assert.ok(reducedState.covered);
     assert.ok(reducedState.static);
-    assert.equal(reducedState.dashOffset, 0, 'reduced-motion trail is fully drawn');
-    await reduced.screenshot({ path: 'tests/artifacts/about-reduced-motion.png' });
+    assert.ok(reducedState.dashOffset > 0, 'reduced-motion trail waits for scrolling');
+    await reduced.screenshot({ path: 'tests/artifacts/refine-validation/about-reduced-motion.png' });
     await reduced.close();
 
     // Data-saver: finished plate and static trail, no brush playback.
@@ -343,7 +346,7 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     }));
     assert.ok(saveState.static, 'data-saver uses the static presentation');
     assert.ok(saveState.covered);
-    assert.equal(saveState.dashOffset, 0, 'data-saver trail is static');
+    assert.ok(saveState.dashOffset > 0, 'data-saver trail waits for scrolling');
     await saveData.close();
 
     // No WebGL: the 2D mountain plate and the SVG route remain usable.
@@ -358,7 +361,9 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     assert.equal(await noWebgl.locator('.mountain-canvas').count(), 1);
     assert.equal(await noWebgl.locator('.checkpoint').count(), 6);
 
-    // The existing photo belt and lightbox below the expedition stay intact.
+    // The photo belt and lightbox now live beneath Follow the Journey.
+    assert.equal(await noWebgl.locator('#life').count(), 0);
+    await noWebgl.goto(base + '/stay-in-touch.html', { waitUntil: 'domcontentloaded' });
     await noWebgl.locator('#life').scrollIntoViewIfNeeded();
     await noWebgl.evaluate(() => {
       document.querySelector('.life-belt-set:not(.life-belt-set-clone) .life-photo').click();
@@ -376,6 +381,14 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     await home.waitForFunction(() => document.querySelector('header')?.dataset.stage === 'painted', null, { timeout: 45000 });
     assert.equal(await home.locator('.mountain-canvas').count(), 0, 'home never receives the mountain canvas');
     assert.equal(await home.locator('video').evaluate(video => video.paused), true);
+    await home.evaluate(() => { window.homeSky = document.querySelector('.cinematic-canvas'); });
+    await home.locator('#nav a[href="about.html"]').click();
+    await ready(home);
+    assert.ok(await home.evaluate(() => window.homeSky === document.querySelector('.cinematic-canvas')), 'home to About preserves the renderer');
+    await home.locator('#nav a[href="projects.html"]').click();
+    await home.waitForSelector('.project-grid-equal');
+    await home.waitForTimeout(400);
+    assert.equal(await home.locator('.mountain-canvas').count(), 0);
     await home.close();
 
     assert.deepEqual(failures, [], `page errors or failed requests: ${failures.join('\n')}`);

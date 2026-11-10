@@ -1,20 +1,36 @@
-import { PaintReveal } from './paint-reveal.js?v=10';
+import { MountainBrush } from './mountain-brush.js?v=1';
 
 const DESKTOP = {
   width: 1672,
   height: 941,
   image: 'assets/cinematic/Images/mountain-about-desktop.webp?v=1',
   viewBox: '0 0 1672 941',
-  path: 'M 168 788 C 246 762 246 724 322 708 C 398 692 386 648 458 626 C 530 604 512 566 582 544 C 648 523 650 488 710 466 C 764 447 758 406 802 392 C 824 385 830 364 846 338',
+  bounds: [112, 320, 1072, 328],
+  start: 'M 260 792',
+  legs: [
+    'C 254 750 388 742 350 680',
+    'C 302 625 355 610 448 616 C 520 623 580 621 570 590',
+    'C 560 559 475 562 501 538 C 532 510 654 551 650 515',
+    'C 646 486 713 486 751 469 C 790 452 796 440 755 440',
+    'C 699 441 726 411 774 398 C 818 385 819 367 839 350',
+  ],
 };
 const MOBILE = {
   width: 941,
   height: 1672,
   image: 'assets/cinematic/Images/mountain-about-mobile.webp?v=1',
   viewBox: '0 0 941 1672',
-  path: 'M 150 900 C 200 878 200 844 255 826 C 312 808 318 776 378 758 C 438 741 432 704 492 686 C 542 672 538 642 580 626 C 606 616 614 606 630 596',
+  bounds: [0, 568, 941, 340],
+  start: 'M 170 960',
+  legs: [
+    'C 145 920 360 932 340 880',
+    'C 322 840 190 840 220 795',
+    'C 253 746 418 805 510 791 C 554 785 615 793 600 760',
+    'C 576 711 413 717 450 665',
+    'C 473 633 530 646 560 590',
+  ],
 };
-const CHECKPOINTS = [0, 0.19, 0.38, 0.57, 0.76, 0.96];
+// Fractions are measured from the five terrain-defined legs, not uniform intervals.
 const REVEAL_DURATION = 1800;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const portrait = matchMedia('(orientation: portrait)');
@@ -45,10 +61,16 @@ function loadMountainImage(url, timeout = 4000) {
       reject(new Error('Mountain artwork timed out.'));
     }, timeout);
     image.decoding = 'async';
-    image.onload = () => {
-      clearTimeout(timer);
-      if (image.naturalWidth < 1) reject(new Error('Mountain artwork was empty.'));
-      else resolve(image);
+    image.onload = async () => {
+      try {
+        await image.decode();
+        if (image.naturalWidth < 1) throw new Error('Mountain artwork was empty.');
+        resolve(image);
+      } catch (error) {
+        reject(error);
+      } finally {
+        clearTimeout(timer);
+      }
     };
     image.onerror = () => {
       clearTimeout(timer);
@@ -71,10 +93,17 @@ function createController(section) {
   const panels = Array.from(section.querySelectorAll('[data-panel]'));
   const announcer = section.querySelector('[data-expedition-announcer]');
   let activeIndex = -1;
+  let pendingFocus = null;
   let routeLength = 1;
+  let screenLength = 1;
   let runwayTop = 0;
   let scrollDistance = 1;
   let measureFrame = 0;
+  let routeFrame = 0;
+  let lastProgress = -1;
+  let checkpoints = [0];
+  let sourceCache = null;
+  let paintedSpec = null;
   let pendingProgress = null;
   let disposed = false;
   let image = null;
@@ -110,9 +139,14 @@ function createController(section) {
     checkpointButtons.forEach((button, i) => {
       button.classList.toggle('is-active', i === index);
       button.classList.toggle('is-complete', i < index);
+      button.tabIndex = i <= index ? 0 : -1;
       if (i === index) button.setAttribute('aria-current', 'step');
       else button.removeAttribute('aria-current');
     });
+    if (pendingFocus === index) {
+      checkpointButtons[index]?.focus({ preventScroll: true });
+      pendingFocus = null;
+    }
 
     if (announcer) {
       const org = panels[index]?.querySelector('.experience-org')?.textContent.trim();
@@ -122,9 +156,18 @@ function createController(section) {
 
   function setPathGeometry() {
     if (!map || !basePath || !litPath || !glowPath) return;
-    currentSpec = spec();
-    map.setAttribute('viewBox', currentSpec.viewBox);
-    for (const path of [basePath, litPath, glowPath]) path.setAttribute('d', currentSpec.path);
+    const entry = spec();
+    map.setAttribute('viewBox', entry.viewBox);
+    let route = entry.start;
+    const lengths = [0];
+    for (const leg of entry.legs) {
+      route += ' ' + leg;
+      basePath.setAttribute('d', route);
+      lengths.push(basePath.getTotalLength());
+    }
+    for (const path of [litPath, glowPath]) path.setAttribute('d', route);
+    checkpoints = lengths.map(length => length / lengths.at(-1));
+    lastProgress = -1;
     routeLength = Math.max(1, litPath.getTotalLength());
     for (const path of [litPath, glowPath]) {
       path.style.strokeDasharray = `${routeLength}`;
@@ -137,13 +180,19 @@ function createController(section) {
     const stageRect = stage.getBoundingClientRect();
     const matrix = basePath.getScreenCTM();
     if (!matrix) return;
+    // Non-scaling strokes express dash lengths in screen units too. Without
+    // this conversion the portrait route lights ahead of the selected camp.
+    screenLength = routeLength * Math.hypot(matrix.a, matrix.b);
+    for (const path of [litPath, glowPath]) path.style.strokeDasharray = `${screenLength}`;
+    lastProgress = -1;
     const point = map.createSVGPoint();
     checkpointButtons.forEach((button, i) => {
-      const fraction = CHECKPOINTS[i] ?? i / Math.max(1, checkpointButtons.length - 1);
+      const fraction = checkpoints[i] ?? i / Math.max(1, checkpointButtons.length - 1);
       const position = basePath.getPointAtLength(routeLength * fraction);
       point.x = position.x;
       point.y = position.y;
       const screen = point.matrixTransform(matrix);
+      button.classList.toggle('label-left', (i === 1 || i === 3) && screen.x - stageRect.left > 230);
       button.style.left = `${screen.x - stageRect.left}px`;
       button.style.top = `${screen.y - stageRect.top}px`;
     });
@@ -152,7 +201,7 @@ function createController(section) {
   function measure() {
     if (disposed) return;
     measureFrame = 0;
-    setPathGeometry();
+    if (map?.getAttribute('viewBox') !== spec().viewBox) setPathGeometry();
     positionCheckpoints();
     runwayTop = runway ? runway.getBoundingClientRect().top + window.scrollY : 0;
     scrollDistance = Math.max(1, (runway?.offsetHeight || 1) - (stage?.offsetHeight || 1));
@@ -183,17 +232,23 @@ function createController(section) {
 
   function activeIndexFor(progress) {
     let index = 0;
-    for (let i = 0; i < CHECKPOINTS.length; i++) {
-      if (progress + 0.001 >= CHECKPOINTS[i]) index = i;
+    for (let i = 0; i < checkpoints.length; i++) {
+      if (progress + 0.001 >= checkpoints[i]) index = i;
     }
     return index;
   }
 
   function updateRoute() {
+    cancelAnimationFrame(routeFrame);
+    routeFrame = 0;
     if (disposed) return;
     const progress = clamp((window.scrollY - runwayTop) / scrollDistance, 0, 1);
+    if (progress === lastProgress) return;
+    lastProgress = progress;
     if (litPath && glowPath) {
-      const offset = staticMotion() ? 0 : routeLength * (1 - progress);
+      // Reduced motion skips automatic animation, but the trail still follows
+      // the visitor's scroll rather than showing the entire route on arrival.
+      const offset = screenLength * (1 - progress);
       litPath.style.strokeDashoffset = `${offset}`;
       glowPath.style.strokeDashoffset = `${offset}`;
     }
@@ -203,32 +258,17 @@ function createController(section) {
   }
 
   function onScroll() {
-    if (!disposed) updateRoute();
-  }
-
-  function drawImageCover(targetContext, source, width, height) {
-    if (!source) return;
-    const scale = Math.max(width / currentSpec.width, height / currentSpec.height);
-    const drawWidth = currentSpec.width * scale;
-    const drawHeight = currentSpec.height * scale;
-    targetContext.drawImage(
-      source,
-      (width - drawWidth) / 2,
-      (height - drawHeight) / 2,
-      drawWidth,
-      drawHeight,
-    );
+    if (!disposed && !routeFrame) routeFrame = requestAnimationFrame(updateRoute);
   }
 
   function drawMountain(mask) {
-    if (!canvas || !context || !image) return;
-    context.setTransform(1, 0, 0, 1, 0, 0);
+    if (!canvas || !context || !image || !sourceCache) return;
     context.globalCompositeOperation = 'source-over';
     context.clearRect(0, 0, canvasWidth, canvasHeight);
-    drawImageCover(context, image, canvasWidth, canvasHeight);
+    context.drawImage(sourceCache, 0, 0);
     if (mask) {
       context.globalCompositeOperation = 'destination-in';
-      context.drawImage(mask.canvas, 0, 0, canvasWidth, canvasHeight);
+      context.drawImage(mask.canvas, 0, 0);
       context.globalCompositeOperation = 'source-over';
     }
   }
@@ -239,18 +279,16 @@ function createController(section) {
     drawMountain(revealMask);
   }
 
-  function finishMountain(instant = false) {
+  function finishMountain() {
     if (disposed || mountainReady) return;
     mountainReady = true;
     clearTimeout(readyFallback);
     cancelAnimationFrame(revealFrame);
     revealFrame = 0;
-    if (instant) {
-      drawMountain(null);
-    } else {
-      revealMask?.finish();
-      drawMountain(revealMask);
-    }
+    // Only the final still uses display resolution. No full-frame composites.
+    setCanvasSize();
+    drawMountain(null);
+    revealMask = null;
     section.setAttribute('data-route-ready', '');
     scheduleMeasure();
     // Use the current scroll position so a restored deep link cannot snap the
@@ -271,59 +309,52 @@ function createController(section) {
   function startReveal() {
     if (disposed || mountainReady) return;
     if (!image) {
-      finishMountain(true);
+      finishMountain();
       return;
     }
     if (staticMotion()) {
-      finishMountain(true);
+      finishMountain();
       return;
     }
     cancelAnimationFrame(revealFrame);
     revealFrame = 0;
-    if (!revealMask) {
-      revealMask = new PaintReveal({ duration: REVEAL_DURATION, variant: 'mountain' });
-    }
-    const rect = art.getBoundingClientRect();
-    revealMask.resize(
-      Math.max(1, rect.width),
-      Math.max(1, rect.height),
-      currentSpec.width,
-      currentSpec.height,
-    );
+    revealMask = new MountainBrush(canvasWidth, canvasHeight, REVEAL_DURATION);
     drawMasked(0);
     revealStart = 0;
     pausedElapsed = 0;
-    revealFrame = requestAnimationFrame(revealTick);
+    if (!document.hidden) revealFrame = requestAnimationFrame(revealTick);
   }
 
   function setCanvasSize() {
     if (!canvas || !art) return false;
     const rect = art.getBoundingClientRect();
-    const width = Math.max(1, Math.round(rect.width));
-    const height = Math.max(1, Math.round(rect.height));
-    const ratio = Math.min(1.5, devicePixelRatio || 1);
-    const backingWidth = Math.max(1, Math.round(width * ratio));
-    const backingHeight = Math.max(1, Math.round(height * ratio));
-    if (canvasWidth === backingWidth && canvasHeight === backingHeight) return false;
-    canvasWidth = backingWidth;
-    canvasHeight = backingHeight;
-    canvas.width = backingWidth;
-    canvas.height = backingHeight;
+    const [x, y, width, height] = currentSpec.bounds;
+    const cover = Math.max(rect.width / currentSpec.width, rect.height / currentSpec.height);
+    // The canvas occupies only the transparent plate's non-empty band, using
+    // the exact same centered cover transform as the shared painting.
+    Object.assign(canvas.style, {
+      left: `${(rect.width - currentSpec.width * cover) / 2 + x * cover}px`,
+      top: `${(rect.height - currentSpec.height * cover) / 2 + y * cover}px`,
+      width: `${width * cover}px`, height: `${height * cover}px`,
+    });
+    const ratio = mountainReady ? Math.min(1.5, devicePixelRatio || 1) * cover : Math.min(900 / width, cover);
+    const w = Math.max(1, Math.ceil(width * ratio)), h = Math.max(1, Math.ceil(height * ratio));
+    if (canvasWidth === w && canvasHeight === h && paintedSpec === image) return false;
+    canvas.width = canvasWidth = w; canvas.height = canvasHeight = h;
+    sourceCache = document.createElement('canvas');
+    sourceCache.width = w; sourceCache.height = h;
+    if (image) sourceCache.getContext('2d').drawImage(image, x, y, width, height, 0, 0, w, h);
+    paintedSpec = image;
     return true;
   }
 
   function resizeMountain() {
-    if (disposed || !canvas) return;
-    if (!setCanvasSize()) return;
-    if (mountainReady) {
-      drawMountain(null);
-      return;
-    }
-    if (revealMask) {
-      const rect = art.getBoundingClientRect();
-      const elapsed = revealStart ? pausedElapsed + (performance.now() - revealStart) : 0;
-      revealMask.resize(rect.width, rect.height, currentSpec.width, currentSpec.height);
-      drawMasked(clamp(elapsed / REVEAL_DURATION, 0, 1) * REVEAL_DURATION);
+    if (disposed || !canvas || !setCanvasSize()) return;
+    if (mountainReady) drawMountain(null);
+    else if (revealMask) {
+      const elapsed = pausedElapsed + (revealStart ? performance.now() - revealStart : 0);
+      revealMask = new MountainBrush(canvasWidth, canvasHeight, REVEAL_DURATION);
+      drawMasked(elapsed);
     }
   }
 
@@ -335,11 +366,13 @@ function createController(section) {
       nextImage = await loadMountainImage(imageUrl(entry));
     } catch (error) {
       console.warn('Mountain artwork unavailable; keeping the original campsite.', error);
+      if (disposed || generation !== imageGeneration) return;
       image = null;
-      finishMountain(true);
+      finishMountain();
       return;
     }
     if (disposed || generation !== imageGeneration) return;
+    cancelAnimationFrame(revealFrame);
     image = nextImage;
     currentSpec = entry;
     setCanvasSize();
@@ -353,7 +386,7 @@ function createController(section) {
   function mountMountain() {
     if (!art) {
       // The content and route can still work if the shared backdrop is absent.
-      finishMountain(true);
+      finishMountain();
       return;
     }
     currentSpec = spec();
@@ -369,22 +402,10 @@ function createController(section) {
     art.appendChild(canvas);
     setCanvasSize();
     if (!context) {
-      finishMountain(true);
+      finishMountain();
       return;
     }
-    if (staticMotion()) {
-      // The final plate is shown immediately for reduced motion or save-data,
-      // and the route remains static.
-      loadMountainImage(imageUrl(currentSpec)).then(nextImage => {
-        if (disposed) return;
-        image = nextImage;
-        setCanvasSize();
-        drawMountain(null);
-        finishMountain(true);
-      }).catch(() => finishMountain(true));
-    } else {
-      useLandscape();
-    }
+    useLandscape();
   }
 
   function onVisibility() {
@@ -393,6 +414,7 @@ function createController(section) {
       pausedElapsed += performance.now() - (revealStart || performance.now());
       revealStart = 0;
       cancelAnimationFrame(revealFrame);
+      clearTimeout(readyFallback);
       revealFrame = 0;
     } else if (!revealFrame) {
       revealStart = 0;
@@ -405,7 +427,7 @@ function createController(section) {
     if (!button) return;
     const index = Number(button.dataset.checkpoint);
     if (!Number.isFinite(index)) return;
-    const target = runwayTop + (CHECKPOINTS[index] ?? 0) * scrollDistance;
+    const target = runwayTop + (checkpoints[index] ?? 0) * scrollDistance;
     window.scrollTo({
       top: target,
       behavior: staticMotion() ? 'auto' : 'smooth',
@@ -422,39 +444,37 @@ function createController(section) {
     else if (event.key === 'End') next = checkpointButtons.length - 1;
     else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = Math.max(0, index - 1);
     else next = Math.min(checkpointButtons.length - 1, index + 1);
-    checkpointButtons[next]?.focus();
+    if (next <= activeIndex) {
+      pendingFocus = null;
+      checkpointButtons[next]?.focus({ preventScroll: true });
+    } else {
+      // Keyboard users can advance to an undiscovered camp without placing
+      // invisible buttons in the tab order. Focus follows the arriving trail.
+      pendingFocus = next;
+      window.scrollTo({
+        top: runwayTop + checkpoints[next] * scrollDistance,
+        behavior: staticMotion() ? 'instant' : 'smooth',
+      });
+    }
   }
 
   function onMotionChange() {
     section.classList.toggle('is-static', staticMotion());
+    lastProgress = -1;
     if (staticMotion()) {
-      finishMountain(true);
-      updateRoute();
+      finishMountain();
     }
+    updateRoute();
   }
 
   function onConnectionChange() {
-    section.classList.toggle('is-static', staticMotion());
-    if (staticMotion()) finishMountain(true);
+    onMotionChange();
   }
 
   function onPortraitChange() {
-    if (mountainReady) {
-      imageGeneration++;
-      const previous = image;
-      currentSpec = spec();
-      loadMountainImage(imageUrl(currentSpec)).then(nextImage => {
-        if (disposed) return;
-        image = nextImage;
-        setCanvasSize();
-        drawMountain(null);
-        scheduleMeasure();
-      }).catch(() => {
-        if (!disposed) image = previous;
-      });
-    } else {
-      useLandscape();
-    }
+    // A generation ticket prevents a slow portrait decode winning a later
+    // landscape request during rapid rotation.
+    useLandscape();
     scheduleMeasure();
   }
 
@@ -464,7 +484,7 @@ function createController(section) {
     setPathGeometry();
     mountMountain();
     readyFallback = setTimeout(() => {
-      if (!disposed && !mountainReady) finishMountain(true);
+      if (!disposed && !mountainReady && !document.hidden) finishMountain();
     }, 6000);
     checkpointLayer?.addEventListener('click', onCheckpointClick);
     checkpointLayer?.addEventListener('keydown', onCheckpointKey);
@@ -484,6 +504,7 @@ function createController(section) {
     if (disposed) return;
     disposed = true;
     cancelAnimationFrame(measureFrame);
+    cancelAnimationFrame(routeFrame);
     cancelAnimationFrame(revealFrame);
     clearTimeout(readyFallback);
     checkpointLayer?.removeEventListener('click', onCheckpointClick);
