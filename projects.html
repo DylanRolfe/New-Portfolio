@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>projects</title>
+  <meta name="description" content="Hardware, AI, and experiments by Dylan Rolfe." />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=46" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=41" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html" aria-current="page">projects</a></li>
+        <li><a href="writing.html">writing</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="stay-in-touch.html">newsletter</a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+        <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+        <li><a href="resume.html">resume</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="section page-section projects">
+      <div class="container">
+        <div class="section-heading reveal">
+          <h1 class="section-title">things i've built</h1>
+        </div>
+
+        <div class="project-grid project-grid-equal">
+          <article class="project reveal">
+            <div class="project-media project-media-static">
+              <img src="Images/CanSat.jpg" width="2160" height="2880" alt="Electronics and wiring inside a CanSat prototype" loading="lazy" decoding="async" />
+            </div>
+            <div class="project-meta">
+              <h2>cansat</h2>
+              <p class="project-stack">hardware / aerospace</p>
+              <p class="project-tag muted">write-up coming soon</p>
+              <p class="project-desc">led the team building a soda-can-sized satellite; hand-soldered half of the flight board.</p>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <a class="project-media" href="https://medium.com/@dylanrolfe8/i-was-drowning-in-tasks-so-i-built-jarvis-to-manage-my-life-f81125c249f2" target="_blank" rel="noopener noreferrer" aria-label="read about organizo">
+              <img src="Images/Organizo%20New.webp" width="1400" height="706" alt="Organizo personal assistant workflow" loading="lazy" decoding="async" />
+            </a>
+            <div class="project-meta">
+              <h2><a href="https://medium.com/@dylanrolfe8/i-was-drowning-in-tasks-so-i-built-jarvis-to-manage-my-life-f81125c249f2" target="_blank" rel="noopener noreferrer">organizo <span class="muted">(jarvis)</span></a></h2>
+              <p class="project-stack">automation / ai</p>
+              <p class="project-desc">personal assistant that turns voice notes into tasks and manages email and calendar through telegram.</p>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <a class="project-media" href="https://medium.com/@dylanrolfe8/i-was-terrible-at-snake-so-i-built-an-ai-to-beat-the-game-for-me-f2ab45049b71" target="_blank" rel="noopener noreferrer" aria-label="read about snake ai">
+              <img src="Images/Snake%20AI%20New.webp" width="1400" height="824" alt="Snake AI game board" loading="lazy" decoding="async" />
+            </a>
+            <div class="project-meta">
+              <h2><a href="https://medium.com/@dylanrolfe8/i-was-terrible-at-snake-so-i-built-an-ai-to-beat-the-game-for-me-f2ab45049b71" target="_blank" rel="noopener noreferrer">snake ai</a></h2>
+              <p class="project-stack">machine learning / games</p>
+              <p class="project-desc">reinforcement-learning agent that taught itself to play snake — and eventually beat my high score.</p>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <a class="project-media" href="https://tksworld.notion.site/Consensus-Bio-2fa0b470b010805f94f6c238bc7eeadd" target="_blank" rel="noopener noreferrer" aria-label="read about consensus bio">
+              <img src="Images/Molecular%20Design%20Dashboard%20and%20Scatter%20Plot.png" width="1672" height="941" alt="Consensus Bio project interface" loading="lazy" decoding="async" />
+            </a>
+            <div class="project-meta">
+              <h2><a href="https://tksworld.notion.site/Consensus-Bio-2fa0b470b010805f94f6c238bc7eeadd" target="_blank" rel="noopener noreferrer">consensus bio</a></h2>
+              <p class="project-stack">ai / drug discovery</p>
+              <p class="project-desc">drug-discovery tool using cerebras for parallel model inference. built in a 48-hour sprint.</p>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <button class="project-media project-menu-trigger" type="button" aria-label="explore fuelgo project links" aria-haspopup="dialog" aria-controls="fuelgo-dialog">
+              <img src="Images/FuelGo%20(2).png" width="2752" height="1536" alt="FuelGo wildfire detection sensor mounted in a forest" loading="lazy" decoding="async" />
+            </button>
+            <div class="project-meta">
+              <h2>
+                <button class="project-title-btn project-menu-trigger" type="button" aria-haspopup="dialog" aria-controls="fuelgo-dialog">fuelgo</button>
+              </h2>
+              <p class="project-stack">hardware / iot / climate tech</p>
+              <p class="project-desc">a conceptual idea for solar-powered wildfire detection in remote terrain. starlink connectivity, no existing infrastructure. presented to 300+ people.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="fuelgo-dialog" id="fuelgo-dialog" aria-labelledby="fuelgo-dialog-title">
+    <div class="fuelgo-dialog-inner">
+      <button class="fuelgo-dialog-close" type="button" aria-label="close fuelgo menu">×</button>
+      <p class="fuelgo-dialog-kicker">project links</p>
+      <h2 id="fuelgo-dialog-title">fuelgo</h2>
+      <div class="fuelgo-options">
+        <a class="fuelgo-option" href="https://drive.google.com/file/d/1EF3TtyhLMRUF_RdfzeIRY_qD-F55WKXN/view" target="_blank" rel="noopener noreferrer">
+          <span class="fuelgo-option-label">one-pager</span><span class="fuelgo-option-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="fuelgo-option" href="https://v0-landing-page-design-eta-seven.vercel.app" target="_blank" rel="noopener noreferrer">
+          <span class="fuelgo-option-label">mockup website</span><span class="fuelgo-option-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="fuelgo-option" href="https://drive.google.com/file/d/1sQ0pIHUZWaDCfWtkNEJhpGmra8rmDQLN/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+          <span class="fuelgo-option-label">pitch deck</span><span class="fuelgo-option-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="script.js?v=31"></script>
+  <script src="assets/cinematic/site-nav.js?v=3"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=14" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

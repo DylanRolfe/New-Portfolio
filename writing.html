@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>writing</title>
+  <meta name="description" content="Field notes and essays by Dylan Rolfe." />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=46" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=41" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html">projects</a></li>
+        <li><a href="writing.html" aria-current="page">writing</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="stay-in-touch.html">newsletter</a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+        <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+        <li><a href="resume.html">resume</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="section page-section writing">
+      <div class="container">
+        <div class="section-heading reveal">
+          <h1 class="section-title">writing</h1>
+        </div>
+
+        <div class="project-grid project-grid-equal">
+          <article class="project reveal">
+            <a class="project-media"
+              href="https://medium.com/@dylanrolfe8/revolutionizing-vision-how-ai-is-empowering-the-blind-9fb2c3c4eed8"
+              target="_blank" rel="noopener noreferrer"
+              aria-label="read how image recognition can help people see">
+              <img src="Images/MNIST.webp" width="800" height="545" alt="A person with a white cane sitting on a park bench" loading="lazy" decoding="async" />
+            </a>
+            <div class="project-meta">
+              <h2>
+                <a href="https://medium.com/@dylanrolfe8/revolutionizing-vision-how-ai-is-empowering-the-blind-9fb2c3c4eed8" target="_blank" rel="noopener noreferrer">how image recognition can help people see</a>
+              </h2>
+              <p class="project-stack">ai / vision</p>
+              <p class="project-desc">how computer vision can describe the world for people who are blind.</p>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <a class="project-media"
+              href="https://medium.com/@dylanrolfe8/why-your-next-hand-could-feel-real-the-tech-behind-haptic-prosthetics-cb63879ab84d"
+              target="_blank" rel="noopener noreferrer"
+              aria-label="read why your next hand could feel real">
+              <img src="Images/Haptic.webp" width="1920" height="1081" alt="A person holding a ball with a bionic prosthetic hand" loading="lazy" decoding="async" />
+            </a>
+            <div class="project-meta">
+              <h2>
+                <a href="https://medium.com/@dylanrolfe8/why-your-next-hand-could-feel-real-the-tech-behind-haptic-prosthetics-cb63879ab84d" target="_blank" rel="noopener noreferrer">why your next hand could feel real</a>
+              </h2>
+              <p class="project-stack">hardware / health</p>
+              <p class="project-desc">the tech behind haptic prosthetics that can pass sensation back to the wearer.</p>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <a class="project-media" href="https://pacdose-automation.super.site/" target="_blank" rel="noopener noreferrer" aria-label="read about habguard-lite">
+              <img src="Images/HabGuard.png" width="420" height="237" alt="HABGuard-Lite water monitoring project" loading="lazy" decoding="async" />
+            </a>
+            <div class="project-meta">
+              <h2><a href="https://pacdose-automation.super.site/" target="_blank" rel="noopener noreferrer">habguard-lite</a></h2>
+              <p class="project-stack">sensors / automation</p>
+              <p class="project-desc">sensor-guided dosing that detects algal bloom toxins and responds automatically.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js?v=31"></script>
+  <script src="assets/cinematic/site-nav.js?v=3"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=14" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

@@ -1,177 +1,328 @@
-// Mobile navigation
+document.documentElement.classList.add('js');
+
+// Mobile navigation, scroll lock, and page widgets.
+// page:swap is fired when the top tabs change without reloading the night sky.
 (function () {
   const nav = document.getElementById('nav');
   const toggle = document.querySelector('.nav-toggle');
-  if (!nav || !toggle) return;
 
   function closeMenu() {
+    if (!nav || !toggle) return;
     nav.classList.remove('nav-open');
     document.body.classList.remove('menu-open');
     toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Open menu');
+    toggle.setAttribute('aria-label', 'open menu');
   }
 
-  toggle.addEventListener('click', function () {
-    const isOpen = nav.classList.toggle('nav-open');
-    document.body.classList.toggle('menu-open', isOpen);
-    toggle.setAttribute('aria-expanded', String(isOpen));
-    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-  });
-
-  document.querySelectorAll('.nav-links a').forEach(function (link) {
-    link.addEventListener('click', closeMenu);
-  });
-
-  window.addEventListener('resize', function () {
-    if (window.innerWidth > 700) closeMenu();
-  });
-})();
-
-// Give the navigation a quiet surface after leaving the hero.
-(function () {
-  const nav = document.getElementById('nav');
-  if (!nav) return;
-
-  function updateNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
-  }
-
-  updateNav();
-  window.addEventListener('scroll', updateNav, { passive: true });
-})();
-
-// Reveal content as it enters the viewport.
-(function () {
-  const elements = document.querySelectorAll('.reveal');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (reducedMotion || !('IntersectionObserver' in window)) {
-    elements.forEach(function (element) {
-      element.classList.add('visible');
+  if (nav && toggle) {
+    toggle.addEventListener('click', function () {
+      const isOpen = nav.classList.toggle('nav-open');
+      document.body.classList.toggle('menu-open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'close menu' : 'open menu');
     });
-    return;
+
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+      link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 700) closeMenu();
+    });
   }
 
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
+  let scrollLocked = false;
+  function lockScroll(event) {
+    if (document.body.classList.contains('menu-open')) return;
+    event.preventDefault();
+  }
+  function lockKey(event) {
+    const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+    if (keys.indexOf(event.key) === -1 || document.body.classList.contains('menu-open')) return;
+    const target = event.target;
+    if (target && target.closest && target.closest('button, a, input, textarea, select, summary')) return;
+    event.preventDefault();
+  }
+  function syncHomeScroll() {
+    const home = document.documentElement.classList.contains('page-home');
+    if (home && !scrollLocked) {
+      window.addEventListener('wheel', lockScroll, { passive: false });
+      window.addEventListener('touchmove', lockScroll, { passive: false });
+      window.addEventListener('keydown', lockKey);
+      scrollLocked = true;
+    } else if (!home && scrollLocked) {
+      window.removeEventListener('wheel', lockScroll);
+      window.removeEventListener('touchmove', lockScroll);
+      window.removeEventListener('keydown', lockKey);
+      scrollLocked = false;
+    }
+  }
+
+  // Hero: optional layers + subtle mouse parallax (transform only)
+  (function () {
+    const root = document.querySelector('[data-parallax-root]');
+    if (!root) return;
+
+    const layers = Array.prototype.slice.call(root.querySelectorAll('[data-parallax-depth]'));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+
+    layers.forEach(function (layer) {
+      const src = layer.getAttribute('data-layer-src');
+      if (!src) return;
+      const probe = new Image();
+      probe.onload = function () {
+        layer.style.backgroundImage = 'url("' + src + '")';
+        layer.style.backgroundSize = 'cover';
+        layer.style.backgroundPosition = 'center';
+        layer.classList.add('is-ready');
+        layer.removeAttribute('hidden');
+      };
+      probe.onerror = function () {
+        layer.classList.add('is-missing');
+        layer.setAttribute('hidden', '');
+      };
+      probe.src = src;
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -35px' });
 
-  elements.forEach(function (element) {
-    observer.observe(element);
-  });
-})();
+    if (reduced || coarse) return;
 
-// Open the three FuelGo links from either project trigger.
-(function () {
-  const dialog = document.getElementById('fuelgo-dialog');
-  const triggers = document.querySelectorAll('.project-menu-trigger');
-  if (!dialog || !dialog.showModal || !triggers.length) return;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let ticking = false;
 
-  let lastTrigger = null;
-  triggers.forEach(function (trigger) {
-    trigger.addEventListener('click', function () {
-      lastTrigger = trigger;
+    function render() {
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
+      layers.forEach(function (layer) {
+        if (layer.hasAttribute('hidden')) return;
+        const depth = Number(layer.getAttribute('data-parallax-depth') || 10);
+        const x = currentX * (depth / 18);
+        const y = currentY * (depth / 18);
+        layer.style.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) scale(1.08)';
+      });
+      ticking = false;
+    }
+
+    window.addEventListener('mousemove', function (event) {
+      const nx = (event.clientX / window.innerWidth - 0.5) * 2;
+      const ny = (event.clientY / window.innerHeight - 0.5) * 2;
+      targetX = nx * -16;
+      targetY = ny * -10;
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(render);
+      }
+    }, { passive: true });
+  })();
+
+  let revealObserver = null;
+  function mountReveal() {
+    if (revealObserver) {
+      revealObserver.disconnect();
+      revealObserver = null;
+    }
+    const elements = document.querySelectorAll('.reveal');
+    if (!elements.length) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      elements.forEach(function (el) { el.classList.add('visible'); });
+      return;
+    }
+
+    revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -35px' });
+
+    elements.forEach(function (el) { revealObserver.observe(el); });
+  }
+
+  let trailObserver = null;
+  function mountTrail() {
+    if (trailObserver) {
+      trailObserver.disconnect();
+      trailObserver = null;
+    }
+    const trail = document.querySelector('[data-trail]');
+    if (!trail || trail.dataset.wired === '1') return;
+
+    const rows = Array.prototype.slice.call(trail.querySelectorAll('.trail-row'));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    trail.dataset.wired = '1';
+
+    rows.forEach(function (row) {
+      const details = row.querySelector('details');
+      if (!details) return;
+      details.open = false;
+      details.addEventListener('toggle', function () {
+        details.setAttribute('aria-expanded', String(details.open));
+      });
+      details.setAttribute('aria-expanded', 'false');
+    });
+
+    if (!('IntersectionObserver' in window)) {
+      rows.forEach(function (row) { row.classList.add('is-active'); });
+      return;
+    }
+
+    trailObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) entry.target.classList.add('is-active');
+      });
+    }, { threshold: 0.45 });
+
+    rows.forEach(function (row) { trailObserver.observe(row); });
+
+    if (reduced) {
+      rows.forEach(function (row) { row.classList.add('is-active'); });
+    }
+  }
+
+  function mountBelt() {
+    const belt = document.querySelector('[data-life-belt]');
+    if (!belt || belt.dataset.wired === '1') return;
+
+    const track = belt.querySelector('.life-belt-track');
+    const set = belt.querySelector('.life-belt-set');
+    if (!track || !set) return;
+    belt.dataset.wired = '1';
+
+    function primeVideos(root) {
+      root.querySelectorAll('video').forEach(function (video) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.setAttribute('muted', '');
+        video.playsInline = true;
+        video.loop = true;
+        video.autoplay = true;
+        const attempt = video.play();
+        if (attempt && attempt.catch) attempt.catch(function () {});
+      });
+    }
+
+    primeVideos(set);
+
+    const clone = set.cloneNode(true);
+    clone.classList.add('life-belt-set-clone');
+    clone.setAttribute('aria-hidden', 'true');
+    clone.querySelectorAll('img').forEach(function (img) {
+      img.alt = '';
+    });
+    clone.querySelectorAll('button, a, video').forEach(function (el) {
+      el.setAttribute('tabindex', '-1');
+    });
+    track.appendChild(clone);
+    primeVideos(clone);
+  }
+
+  function mountLightbox() {
+    const dialog = document.getElementById('lightbox');
+    if (!dialog || !dialog.showModal || dialog.dataset.wired === '1') return;
+    dialog.dataset.wired = '1';
+
+    const image = dialog.querySelector('.lightbox-image');
+    const caption = dialog.querySelector('.lightbox-caption');
+    const closeBtn = dialog.querySelector('.lightbox-close');
+    const primaryTriggers = Array.prototype.slice.call(
+      document.querySelectorAll('.life-belt-set:not(.life-belt-set-clone) [data-lightbox-src]')
+    );
+    const triggers = primaryTriggers.length
+      ? primaryTriggers
+      : Array.prototype.slice.call(document.querySelectorAll('[data-lightbox-src]'));
+    const allTriggers = Array.prototype.slice.call(document.querySelectorAll('[data-lightbox-src]'));
+    let lastTrigger = null;
+
+    function resolveTrigger(trigger) {
+      const src = trigger.getAttribute('data-lightbox-src');
+      const match = triggers.find(function (item) {
+        return item.getAttribute('data-lightbox-src') === src;
+      });
+      return match || trigger;
+    }
+
+    function openLightbox(trigger) {
+      const resolved = resolveTrigger(trigger);
+      lastTrigger = resolved;
+      image.src = resolved.getAttribute('data-lightbox-src');
+      image.alt = resolved.getAttribute('data-lightbox-alt') || '';
+      const fig = resolved.closest('figure');
+      const cap = fig ? fig.querySelector('figcaption') : null;
+      caption.textContent = cap ? cap.textContent.trim() : '';
       dialog.showModal();
-      document.body.classList.add('fuelgo-open');
-      dialog.querySelector('.fuelgo-dialog-close').focus();
+      document.body.classList.add('lightbox-open');
+      closeBtn.focus();
+    }
+
+    allTriggers.forEach(function (trigger) {
+      trigger.addEventListener('click', function () { openLightbox(trigger); });
     });
-  });
 
-  dialog.querySelector('.fuelgo-dialog-close').addEventListener('click', function () {
-    dialog.close();
-  });
-  dialog.addEventListener('click', function (event) {
-    if (event.target === dialog) dialog.close();
-  });
-  dialog.addEventListener('close', function () {
-    document.body.classList.remove('fuelgo-open');
-    if (lastTrigger) lastTrigger.focus();
-  });
-})();
+    function closeLightbox() {
+      dialog.close();
+    }
 
-// Start the launch video from an explicit click so browsers allow its audio.
-(function () {
-  const frame = document.querySelector('.hobby-video-frame');
-  if (!frame) return;
-  const video = frame.querySelector('video');
-  const button = frame.querySelector('.video-sound-button');
-
-  button.addEventListener('click', function () {
-    video.muted = false;
-    video.volume = 1;
-    const attempt = video.play();
-    if (attempt && attempt.catch) attempt.catch(function () {});
-  });
-  video.addEventListener('playing', function () {
-    frame.classList.add('has-played');
-  });
-  video.addEventListener('ended', function () {
-    frame.classList.remove('has-played');
-  });
-})();
-
-// Let visitors see the gallery photos at full size without leaving the page.
-(function () {
-  const dialog = document.querySelector('.gallery-dialog');
-  const photos = Array.from(document.querySelectorAll('.hobby-photo'));
-  if (!dialog || !photos.length || !dialog.showModal) return;
-
-  const largeImage = dialog.querySelector('.gallery-image');
-  const caption = dialog.querySelector('.gallery-caption');
-  const count = dialog.querySelector('.gallery-count');
-  let currentIndex = 0;
-  let lastTrigger = null;
-  let touchStartX = 0;
-
-  function showPhoto(index) {
-    currentIndex = (index + photos.length) % photos.length;
-    const photo = photos[currentIndex];
-    const source = photo.querySelector('img');
-    largeImage.src = source.currentSrc || source.src;
-    largeImage.alt = source.alt;
-    caption.textContent = photo.closest('figure').querySelector('figcaption').childNodes[0].textContent.trim();
-    count.textContent = (currentIndex + 1) + ' / ' + photos.length;
+    closeBtn.addEventListener('click', closeLightbox);
+    dialog.addEventListener('click', function (event) {
+      if (event.target === dialog) closeLightbox();
+    });
+    dialog.addEventListener('cancel', function () {
+      document.body.classList.remove('lightbox-open');
+    });
+    dialog.addEventListener('close', function () {
+      document.body.classList.remove('lightbox-open');
+      image.removeAttribute('src');
+      if (lastTrigger) lastTrigger.focus();
+    });
   }
 
-  photos.forEach(function (photo, index) {
-    photo.addEventListener('click', function () {
-      lastTrigger = photo;
-      showPhoto(index);
-      dialog.showModal();
-      document.body.classList.add('gallery-open');
+  function mountFuelgo() {
+    const dialog = document.getElementById('fuelgo-dialog');
+    const triggers = document.querySelectorAll('.project-menu-trigger');
+    if (!dialog || !dialog.showModal || !triggers.length || dialog.dataset.wired === '1') return;
+    dialog.dataset.wired = '1';
+
+    let lastTrigger = null;
+    triggers.forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        lastTrigger = trigger;
+        dialog.showModal();
+        document.body.classList.add('fuelgo-open');
+        dialog.querySelector('.fuelgo-dialog-close').focus();
+      });
     });
-  });
 
-  dialog.querySelector('.gallery-close').addEventListener('click', function () {
-    dialog.close();
-  });
-  dialog.querySelector('.gallery-prev').addEventListener('click', function () {
-    showPhoto(currentIndex - 1);
-  });
-  dialog.querySelector('.gallery-next').addEventListener('click', function () {
-    showPhoto(currentIndex + 1);
-  });
+    dialog.querySelector('.fuelgo-dialog-close').addEventListener('click', function () {
+      dialog.close();
+    });
+    dialog.addEventListener('click', function (event) {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', function () {
+      document.body.classList.remove('fuelgo-open');
+      if (lastTrigger) lastTrigger.focus();
+    });
+  }
 
-  dialog.addEventListener('click', function (event) {
-    if (event.target === dialog) dialog.close();
-  });
-  dialog.addEventListener('keydown', function (event) {
-    if (event.key === 'ArrowLeft') showPhoto(currentIndex - 1);
-    if (event.key === 'ArrowRight') showPhoto(currentIndex + 1);
-  });
-  dialog.addEventListener('touchstart', function (event) {
-    touchStartX = event.changedTouches[0].screenX;
-  }, { passive: true });
-  dialog.addEventListener('touchend', function (event) {
-    const distance = event.changedTouches[0].screenX - touchStartX;
-    if (Math.abs(distance) > 55) showPhoto(currentIndex + (distance < 0 ? 1 : -1));
-  }, { passive: true });
-  dialog.addEventListener('close', function () {
-    document.body.classList.remove('gallery-open');
-    if (lastTrigger) lastTrigger.focus();
+  function mountPage() {
+    syncHomeScroll();
+    mountReveal();
+    mountTrail();
+    mountBelt();
+    mountLightbox();
+    mountFuelgo();
+  }
+
+  mountPage();
+  document.addEventListener('page:swap', function () {
+    closeMenu();
+    document.body.classList.remove('lightbox-open', 'fuelgo-open');
+    mountPage();
   });
 })();
