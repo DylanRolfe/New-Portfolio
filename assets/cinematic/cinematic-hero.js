@@ -1,4 +1,4 @@
-import { createPaintMotion } from './paint-motion.js?v=12';
+import { createPaintMotion } from './paint-motion.js?v=13';
 import { skyTime } from './sky-clock.js?v=9';
 
 function startHero(hero) {
@@ -84,6 +84,10 @@ function startHero(hero) {
     const started = scene.startReveal(() => {
       if (version !== filmVersion) return;
       hero.dataset.stage = 'painted';
+      // The painted surface now owns the view; release the decoder and held frame.
+      video.removeAttribute('src');
+      video.load();
+      held.width = held.height = 1;
     });
     if (!started) { showStill(); return; }
     hero.dataset.stage = 'revealing';
