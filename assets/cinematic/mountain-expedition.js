@@ -88,6 +88,9 @@ function createController(section) {
   const basePath = section.querySelector('[data-route-base]');
   const litPath = section.querySelector('[data-route-lit]');
   const glowPath = section.querySelector('[data-route-glow]');
+  // All pigment strokes share the existing geometry and scroll dash state.
+  const pigmentPaths = [glowPath, section.querySelector('[data-route-edge]'),
+    litPath, section.querySelector('[data-route-highlight]')].filter(Boolean);
   const checkpointLayer = section.querySelector('[data-checkpoints]');
   const checkpointButtons = Array.from(section.querySelectorAll('[data-checkpoint]'));
   const panels = Array.from(section.querySelectorAll('[data-panel]'));
@@ -165,11 +168,11 @@ function createController(section) {
       basePath.setAttribute('d', route);
       lengths.push(basePath.getTotalLength());
     }
-    for (const path of [litPath, glowPath]) path.setAttribute('d', route);
+    for (const path of pigmentPaths) path.setAttribute('d', route);
     checkpoints = lengths.map(length => length / lengths.at(-1));
     lastProgress = -1;
     routeLength = Math.max(1, litPath.getTotalLength());
-    for (const path of [litPath, glowPath]) {
+    for (const path of pigmentPaths) {
       path.style.strokeDasharray = `${routeLength}`;
       path.style.strokeDashoffset = `${routeLength}`;
     }
@@ -183,7 +186,7 @@ function createController(section) {
     // Non-scaling strokes express dash lengths in screen units too. Without
     // this conversion the portrait route lights ahead of the selected camp.
     screenLength = routeLength * Math.hypot(matrix.a, matrix.b);
-    for (const path of [litPath, glowPath]) path.style.strokeDasharray = `${screenLength}`;
+    for (const path of pigmentPaths) path.style.strokeDasharray = `${screenLength}`;
     lastProgress = -1;
     const point = map.createSVGPoint();
     checkpointButtons.forEach((button, i) => {
@@ -249,8 +252,7 @@ function createController(section) {
       // Reduced motion skips automatic animation, but the trail still follows
       // the visitor's scroll rather than showing the entire route on arrival.
       const offset = screenLength * (1 - progress);
-      litPath.style.strokeDashoffset = `${offset}`;
-      glowPath.style.strokeDashoffset = `${offset}`;
+      for (const path of pigmentPaths) path.style.strokeDashoffset = `${offset}`;
     }
     section.style.setProperty('--expedition-progress', progress.toFixed(4));
     section.classList.toggle('is-started', progress > 0.012);

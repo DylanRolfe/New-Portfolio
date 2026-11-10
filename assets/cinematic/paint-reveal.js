@@ -1,6 +1,7 @@
 // Persistent additive brush mask in CSS pixels. The artwork stays on the same
 // WebGL surface before, during and after the reveal.
-export const REVEAL_MS = 12100;
+const STROKE_PACE = 1.2;
+export const REVEAL_MS = 6400 * STROKE_PACE;
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 const random = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 function point(stroke, t) {
@@ -13,9 +14,8 @@ export class PaintReveal {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     this.width = 0; this.height = 0; this.elapsed = 0; this.complete = false;
-    // Hero and backdrop use the original 12-second plan. The About mountain
-    // plate opts into a shorter, landscape-focused plan built with the same
-    // brush renderer.
+    // The hero uses two parallel chains of the original brush gestures.
+    // An explicitly selected variant can still supply its own duration.
     this.duration = options.duration || REVEAL_MS;
     this.variant = options.variant || 'camp';
   }
@@ -121,6 +121,7 @@ export class PaintReveal {
     // Wet overlapping passes close dry gaps. The opaque core of each crosses
     // its whole tile, beyond both ends, covering corners without a final fade.
     const cols = w>h?4:2, rows = w>h?6:9;
+    const centerTile = Math.floor((rows - 1) / 2) * cols + Math.floor(cols / 2);
     const tiles = Array.from({length:cols*rows},(_,i)=>i);
     tiles.sort((a,b)=>random(a+172)-random(b+172));
     for (const i of tiles) {
@@ -128,12 +129,17 @@ export class PaintReveal {
       const bend=(i%2?1:-1)*.09/rows;
       let path=[[x-.2/cols,y],[x+.2/cols,y+bend],[x+.8/cols,y-bend],[x+1.2/cols,y]];
       if(i%2) path=path.reverse();
-      add(path,h/rows*1.7,380+200*random(i+123),true);
+      // This broad horizontal middle pass reads much faster than the finer
+      // gestures. Half its speed without changing any other stroke's timing.
+      const duration = (380 + 200 * random(i + 123)) * (i === centerTile ? 2 : 1);
+      add(path,h/rows*1.7,duration,true);
     }
-    // Keep each brush unhurried while another stroke begins every 0.2 seconds.
+    // Split the ordered plan in half. Both chains start together and keep their
+    // original geometry, bristles, and ordering. Stretch their timing by 20%.
+    const midpoint = Math.ceil(strokes.length / 2);
     strokes.forEach((s,i)=>{
-      s.start=i*200;
-      s.end=s.start+s.duration;
+      s.start=(i%midpoint)*200*STROKE_PACE;
+      s.end=s.start+s.duration*STROKE_PACE;
     });
     return strokes;
   }

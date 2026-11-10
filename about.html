@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=44" />
+  <link rel="stylesheet" href="styles.css?v=46" />
   <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=41" />
   <link rel="preload" as="image" href="assets/cinematic/Images/mountain-about-desktop.webp?v=1" media="(orientation: landscape)" />
   <link rel="preload" as="image" href="assets/cinematic/Images/mountain-about-mobile.webp?v=1" media="(orientation: portrait)" />
@@ -40,10 +40,11 @@
         <li><a href="projects.html">projects</a></li>
         <li><a href="writing.html">writing</a></li>
         <li><a href="about.html" aria-current="page">about</a></li>
-        <li><a href="stay-in-touch.html">follow the journey</a></li>
+        <li><a href="stay-in-touch.html">newsletter</a></li>
         <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
         <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
         <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+        <li><a href="resume.html">resume</a></li>
       </ul>
       <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
         <span></span><span></span>
@@ -67,11 +68,55 @@
 
           <svg class="expedition-map" data-expedition-map viewBox="0 0 1672 941"
                preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <defs>
+              <!-- Static pigment bands follow the same bounds in both route layouts. -->
+              <linearGradient id="trail-pigment" x1="15%" y1="100%" x2="85%" y2="0%">
+                <stop offset="0" stop-color="#6088b2" />
+                <stop offset=".18" stop-color="#83a9ce" />
+                <stop offset=".33" stop-color="#35577c" />
+                <stop offset=".48" stop-color="#a2b9c9" />
+                <stop offset=".62" stop-color="#6088b2" />
+                <stop offset=".78" stop-color="#83a9ce" />
+                <stop offset=".9" stop-color="#537797" />
+                <stop offset="1" stop-color="#c1cad0" />
+              </linearGradient>
+              <linearGradient id="trail-dry-edge" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0" stop-color="#83a9ce" stop-opacity=".12" />
+                <stop offset=".12" stop-color="#83a9ce" stop-opacity=".48" />
+                <stop offset=".17" stop-color="#6088b2" stop-opacity="0" />
+                <stop offset=".29" stop-color="#6088b2" stop-opacity=".38" />
+                <stop offset=".34" stop-color="#83a9ce" stop-opacity="0" />
+                <stop offset=".47" stop-color="#83a9ce" stop-opacity=".5" />
+                <stop offset=".54" stop-color="#6088b2" stop-opacity=".08" />
+                <stop offset=".66" stop-color="#6088b2" stop-opacity=".42" />
+                <stop offset=".73" stop-color="#83a9ce" stop-opacity="0" />
+                <stop offset=".86" stop-color="#83a9ce" stop-opacity=".4" />
+                <stop offset="1" stop-color="#c1cad0" stop-opacity=".12" />
+              </linearGradient>
+              <linearGradient id="trail-catchlight" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0" stop-color="#c1cad0" stop-opacity=".4" />
+                <stop offset=".12" stop-color="#c1cad0" stop-opacity=".15" />
+                <stop offset=".19" stop-color="#d4bf89" stop-opacity=".6" />
+                <stop offset=".23" stop-color="#d4bf89" stop-opacity="0" />
+                <stop offset=".37" stop-color="#c1cad0" stop-opacity=".45" />
+                <stop offset=".49" stop-color="#c1cad0" stop-opacity=".12" />
+                <stop offset=".55" stop-color="#d4bf89" stop-opacity=".55" />
+                <stop offset=".59" stop-color="#d4bf89" stop-opacity="0" />
+                <stop offset=".73" stop-color="#c1cad0" stop-opacity=".5" />
+                <stop offset=".85" stop-color="#c1cad0" stop-opacity=".15" />
+                <stop offset=".94" stop-color="#d4bf89" stop-opacity=".45" />
+                <stop offset="1" stop-color="#c1cad0" stop-opacity=".3" />
+              </linearGradient>
+            </defs>
             <path class="expedition-route-base" data-route-base
                   d="M 260 792 C 254 750 388 742 350 680 C 302 625 355 610 448 616 C 520 623 580 621 570 590 C 560 559 475 562 501 538 C 532 510 654 551 650 515 C 646 486 713 486 751 469 C 790 452 796 440 755 440 C 699 441 726 411 774 398 C 818 385 819 367 839 350" />
             <path class="expedition-route-glow" data-route-glow
                   d="M 260 792 C 254 750 388 742 350 680 C 302 625 355 610 448 616 C 520 623 580 621 570 590 C 560 559 475 562 501 538 C 532 510 654 551 650 515 C 646 486 713 486 751 469 C 790 452 796 440 755 440 C 699 441 726 411 774 398 C 818 385 819 367 839 350" />
+            <path class="expedition-route-edge" data-route-edge
+                  d="M 260 792 C 254 750 388 742 350 680 C 302 625 355 610 448 616 C 520 623 580 621 570 590 C 560 559 475 562 501 538 C 532 510 654 551 650 515 C 646 486 713 486 751 469 C 790 452 796 440 755 440 C 699 441 726 411 774 398 C 818 385 819 367 839 350" />
             <path class="expedition-route-lit" data-route-lit
+                  d="M 260 792 C 254 750 388 742 350 680 C 302 625 355 610 448 616 C 520 623 580 621 570 590 C 560 559 475 562 501 538 C 532 510 654 551 650 515 C 646 486 713 486 751 469 C 790 452 796 440 755 440 C 699 441 726 411 774 398 C 818 385 819 367 839 350" />
+            <path class="expedition-route-highlight" data-route-highlight
                   d="M 260 792 C 254 750 388 742 350 680 C 302 625 355 610 448 616 C 520 623 580 621 570 590 C 560 559 475 562 501 538 C 532 510 654 551 650 515 C 646 486 713 486 751 469 C 790 452 796 440 755 440 C 699 441 726 411 774 398 C 818 385 819 367 839 350" />
           </svg>
 
@@ -79,36 +124,42 @@
             <button class="checkpoint" type="button" data-checkpoint="0"
                     aria-label="clearcraft, 2023 to 2024" aria-controls="experience-panel-0">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-logo" aria-hidden="true"><img src="Images/DC91E65E-60D6-4CB9-AE53-1C65C5014FCE-removebg-preview.png" alt="" width="26" height="26" /></span>
               <span class="checkpoint-label" aria-hidden="true"><small>2023&ndash;24</small>clearcraft</span>
               <span class="checkpoint-number" aria-hidden="true">01</span>
             </button>
             <button class="checkpoint" type="button" data-checkpoint="1"
                     aria-label="junior achievement bc, 2024 to 2025" aria-controls="experience-panel-1">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-logo" aria-hidden="true"><img src="Images/JABC.png" alt="" width="26" height="26" /></span>
               <span class="checkpoint-label" aria-hidden="true"><small>2024&ndash;25</small>junior achievement bc</span>
               <span class="checkpoint-number" aria-hidden="true">02</span>
             </button>
             <button class="checkpoint" type="button" data-checkpoint="2"
                     aria-label="samsung and ikea, 2025" aria-controls="experience-panel-2">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-logo" aria-hidden="true"><img src="Images/samsung.jpg" alt="" width="26" height="26" /><img src="Images/IKEA.jpg" alt="" width="26" height="26" /></span>
               <span class="checkpoint-label" aria-hidden="true"><small>2025</small>samsung &amp; ikea</span>
               <span class="checkpoint-number" aria-hidden="true">03</span>
             </button>
             <button class="checkpoint" type="button" data-checkpoint="3"
                     aria-label="strive, 2025 to 2026" aria-controls="experience-panel-3">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-logo" aria-hidden="true"><img src="Images/STRIVE.png" alt="" width="26" height="26" /></span>
               <span class="checkpoint-label" aria-hidden="true"><small>2025&ndash;26</small>strive</span>
               <span class="checkpoint-number" aria-hidden="true">04</span>
             </button>
             <button class="checkpoint" type="button" data-checkpoint="4"
                     aria-label="the knowledge society, 2025 to 2026" aria-controls="experience-panel-4">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-logo" aria-hidden="true"><img src="Images/TKS.png" alt="" width="26" height="26" /></span>
               <span class="checkpoint-label" aria-hidden="true"><small>2025&ndash;26</small>the knowledge society</span>
               <span class="checkpoint-number" aria-hidden="true">05</span>
             </button>
             <button class="checkpoint checkpoint-summit" type="button" data-checkpoint="5"
                     aria-label="university of waterloo, 2026 to now" aria-controls="experience-panel-5">
               <span class="checkpoint-ring" aria-hidden="true"></span>
+              <span class="checkpoint-logo" aria-hidden="true"><img src="Images/waterloo-crest.png" alt="" width="26" height="26" /></span>
               <span class="checkpoint-label" aria-hidden="true"><small>2026&ndash;now</small>university of waterloo</span>
               <span class="checkpoint-number" aria-hidden="true">06</span>
             </button>
@@ -118,7 +169,7 @@
             <div class="expedition-panels">
               <article class="experience-panel" id="experience-panel-0" data-panel="0">
                 <div class="experience-panel-head">
-                  <img class="experience-logo" src="Images/clearcraft-mark.svg" width="128" height="128" alt="" />
+                  <img class="experience-logo" src="Images/ClearCraft.jpg" width="128" height="128" alt="" />
                   <p class="experience-meta"><span class="experience-dates">2023—24</span><span class="experience-camp">camp 01 / 06</span></p>
                 </div>
                 <h2 class="experience-org">clearcraft</h2>
@@ -197,8 +248,8 @@
   </main>
 
   <script src="script.js?v=31"></script>
-  <script src="assets/cinematic/site-nav.js?v=2"></script>
-  <script src="assets/cinematic/site-backdrop.js?v=12" type="module"></script>
+  <script src="assets/cinematic/site-nav.js?v=3"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=13" type="module"></script>
   <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
 </body>
 

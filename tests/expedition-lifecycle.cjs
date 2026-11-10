@@ -29,7 +29,7 @@ const out = 'tests/artifacts/refine-followup';
     await page.evaluate(() => document.fonts.ready);
     assert.ok(await page.evaluate(() => [...document.fonts].some(f => f.family === 'Expedition Plex' && f.status === 'loaded')), 'local IBM Plex Mono actually loads');
     assert.equal(await page.locator('[data-route-base]').evaluate(p=>getComputedStyle(p).stroke),'none');
-    assert.equal(await page.locator('.checkpoint:visible').count(),1);
+    assert.equal(await page.locator('.checkpoint:visible').count(),6, 'future camps remain dimly visible');
     await page.screenshot({path:`${out}/about-start.png`});
     await page.evaluate(()=>{window.originalSky=document.querySelector('.cinematic-canvas');window.originalArt=document.querySelector('.cinematic-art');});
     for(const i of [0,1,2,3,4,5,4,3,2,1,0]) await select(i);

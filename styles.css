@@ -907,7 +907,9 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
 
 .expedition-route-base,
 .expedition-route-glow,
-.expedition-route-lit {
+.expedition-route-lit,
+.expedition-route-edge,
+.expedition-route-highlight {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -920,14 +922,27 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
 }
 
 .expedition-route-glow {
-  opacity: 0.16;
-  stroke: #3b82f6;
-  stroke-width: 6;
+  /* Dark pigment foundation; no blur or luminous halo. */
+  opacity: 0.5;
+  stroke: #304c6a;
+  stroke-width: 4.6;
+}
+
+.expedition-route-edge {
+  stroke: url(#trail-dry-edge);
+  stroke-width: 3.2;
 }
 
 .expedition-route-lit {
-  stroke: #80b5ff;
-  stroke-width: 2;
+  stroke: url(#trail-pigment);
+  stroke-width: 2.3;
+  opacity: 0.94;
+}
+
+.expedition-route-highlight {
+  /* Localized warm catches and a pale centre, all using the same reveal dash. */
+  stroke: url(#trail-catchlight);
+  stroke-width: 0.75;
 }
 
 .expedition.is-live .expedition-checkpoints {
@@ -982,25 +997,25 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
 }
 
 .expedition.is-live .checkpoint.is-complete::before {
-  background: rgba(59, 130, 246, 0.7);
-  border-color: rgba(143, 185, 255, 0.8);
-  box-shadow: 0 0 9px rgba(59, 130, 246, 0.45);
+  background: #829db5;
+  border-color: #304c6a;
+  box-shadow: none;
 }
 
 .expedition.is-live .checkpoint.is-active::before {
-  background: #80b5ff;
-  border-color: #cfe4ff;
-  box-shadow: 0 0 12px rgba(128, 181, 255, 0.6);
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  width: 12px;
+  background: #bfced8;
+  border-color: #496681;
+  box-shadow: 0 0 5px rgba(212, 191, 137, 0.18);
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  width: 10px;
 }
 
 .expedition.is-live .checkpoint.is-active .checkpoint-ring {
-  border-color: rgba(128, 181, 255, 0.55);
-  height: 34px;
-  margin: -17px 0 0 -17px;
-  width: 34px;
+  border-color: rgba(156, 177, 193, 0.32);
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  width: 26px;
 }
 
 .expedition.is-live .checkpoint:focus-visible {
@@ -1036,24 +1051,43 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
 
 .checkpoint-label {
   position: absolute;
-  left: 37px;
-  top: 10px;
+  left: calc(50% + var(--label-x, 16px));
+  top: calc(50% + var(--label-y, -14px));
   width: max-content;
-  max-width: 190px;
+  max-width: 175px;
   text-align: left;
   font-family: 'Expedition Plex', var(--font);
-  font-size: clamp(.62rem, .85vw, .76rem);
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 400;
   line-height: 1.4;
-  color: #c2cbd8;
+  color: #94a6b8;
   text-shadow: 0 1px 6px #050505, 0 2px 14px #050505;
   pointer-events: none;
 }
-.checkpoint-label small { display: block; font-size: .62rem; font-weight: 400; color: #99a8bb; }
-.checkpoint.is-active .checkpoint-label { color: #80b5ff; }
-.checkpoint.label-left .checkpoint-label {
-  left: auto; right: 37px; text-align: right;
-}
+.checkpoint-label small { display: block; margin-bottom: 3px; font-size: 9px; font-weight: 400; letter-spacing: .03em; color: #7f91a5; }
+.checkpoint.is-active .checkpoint-label { color: #e3e7e5; font-weight: 600; font-size: 12px; }
+.checkpoint.is-active .checkpoint-label small { color: #c8b580; }
+.checkpoint[data-checkpoint="0"] { --label-x: 16px; --label-y: -13px; }
+.checkpoint[data-checkpoint="1"] { --label-x: 20px; --label-y: -19px; }
+.checkpoint[data-checkpoint="2"] { --label-x: 40px; --label-y: -10px; }
+.checkpoint[data-checkpoint="3"] { --label-x: 18px; --label-y: 4px; }
+.checkpoint[data-checkpoint="4"] { --label-x: 16px; --label-y: 24px; }
+.checkpoint[data-checkpoint="5"] { --label-x: 16px; --label-y: -20px; }
+.checkpoint[data-checkpoint="5"] .checkpoint-label { max-width: 125px; }
+
+.checkpoint-logo { display: none; width: max-content; position: absolute; align-items: center; gap: 3px; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+.checkpoint-logo img { flex: none; max-width: none; width: 26px; height: 26px; object-fit: contain; }
+.checkpoint-logo:has(img + img) img { width: 30px; height: 30px; }
+.checkpoint[data-checkpoint="0"] .checkpoint-logo { top: calc(50% + 26px); }
+.checkpoint[data-checkpoint="0"] .checkpoint-logo img { width: 42px; height: 42px; }
+.expedition.is-live .checkpoint.is-active .checkpoint-logo,
+.expedition.is-live .checkpoint.is-complete .checkpoint-logo { display: flex; }
+.expedition.is-live .checkpoint.is-active::before,
+.expedition.is-live .checkpoint.is-active .checkpoint-ring,
+.expedition.is-live .checkpoint.is-complete::before,
+.expedition.is-live .checkpoint.is-complete .checkpoint-ring { opacity: 0; }
+.checkpoint:not(.is-active):not(.is-complete) .checkpoint-label { visibility: hidden; }
+
 .checkpoint-number { display: none; }
 .checkpoint-summit .checkpoint-ring::after {
   content: ""; position: absolute; left: 50%; bottom: 24px;
@@ -1133,12 +1167,16 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
   visibility: visible;
 }
 
+.expedition.is-live[data-route-ready] .checkpoint { opacity: .32; visibility: visible; }
+
 .expedition.is-live[data-route-ready] .checkpoint.is-active,
 .expedition.is-live[data-route-ready] .checkpoint.is-complete {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
 }
+
+.expedition.is-live[data-route-ready] .checkpoint.is-complete { opacity: .72; }
 
 .expedition.is-live[data-route-ready] .expedition-cue {
   opacity: 1;
@@ -1424,9 +1462,22 @@ summary:focus-visible {
   .expedition.is-live .experience-summary { font-size: .76rem; line-height: 1.55; margin-top: 8px; max-width: 44ch; }
   .expedition.is-live .experience-panel .inline-link { font-size: .7rem; margin-top: 10px; }
   .expedition.is-live .expedition-cue { display: none; }
-  .checkpoint-label { display: none; }
-  .checkpoint-number { display: block; position: absolute; left: 33px; top: 13px; color: #c2cbd8; font: 10px 'Expedition Plex', monospace; text-shadow: 0 1px 6px #050505; pointer-events: none; }
+  .checkpoint-label { display: block; }
+  .checkpoint-number { display: none; }
   .checkpoint.is-active .checkpoint-number { color: #80b5ff; }
+}
+
+@media (orientation: portrait) {
+  .checkpoint-label { max-width: 140px; font-size: 10px; line-height: 1.35; }
+  .checkpoint.is-active .checkpoint-label { font-size: 11px; }
+  .checkpoint-label small { font-size: 8px; margin-bottom: 2px; }
+  .checkpoint[data-checkpoint="0"] { --label-x: 16px; --label-y: -4px; }
+  .checkpoint[data-checkpoint="1"] { --label-x: 18px; --label-y: 8px; }
+  .checkpoint[data-checkpoint="2"] { --label-x: 70px; --label-y: 8px; }
+  .checkpoint[data-checkpoint="3"] { --label-x: 18px; --label-y: -12px; }
+  .checkpoint[data-checkpoint="4"] { --label-x: calc(-1 * clamp(140px, 42vw, 166px)); --label-y: -27px; }
+  .checkpoint[data-checkpoint="5"] { --label-x: 16px; --label-y: -34px; }
+  .checkpoint[data-checkpoint="5"] .checkpoint-label { max-width: 118px; }
 }
 
 @media (max-height: 700px) and (orientation: portrait) {
@@ -1450,9 +1501,24 @@ summary:focus-visible {
   .expedition.is-live .expedition-info .experience-panel-head { min-height: 28px; }
   .expedition.is-live .experience-summary { font-size: .7rem; line-height: 1.5; }
   .expedition.is-live .experience-panel .inline-link { margin-top: 8px; font-size: .65rem; }
-  .checkpoint-label { display: none; }
-  .checkpoint-number { display: block; position: absolute; left: 33px; top: 13px; color: #c2cbd8; font: 10px 'Expedition Plex', monospace; }
+  .checkpoint-label { display: block; }
+  .checkpoint-number { display: none; }
   .expedition.is-live .expedition-cue { bottom: 12px; font-size: .6rem; }
+}
+
+@media (max-height: 620px) and (orientation: landscape) {
+  .checkpoint-label { font-size: 8px; max-width: 110px; line-height: 1.3; }
+  .checkpoint[data-checkpoint="0"] .checkpoint-logo { top: calc(50% + 15px); }
+  .checkpoint[data-checkpoint="0"] .checkpoint-logo img { width: 30px; height: 30px; }
+  .checkpoint.is-active .checkpoint-label { font-size: 9px; }
+  .checkpoint-label small { font-size: 7px; margin-bottom: 1px; }
+  .checkpoint[data-checkpoint="0"] { --label-x: 14px; --label-y: -5px; }
+  .checkpoint[data-checkpoint="1"] { --label-x: 16px; --label-y: 5px; }
+  .checkpoint[data-checkpoint="2"] { --label-x: 40px; --label-y: 8px; }
+  .checkpoint[data-checkpoint="3"] { --label-x: 16px; --label-y: -8px; }
+  .checkpoint[data-checkpoint="4"] { --label-x: -245px; --label-y: -4px; }
+  .checkpoint[data-checkpoint="5"] { --label-x: 16px; --label-y: -13px; }
+  .checkpoint[data-checkpoint="5"] .checkpoint-label { max-width: 95px; }
 }
 
 @media (max-width: 700px) {
@@ -1513,3 +1579,10 @@ summary:focus-visible {
   .home-bullets > li,
   .home-now li { white-space: normal; }
 }
+
+/* A paper preview scrolls with the page, framed by the shared campsite. */
+.resume-page { position: relative; z-index: 1; height: 100svh; height: 100dvh; padding: 92px 0 24px; overflow: hidden; }
+.resume-page .container { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: center; gap: 16px; }
+.resume-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; width: 100%; max-width: 820px; margin: 0; }
+.resume-heading .inline-link { flex: none; margin-top: 0; }
+.resume-document { display: block; width: 100%; max-width: 820px; height: 100%; min-height: 0; object-fit: contain; }

@@ -1,5 +1,5 @@
 import { BrushField } from './brush-field.js?v=7';
-import { PaintReveal, REVEAL_MS } from './paint-reveal.js?v=8';
+import { PaintReveal, REVEAL_MS } from './paint-reveal.js?v=9';
 
 async function program(gl, name, attributes, uniformNames) {
   const sources = await Promise.all(['vert','frag'].map(async ext => {
