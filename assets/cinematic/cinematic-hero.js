@@ -10,7 +10,7 @@ function startHero(hero) {
   const status = hero.querySelector('[role="status"]');
   const portrait = matchMedia(mobile.media);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const allowed = () => !reduced.matches && !navigator.connection?.saveData;
+  const allowed = () => !reduced.matches;
   const selected = () => portrait.matches ? mobile : painting;
   // Listen on document so the sky keeps receiving the pointer after this hero
   // node is left behind during a tab change.
@@ -20,6 +20,24 @@ function startHero(hero) {
   let handoff = false;
   let preparing = false;
   let frameRequest = 0;
+  let playButton;
+  function hidePlayButton() {
+    if (playButton) playButton.hidden = true;
+  }
+  function offerPlayback() {
+    if (!playButton) {
+      playButton = document.createElement('button');
+      playButton.type = 'button';
+      playButton.className = 'cinematic-play';
+      playButton.textContent = 'Play intro';
+      playButton.addEventListener('click', () => {
+        hidePlayButton();
+        playback();
+      });
+      hero.appendChild(playButton);
+    }
+    playButton.hidden = false;
+  }
   // These six-second assets contain a baked-in morph after the photographic
   // five-second mark. End the displayed cut here; never seek/reload at handoff.
   const cutEnd = () => Math.min(Number(video.dataset.photoEnd) || Infinity, video.duration || Infinity);
@@ -56,6 +74,7 @@ function startHero(hero) {
     if (status) status.textContent = 'Starry Night campsite painting.';
   }
   function showStill() {
+    hidePlayButton();
     handoff = true;
     filmVersion++;
     video.pause();
@@ -72,6 +91,7 @@ function startHero(hero) {
     if (preparing || handoff || hero.dataset.stage === 'revealing' || hero.dataset.stage === 'painted') return;
     if (away() || !onScreen()) return;
     preparing = true;
+    hidePlayButton();
     const version = filmVersion;
     video.pause();
     holdFrame();
@@ -97,8 +117,10 @@ function startHero(hero) {
     if (hero.dataset.stage !== 'playing' || preparing || atEnd()) return;
     if (away() || !onScreen()) { video.pause(); return; }
     const version = filmVersion;
-    video.play().catch(error => {
-      if (version === filmVersion && error.name !== 'AbortError') showStill();
+    video.play().then(hidePlayButton).catch(error => {
+      if (version !== filmVersion || hero.dataset.stage !== 'playing') return;
+      if (error.name === 'NotAllowedError') offerPlayback();
+      else if (error.name !== 'AbortError') beginReveal();
     });
     watchFrames();
   }
@@ -125,7 +147,7 @@ function startHero(hero) {
   });
   // Older browsers without video-frame callbacks still stop on the photo cut.
   video.addEventListener('timeupdate', () => { if (atEnd()) beginReveal(); });
-  video.addEventListener('error', () => { if (hero.dataset.stage === 'playing') showStill(); });
+  video.addEventListener('error', () => { if (hero.dataset.stage === 'playing') beginReveal(); });
   painting.addEventListener('load', () => scene.refresh());
   portrait.addEventListener('change', () => {
     if (hero.dataset.stage === 'playing' && !hero.hasAttribute('data-held-frame')) loadCut(video.currentTime || resumeTime);
@@ -136,9 +158,6 @@ function startHero(hero) {
   reduced.addEventListener('change', () => {
     if (!allowed()) showStill();
     else scene.refresh();
-  });
-  navigator.connection?.addEventListener('change', () => {
-    if (!allowed()) showStill();
   });
   function parkedSky() {
     return art.isConnected && !art.closest('[data-cinematic-hero]');
