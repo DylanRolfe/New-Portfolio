@@ -1,9 +1,9 @@
 import { BrushField } from './brush-field.js?v=7';
-import { PaintReveal, REVEAL_MS } from './paint-reveal.js?v=8';
+import { PaintReveal, REVEAL_MS } from './paint-reveal.js?v=10';
 
 async function program(gl, name, attributes, uniformNames) {
   const sources = await Promise.all(['vert','frag'].map(async ext => {
-    const response = await fetch(new URL('./shaders/'+name+'.'+ext+'?v=8',import.meta.url), {cache:'no-store'});
+    const response = await fetch(new URL('./shaders/'+name+'.'+ext+'?v=8',import.meta.url), {cache:'default'});
     if (!response.ok) throw new Error('Missing '+name+'.'+ext);
     return response.text();
   }));
@@ -66,6 +66,7 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
   const revealMs=REVEAL_MS, settleMs=2000;
   const revealMask=manual?new PaintReveal():null;
   let gl, pipelinePromise, passes, field, textures=[];
+  let maskWidth=0, maskHeight=0;
   let ticket=0, urlKey='', ready=false, animation=0, lastTime=0, previous=null, priming=null, flight=null, flightUrl='';
   let phase=manual?'hold':'live';
   let reveal=1, motion=1, brush=0, revealStart=0, settleStart=0, onRevealed=null, notified=false;
@@ -107,6 +108,7 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
       gl.activeTexture(gl.TEXTURE4);
       gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([255,255,255,255]));
       field=null;
+      maskWidth=0; maskHeight=0;
       if(revealMask) revealMask.width=0;
       if (gl.getError()!==gl.NO_ERROR) throw new Error('Texture upload failed');
       ready=true;
@@ -140,7 +142,12 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
         try { await painting.decode(); }
         catch { return false; }
         if (!motionAllowed()) return false;
-        return refresh();
+        const ok = await refresh();
+        if (ok && revealMask) {
+          const {width,height}=canvas.getBoundingClientRect();
+          if (width>1 && height>1) revealMask.resize(width,height,painting.naturalWidth,painting.naturalHeight);
+        }
+        return ok;
       })().finally(()=>{ priming=null; });
     }
     return priming;
@@ -161,11 +168,12 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
     if (phase==='reveal') {
       const t=Math.min(1,(clockNow-revealStart)/revealMs);
       reveal=t;
-      motion=0; brush=1;
-      if (t>=1) { reveal=1; brush=0; motion=0; phase='settle'; settleStart=clockNow; }
+      motion=0;
+      brush=1;
+      if (t>=1) { reveal=1; brush=0; motion=1; phase='settle'; settleStart=clockNow; }
     } else if (phase==='settle') {
       const t=Math.min(1,(clockNow-settleStart)/settleMs);
-      motion=t*t*(3-2*t);
+      motion=1;
       brush=0; reveal=1;
       if (t>=1) phase='live';
     } else if (phase==='live') {
@@ -193,7 +201,11 @@ export function createPaintMotion(hero,art,painting,selected,motionAllowed,point
       if(resized||changed) {
         gl.activeTexture(gl.TEXTURE4);
         gl.bindTexture(gl.TEXTURE_2D,textures[4]);
-        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,revealMask.canvas);
+        if (maskWidth!==revealMask.canvas.width || maskHeight!==revealMask.canvas.height) {
+          maskWidth=revealMask.canvas.width; maskHeight=revealMask.canvas.height;
+          gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,maskWidth,maskHeight,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+        }
+        gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,gl.RGBA,gl.UNSIGNED_BYTE,revealMask.canvas);
       }
     }
     const dpr=Math.min(devicePixelRatio||1,1.5,2300/Math.max(width,height));

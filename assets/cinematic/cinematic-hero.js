@@ -1,4 +1,4 @@
-import { createPaintMotion } from './paint-motion.js?v=11';
+import { createPaintMotion } from './paint-motion.js?v=14';
 import { skyTime } from './sky-clock.js?v=9';
 
 function startHero(hero) {
@@ -20,24 +20,6 @@ function startHero(hero) {
   let handoff = false;
   let preparing = false;
   let frameRequest = 0;
-  const completionKey = 'dylan-home-campsite-painted';
-  function alreadyPainted() {
-    try {
-      const referrer = document.referrer ? new URL(document.referrer) : null;
-      const internal = referrer && referrer.origin === location.origin && /\/(?:index|projects|writing|about|stay-in-touch)\.html$/.test(referrer.pathname);
-      const navigation = performance.getEntriesByType('navigation')[0];
-      if (!internal || navigation?.type === 'reload') {
-        sessionStorage.removeItem(completionKey);
-        return false;
-      }
-      return sessionStorage.getItem(completionKey) === '1';
-    }
-    catch { return false; }
-  }
-  function rememberPainting() {
-    try { sessionStorage.setItem(completionKey, '1'); }
-    catch { /* Keep the in-page completed state when storage is unavailable. */ }
-  }
   // These six-second assets contain a baked-in morph after the photographic
   // five-second mark. End the displayed cut here; never seek/reload at handoff.
   const cutEnd = () => Math.min(Number(video.dataset.photoEnd) || Infinity, video.duration || Infinity);
@@ -101,8 +83,11 @@ function startHero(hero) {
     handoff = true;
     const started = scene.startReveal(() => {
       if (version !== filmVersion) return;
-      rememberPainting();
       hero.dataset.stage = 'painted';
+      // The painted surface now owns the view; release the decoder and held frame.
+      video.removeAttribute('src');
+      video.load();
+      held.width = held.height = 1;
     });
     if (!started) { showStill(); return; }
     hero.dataset.stage = 'revealing';
@@ -175,13 +160,9 @@ function startHero(hero) {
     new IntersectionObserver(() => visibility()).observe(art);
   }
   if (!allowed()) showStill();
-  else if (alreadyPainted()) {
-    handoff = true;
-    hero.dataset.stage = 'painted';
-    announce();
-    scene.present();
-    scene.refresh();
-  } else {
+  else {
+    // A new document always plays the opening. Internal navigation restores
+    // the existing painted surface through site-nav without running this again.
     hero.dataset.stage = 'playing';
     loadCut(0);
     scene.prime();

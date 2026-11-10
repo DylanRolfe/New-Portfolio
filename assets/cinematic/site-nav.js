@@ -2,7 +2,7 @@
 // canvas, and the swirls snap back to the still before the clock catches up.
 // Once the sky is on screen, swap the page in place and keep that canvas.
 (function () {
-  const pagePattern = /\/(?:index|projects|writing|about|stay-in-touch)\.html$/;
+  const pagePattern = /\/(?:index|projects|writing|about|stay-in-touch|resume)\.html$/;
   let ticket = 0;
 
   function skyArt() {
