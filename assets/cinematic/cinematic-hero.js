@@ -20,24 +20,6 @@ function startHero(hero) {
   let handoff = false;
   let preparing = false;
   let frameRequest = 0;
-  let playButton;
-  function hidePlayButton() {
-    if (playButton) playButton.hidden = true;
-  }
-  function offerPlayback() {
-    if (!playButton) {
-      playButton = document.createElement('button');
-      playButton.type = 'button';
-      playButton.className = 'cinematic-play';
-      playButton.textContent = 'Play intro';
-      playButton.addEventListener('click', () => {
-        hidePlayButton();
-        playback();
-      });
-      hero.appendChild(playButton);
-    }
-    playButton.hidden = false;
-  }
   // These six-second assets contain a baked-in morph after the photographic
   // five-second mark. End the displayed cut here; never seek/reload at handoff.
   const cutEnd = () => Math.min(Number(video.dataset.photoEnd) || Infinity, video.duration || Infinity);
@@ -74,7 +56,6 @@ function startHero(hero) {
     if (status) status.textContent = 'Starry Night campsite painting.';
   }
   function showStill() {
-    hidePlayButton();
     handoff = true;
     filmVersion++;
     video.pause();
@@ -91,7 +72,6 @@ function startHero(hero) {
     if (preparing || handoff || hero.dataset.stage === 'revealing' || hero.dataset.stage === 'painted') return;
     if (away() || !onScreen()) return;
     preparing = true;
-    hidePlayButton();
     const version = filmVersion;
     video.pause();
     holdFrame();
@@ -117,10 +97,9 @@ function startHero(hero) {
     if (hero.dataset.stage !== 'playing' || preparing || atEnd()) return;
     if (away() || !onScreen()) { video.pause(); return; }
     const version = filmVersion;
-    video.play().then(hidePlayButton).catch(error => {
+    video.play().catch(error => {
       if (version !== filmVersion || hero.dataset.stage !== 'playing') return;
-      if (error.name === 'NotAllowedError') offerPlayback();
-      else if (error.name !== 'AbortError') beginReveal();
+      if (error.name !== 'AbortError') beginReveal();
     });
     watchFrames();
   }
@@ -129,6 +108,8 @@ function startHero(hero) {
     if (frameRequest) video.cancelVideoFrameCallback(frameRequest);
     frameRequest = 0;
     resumeTime = time;
+    video.muted = true;
+    video.defaultMuted = true;
     video.poster = selected().dataset.poster;
     video.src = selected().dataset.intro;
     video.load();
