@@ -6,6 +6,8 @@
   let ticket = 0;
 
   function skyArt() {
+    const hero = document.querySelector('[data-cinematic-hero]');
+    if (hero && hero.dataset.stage !== 'painted') return null;
     return document.querySelector('.cinematic-art[data-displaying-gl], .cinematic-art[data-gl-ready]');
   }
 
