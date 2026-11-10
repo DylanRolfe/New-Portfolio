@@ -22,7 +22,16 @@ function startHero(hero) {
   let frameRequest = 0;
   const completionKey = 'dylan-home-campsite-painted';
   function alreadyPainted() {
-    try { return sessionStorage.getItem(completionKey) === '1'; }
+    try {
+      const referrer = document.referrer ? new URL(document.referrer) : null;
+      const internal = referrer && referrer.origin === location.origin && /\/(?:index|projects|writing|about|stay-in-touch)\.html$/.test(referrer.pathname);
+      const navigation = performance.getEntriesByType('navigation')[0];
+      if (!internal || navigation?.type === 'reload') {
+        sessionStorage.removeItem(completionKey);
+        return false;
+      }
+      return sessionStorage.getItem(completionKey) === '1';
+    }
     catch { return false; }
   }
   function rememberPainting() {
