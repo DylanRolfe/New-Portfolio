@@ -10,17 +10,26 @@
   <meta property="og:title" content="dylan rolfe" />
   <meta property="og:description"
     content="Mechatronics student building hardware, AI tools, and useful things for the physical world." />
-  <meta property="og:image" content="Images/HeadShot2026.jpeg" />
+  <meta property="og:image" content="https://dylanrolfe.com/Images/667D7FBC-F48D-48D3-83C5-61EDBEB9421A%281%29.png" />
+  <meta property="og:image:width" content="1122" />
+  <meta property="og:image:height" content="1402" />
+  <meta property="og:image:alt" content="Dylan Rolfe's headshot" />
   <meta property="og:url" content="https://dylanrolfe.com" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.com/Images/667D7FBC-F48D-48D3-83C5-61EDBEB9421A%281%29.png" />
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
-  <link rel="preload" as="image" href="images/hero-hike.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/opening-desktop.webp" media="(orientation: landscape)" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/opening-mobile.webp" media="(orientation: portrait)" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/painting-desktop.webp" media="(orientation: landscape)" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/painting-mobile.webp" media="(orientation: portrait)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=34" />
+  <link rel="stylesheet" href="styles.css?v=46" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=46" />
+  <noscript><style>[data-stage="poster"] .cinematic-opening{visibility:hidden}</style></noscript>
 </head>
 
 <body>
@@ -33,9 +42,11 @@
         <li><a href="projects.html">projects</a></li>
         <li><a href="writing.html">writing</a></li>
         <li><a href="about.html">about</a></li>
-        <li><a href="stay-in-touch.html">stay in touch</a></li>
+        <li><a href="stay-in-touch.html">newsletter</a></li>
         <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+        <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
         <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+        <li><a href="resume.html">resume</a></li>
       </ul>
       <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
         <span></span><span></span>
@@ -44,24 +55,31 @@
   </nav>
 
   <main id="main" class="home-main">
-    <header class="hero" id="top">
-      <div class="hero-stage" data-parallax-root aria-hidden="true">
-        <div class="hero-layer hero-layer-sky" data-parallax-depth="6" data-layer-src="images/hero-sky.webp" hidden></div>
-        <div class="hero-layer hero-layer-mid is-ready" data-parallax-depth="12">
+    <header class="hero" id="top" data-cinematic-hero data-stage="poster">
+      <div class="cinematic-media" aria-hidden="true">
+        <canvas class="cinematic-hold"></canvas>
+        <div class="cinematic-art">
           <picture>
-            <img
-              src="images/hero-hike.jpg"
-              width="2160"
-              height="2880"
-              alt="alpine ridge above a sea of clouds — placeholder hike photo"
-              decoding="async"
-              fetchpriority="high"
-            />
+            <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                    data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png"
+                    data-intro="assets/cinematic/Images/hike-mobile.mp4" data-poster="assets/cinematic/Images/opening-mobile.webp">
+            <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+                 data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png"
+                 data-intro="assets/cinematic/Images/hike-desktop.mp4" data-poster="assets/cinematic/Images/opening-desktop.webp">
           </picture>
+          <canvas class="cinematic-canvas"></canvas>
         </div>
-        <div class="hero-layer hero-layer-fg" data-parallax-depth="18" data-layer-src="images/hero-fg.webp" hidden></div>
-        <div class="hero-scrim"></div>
+        <picture class="cinematic-opening">
+          <source media="(orientation: portrait)" srcset="assets/cinematic/Images/opening-mobile.webp">
+          <img src="assets/cinematic/Images/opening-desktop.webp" alt="">
+        </picture>
+        <video class="cinematic-video" autoplay muted playsinline preload="auto" data-photo-end="5">
+          <source src="assets/cinematic/Images/hike-mobile.mp4" media="(orientation: portrait)" type="video/mp4">
+          <source src="assets/cinematic/Images/hike-desktop.mp4" type="video/mp4">
+        </video>
+        <div class="cinematic-vignette"></div>
       </div>
+      <div class="hero-scrim"></div>
 
       <p class="hero-hud">
         49.4339° n, 123.0069° w · 1,441 m ·
@@ -92,10 +110,14 @@
           </ul>
         </div>
       </div>
+      <span class="cinematic-screenreader" role="status" aria-live="polite"></span>
     </header>
   </main>
 
-  <script src="script.js?v=23"></script>
+  <script src="script.js?v=31"></script>
+  <script src="assets/cinematic/site-nav.js?v=4"></script>
+  <script src="assets/cinematic/cinematic-hero.js?v=19" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
 </body>
 
 </html>
