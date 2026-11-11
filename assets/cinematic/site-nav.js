@@ -2,7 +2,7 @@
 // canvas, and the swirls snap back to the still before the clock catches up.
 // Once the sky is on screen, swap the page in place and keep that canvas.
 (function () {
-  const pagePattern = /\/(?:index|projects|writing|about|stay-in-touch|resume)\.html$/;
+  const pagePattern = /\/(?:(?:index|projects|writing|about|stay-in-touch|resume)\.html)?$/;
   let ticket = 0;
 
   function skyArt() {
@@ -42,8 +42,7 @@
     if (art.parentElement !== backdrop) backdrop.insertBefore(art, scrim);
   }
 
-  function placeInHero() {
-    const art = skyArt();
+  function placeInHero(art) {
     const hero = document.querySelector('[data-cinematic-hero]');
     const media = hero && hero.querySelector('.cinematic-media');
     if (!art || !media) return;
@@ -51,6 +50,14 @@
     if (placeholder && placeholder !== art) placeholder.replaceWith(art);
     else if (art.parentElement !== media) media.appendChild(art);
     hero.dataset.stage = 'painted';
+    const video = hero.querySelector('.cinematic-video');
+    if (video) {
+      video.autoplay = false;
+      video.pause();
+      video.querySelectorAll('source').forEach(source => source.remove());
+      video.removeAttribute('src');
+      video.load();
+    }
     const backdrop = document.querySelector('[data-site-backdrop]');
     if (backdrop && !backdrop.contains(art)) backdrop.remove();
   }
@@ -100,11 +107,14 @@
     if (mine !== ticket) return;
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const home = doc.documentElement.classList.contains('page-home');
+    // Capture the live surface before inserting the incoming poster-stage hero.
+    // skyArt() deliberately rejects heroes whose intro has not finished.
+    const art = skyArt();
     rememberPainting();
     if (!home) placeInBackdrop(doc);
     applyChrome(doc);
     swapContent(doc);
-    if (home) placeInHero();
+    if (home) placeInHero(art);
     if (historyMode === 'push') history.pushState({ sky: 1 }, '', url.href);
     window.scrollTo(0, 0);
     document.dispatchEvent(new Event('page:swap'));
@@ -121,6 +131,9 @@
       event.preventDefault();
       return;
     }
+    // Also remember departures during the intro and static/WebGL fallbacks.
+    rememberPainting();
+    document.dispatchEvent(new Event('hero:finish'));
     if (!skyArt()) return;
     event.preventDefault();
     navigate(url, 'push');
@@ -130,4 +143,6 @@
     if (!skyArt() || !pagePattern.test(location.pathname)) return;
     navigate(new URL(location.href), 'skip');
   });
+  // Visiting any subpage means subsequent visits home should skip the intro.
+  if (document.querySelector('[data-site-backdrop]')) rememberPainting();
 })();

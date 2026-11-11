@@ -58,6 +58,14 @@ function startHero(hero) {
   function announce() {
     if (status) status.textContent = 'Starry Night campsite painting.';
   }
+  function rememberPainting() {
+    try { sessionStorage.setItem('dylan-home-campsite-painted', '1'); }
+    catch { /* In-place navigation can still preserve the painted surface. */ }
+  }
+  function wasPainted() {
+    try { return sessionStorage.getItem('dylan-home-campsite-painted') === '1'; }
+    catch { return false; }
+  }
   function showStill() {
     clearTimeout(retryTimer);
     handoff = true;
@@ -69,6 +77,7 @@ function startHero(hero) {
     video.style.transition = '';
     scene.cancel();
     hero.dataset.stage = 'painted';
+    rememberPainting();
     announce();
     scene.refresh();
   }
@@ -89,6 +98,7 @@ function startHero(hero) {
     const started = scene.startReveal(() => {
       if (version !== filmVersion) return;
       hero.dataset.stage = 'painted';
+      rememberPainting();
       // The painted surface now owns the view; release the decoder and held frame.
       video.autoplay = false;
       video.querySelectorAll('source').forEach(source => source.remove());
@@ -184,6 +194,13 @@ function startHero(hero) {
   }
   document.addEventListener('visibilitychange', visibility);
   window.addEventListener('pageshow', visibility);
+  document.addEventListener('hero:finish', () => {
+    if (hero.dataset.stage !== 'painted') showStill();
+  });
+  // A history restore may bring back a document left midway through its intro.
+  window.addEventListener('pageshow', () => {
+    if (wasPainted() && hero.dataset.stage !== 'painted') showStill();
+  });
   // Some phone power-saving policies require a gesture. Retry on ordinary
   // page interaction without introducing an extra control or skipping film.
   document.addEventListener('touchend', playback, { passive: true });
@@ -191,10 +208,9 @@ function startHero(hero) {
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(() => visibility()).observe(art);
   }
-  if (!allowed()) showStill();
+  if (!allowed() || wasPainted()) showStill();
   else {
-    // A new document always plays the opening. Internal navigation restores
-    // the existing painted surface through site-nav without running this again.
+    // Play the opening only until completion or the first subpage departure.
     hero.dataset.stage = 'playing';
     loadCut(0);
     scene.prime();
