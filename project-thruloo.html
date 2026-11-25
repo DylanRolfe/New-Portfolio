@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThruLoo · Dylan Rolfe</title>
+  <meta name="description" content="ThruLoo: a 3D, walkable map of the University of Waterloo campus with tunnel and bridge routing, built by Dylan Rolfe and used by over 1,000 people." />
+  <link rel="canonical" href="https://dylanrolfe.ca/project-thruloo.html" />
+  <meta property="og:title" content="ThruLoo · Dylan Rolfe" />
+  <meta property="og:description" content="ThruLoo: a 3D, walkable map of the University of Waterloo campus with tunnel and bridge routing, built by Dylan Rolfe and used by over 1,000 people." />
+  <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
+  <meta property="og:url" content="https://dylanrolfe.ca/project-thruloo.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html" aria-current="page">projects</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="writing.html">writing</a></li>
+        <li><a href="resume.html">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <article class="section page-section case">
+      <div class="container case-container">
+        <div class="case-panel keep-case">
+          <a class="case-back" href="projects.html">← all projects</a>
+          <h1 class="section-title">thruloo</h1>
+          <p class="case-lede">A 3D model of the University of Waterloo campus that runs in the browser. Search any building or room, get the fastest walking route outdoors or through the tunnels, and watch a camera fly it so you know exactly how to get there.</p>
+          <dl class="case-facts">
+            <div><dt>role</dt><dd>Solo project: data pipeline, routing and 3D scene</dd></div>
+            <div><dt>when</dt><dd>November 2026</dd></div>
+            <div><dt>built with</dt><dd>TypeScript, Vite, 3D in the browser, OpenStreetMap data, A* routing</dd></div>
+            <div><dt>result</dt><dd>Live at thruloo.dylanrolfe.ca. <strong>Over 1,000 people</strong> have used it, with <strong>tens of students on it every day</strong>.</dd></div>
+          </dl>
+          <div class="case-media">
+            <figure class="case-figure">
+              <img src="Images/thruloo-flythrough.webp" width="1400" height="875" alt="ThruLoo flying a camera along a highlighted route between campus buildings, with step-by-step directions listed" loading="lazy" decoding="async" />
+              <figcaption>A camera flythrough of a route from REV to RCH 101, with the step-by-step directions on the left.</figcaption>
+            </figure>
+          </div>
+          <h2>what it does</h2>
+          <ul>
+            <li>Finds the fastest walking route between any two buildings or rooms, with distance, time and step-by-step directions down to which floor and which tunnel.</li>
+            <li>Offers three route types: outdoor, prefer indoor, or indoor only through the tunnels and bridges.</li>
+            <li>Lets you walk the campus in third person: in through a door, along the hallways, down the stairs and through the tunnels, with the buildings cut away around you.</li>
+            <li>Flies a camera along the route, and can follow your live location as you walk it.</li>
+            <li>Has its own phone layout, and any route can be shared as a link.</li>
+          </ul>
+          <h2>how it works</h2>
+          <ul>
+            <li>A data pipeline pulls the campus from OpenStreetMap, cleans and classifies it, and bakes it into a route graph in local metres, with doors.</li>
+            <li>Routing is an A* search with a cost profile for each route type, written as plain TypeScript with unit tests.</li>
+            <li>The indoor and tunnel network comes from the open-source WATIsGrass project by Ricky Qin and Manasva Katyal (GPL-3.0); ThruLoo generates its indoor route graph from that data.</li>
+            <li>Tests cover routing, graph building, the indoor import and real campus routes.</li>
+          </ul>
+          <h2>where it stands</h2>
+          <p>In beta and in daily use. ThruLoo is an independent student project and is not affiliated with the University of Waterloo.</p>
+          <div class="case-media case-media-pair case-media-wide">
+            <figure class="case-figure">
+              <img src="Images/thruloo-indoor-route.webp" width="1400" height="875" alt="ThruLoo map view with the tunnel network drawn and an indoor-only route from MC to RCH 101" loading="lazy" decoding="async" />
+              <figcaption>Map view with the tunnel network on: an indoor-only route from MC to RCH 101.</figcaption>
+            </figure>
+            <figure class="case-figure">
+              <img src="Images/thruloo.webp" width="1400" height="875" alt="ThruLoo third-person walking view of the campus" loading="lazy" decoding="async" />
+              <figcaption>Walking the campus in third person.</figcaption>
+            </figure>
+          </div>
+          <p class="case-links chip-row">
+            <a class="chip-link" href="https://thruloo.dylanrolfe.ca" target="_blank" rel="noopener noreferrer">try it ↗</a>
+            <a class="chip-link" href="https://github.com/DylanRolfe/ThruLoo" target="_blank" rel="noopener noreferrer">code on github ↗</a>
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="site-footer-links">
+          <li><a href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a></li>
+          <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+          <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+          <li><a href="stay-in-touch.html">newsletter</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=15" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

@@ -23,6 +23,10 @@ function startHero(hero) {
   let playPending = false;
   let retryTimer = 0;
   let retryCount = 0;
+  // The markup starts the film part-way in with a media fragment (#t=3.5), so the
+  // camera moves for about a second and a half before the painting takes over.
+  const introStart = Number(video.dataset.introStart) || 0;
+  const sameFilm = (a, b) => a.split('#')[0] === b.split('#')[0];
   // These six-second assets contain a baked-in morph after the photographic
   // five-second mark. End the displayed cut here; never seek/reload at handoff.
   const cutEnd = () => Math.min(Number(video.dataset.photoEnd) || Infinity, video.duration || Infinity);
@@ -144,17 +148,24 @@ function startHero(hero) {
     // Let HTML's muted inline autoplay start the first cut. Replacing src and
     // calling load() here would abort that initial browser-managed playback.
     // Only reload when rotating to a different cut.
-    if (time > 0 || (video.currentSrc && video.currentSrc !== intro)) {
+    if (time > 0 || (video.currentSrc && !sameFilm(video.currentSrc, intro))) {
       video.src = intro;
       video.load();
     }
     playback();
   }
+  function seekToStart() {
+    // Browsers honour #t=… themselves. This covers one that ignores it, when
+    // the server allows seeking; otherwise the film simply plays from the top.
+    if (!introStart || hero.dataset.stage !== 'playing' || video.currentTime >= introStart - 0.25) return;
+    const seekable = video.seekable;
+    if (seekable.length && seekable.end(seekable.length - 1) >= introStart) video.currentTime = introStart;
+  }
   video.addEventListener('loadedmetadata', () => {
     if (resumeTime > 0 && hero.dataset.stage === 'playing') {
       video.currentTime = Math.min(resumeTime, video.duration);
       resumeTime = 0;
-    }
+    } else seekToStart();
   });
   video.addEventListener('canplay', playback);
   video.addEventListener('playing', () => { retryCount = 0; watchFrames(); });
@@ -166,6 +177,12 @@ function startHero(hero) {
   // Older browsers without video-frame callbacks still stop on the photo cut.
   video.addEventListener('timeupdate', () => { if (atEnd()) beginReveal(); });
   video.addEventListener('error', () => { if (hero.dataset.stage === 'playing') beginReveal(); });
+  // A file that cannot be fetched reports its error on the <source>, not the
+  // <video>. When the last candidate fails there is no film: show the painting.
+  const lastSource = video.querySelector('source:last-of-type');
+  if (lastSource) lastSource.addEventListener('error', () => {
+    if (hero.dataset.stage === 'playing' && video.readyState === 0) showStill();
+  });
   painting.addEventListener('load', () => scene.refresh());
   portrait.addEventListener('change', () => {
     if (hero.dataset.stage === 'playing' && !hero.hasAttribute('data-held-frame')) loadCut(video.currentTime || resumeTime);
@@ -208,12 +225,20 @@ function startHero(hero) {
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(() => visibility()).observe(art);
   }
-  if (!allowed() || wasPainted()) showStill();
+  if (!allowed() || wasPainted() || navigator.connection?.saveData) showStill();
   else {
     // Play the opening only until completion or the first subpage departure.
     hero.dataset.stage = 'playing';
     loadCut(0);
     scene.prime();
+    // Every candidate file had already failed before this module ran.
+    if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showStill();
+    // A connection too slow to have the film playable after four seconds gets
+    // the painting instead of a stalled photo. Blocked autoplay is not affected:
+    // there the film is buffered and still waits for the first tap.
+    setTimeout(() => {
+      if (hero.dataset.stage === 'playing' && !preparing && !handoff && video.readyState < 3) showStill();
+    }, 4000);
   }
 }
 document.querySelectorAll('[data-cinematic-hero]').forEach(startHero);

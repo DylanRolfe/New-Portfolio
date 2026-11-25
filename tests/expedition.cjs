@@ -184,7 +184,7 @@ const chrome = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Ap
     await scrollProgress(desktop, 0.5);
     state = await activePanel(desktop);
     assert.equal(state.index, 2, 'halfway is Samsung & IKEA');
-    assert.equal(state.org, 'samsung & ikea');
+    assert.equal(state.org, 'samsung & ikea cases');
     assert.ok(state.dashOffset < state.dashLength);
     await desktop.waitForTimeout(450);
     await desktop.screenshot({ path: 'tests/artifacts/refine-validation/about-desktop-route-mid.png' });

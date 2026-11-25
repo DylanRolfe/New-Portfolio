@@ -4,15 +4,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>resume</title>
-  <meta name="description" content="Dylan Rolfe's resume." />
+  <title>Resume · Dylan Rolfe</title>
+  <meta name="description" content="Resume of Dylan Rolfe, first-year mechatronics engineering student at the University of Waterloo. Readable on the page, with the PDF to open or download." />
+  <link rel="canonical" href="https://dylanrolfe.ca/resume.html" />
+  <meta property="og:title" content="Resume · Dylan Rolfe" />
+  <meta property="og:description" content="Resume of Dylan Rolfe, first-year mechatronics engineering student at the University of Waterloo. Readable on the page, with the PDF to open or download." />
+  <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
+  <meta property="og:url" content="https://dylanrolfe.ca/resume.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=46" />
-  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=41" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
 </head>
 
 <body>
@@ -36,13 +45,12 @@
       <a class="nav-mark" href="index.html">dylan rolfe</a>
       <ul class="nav-links">
         <li><a href="projects.html">projects</a></li>
-        <li><a href="writing.html">writing</a></li>
         <li><a href="about.html">about</a></li>
-        <li><a href="stay-in-touch.html">newsletter</a></li>
-        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
-        <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
-        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+        <li><a href="writing.html">writing</a></li>
         <li><a href="resume.html" aria-current="page">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
       </ul>
       <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
         <span></span><span></span>
@@ -51,20 +59,127 @@
   </nav>
 
   <main id="main">
-    <section class="resume-page" aria-labelledby="resume-title">
-      <div class="container">
+    <section class="section page-section resume" aria-labelledby="resume-title">
+      <div class="container resume-container">
         <div class="resume-heading">
           <h1 class="section-title" id="resume-title">resume</h1>
-          <a class="inline-link" href="assets/dylan-rolfe-resume.pdf" download="dylan-rolfe-resume.pdf">download</a>
+          <p class="resume-actions chip-row">
+            <a class="chip-link chip-link-tan" href="assets/dylan-rolfe-resume.pdf" target="_blank" rel="noopener noreferrer">open pdf ↗</a>
+            <a class="chip-link" href="assets/dylan-rolfe-resume.pdf" download="dylan-rolfe-resume.pdf">download pdf</a>
+          </p>
         </div>
-        <img class="resume-document" src="assets/resume-page-1.webp" width="1836" height="2376"
-             alt="dylan rolfe's resume. the original pdf is available with the download link above." />
+
+        <div class="paper">
+          <header class="paper-top">
+            <p class="paper-name">DYLAN ROLFE</p>
+            <p>Waterloo Mechatronics Engineering | Seeking a summer 2027 internship</p>
+            <p>Waterloo, ON | hello@dylanrolfe.ca | <a href="https://dylanrolfe.ca">dylanrolfe.ca</a> | <a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin.com/in/dylanrolfe</a> | <a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github.com/DylanRolfe</a></p>
+          </header>
+
+          <section>
+            <h2>Education</h2>
+            <p class="paper-entry-head"><span><strong>University of Waterloo</strong> | Waterloo, ON</span><span class="paper-when">Sep 2026 – Apr 2031 (Expected)</span></p>
+            <p>Bachelor of Applied Science, Mechatronics Engineering (Co-op)</p>
+          </section>
+
+          <section>
+            <h2>Technical Skills</h2>
+            <p><strong>Hardware:</strong> ESP32/Arduino, LoRa radio, I2C/SPI sensors, hand soldering, 3D printing, SolidWorks (basic)</p>
+            <p><strong>Languages:</strong> Python, C++ (Arduino, basic)</p>
+            <p><strong>Tools:</strong> Git/GitHub, PyTorch, Next.js/React, Godot, n8n, technical documentation</p>
+          </section>
+
+          <section>
+            <h2>Hardware and Engineering Projects</h2>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>Moonwalker: 150 g Combat Robot</strong> | Weapon Design and Electronics, WATBOTS</span><span class="paper-when">Fall 2026</span></p>
+              <ul>
+                <li>Designed the vertical spinner weapon in 3 mm mild steel, cutting it from <strong>40 g to 28.6 g</strong> over <strong>four design iterations</strong> after team design review.</li>
+                <li>Ran <strong>2D stress simulations</strong> on each iteration to compare bending at the spoke-to-hub fillets, balanced the asymmetric blade with a counterweight, and exported the DXF for laser cutting.</li>
+                <li>Soldered and wired the electronics, assembled the robot, and coordinated tasks, costs and files for a <strong>5-person team</strong> through competition.</li>
+              </ul>
+            </div>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>CanSat Satellite Payload</strong> | Team Leader, CSDC Advanced</span><span class="paper-when">Sep 2025 – Apr 2026</span></p>
+              <ul>
+                <li>Led a <strong>4-person team</strong> through design, a <strong>$500 CAD</strong> budget, testing and launch in Lethbridge, AB; ran task delegation, documentation and milestone tracking.</li>
+                <li>Planned the payload sensor suite (temperature, pressure, humidity, CO2, IMU, GPS) and modeled the shell assembly in CAD.</li>
+                <li><strong>Hand-soldered half of the flight board</strong> when the custom PCB failed on arrival, then assembled all components, keeping the team on schedule for launch.</li>
+                <li>The ESP32 payload streamed telemetry over 915 MHz LoRa at <strong>4 Hz with zero dropouts</strong> in pre-launch testing.</li>
+              </ul>
+            </div>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>FinForge: 3D Rocket-Fin Design Simulator</strong> | 24-Hour Hackathon</span><span class="paper-when">Jun 2026</span></p>
+              <ul>
+                <li>Won <strong>1st place overall</strong> and <strong>"Most Likely to Become a Startup"</strong> with a Godot simulator built with 3 teammates, letting users tune fin geometry, materials, payload, fuel and wind to model rocket stability.</li>
+                <li>Wrote the launch physics, wind model, fin-configuration system, material database and camera tracking (<strong>30 of 66 team commits</strong>).</li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h2>Software Projects</h2>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>ThruLoo: 3D Campus Navigation</strong> | <a href="https://thruloo.dylanrolfe.ca">thruloo.dylanrolfe.ca</a></span><span class="paper-when">Nov 2026</span></p>
+              <ul>
+                <li>Built and launched a 3D, walkable map of the University of Waterloo campus with tunnel and bridge routing, used by <strong>1,000+ people</strong> with tens of daily users.</li>
+              </ul>
+            </div>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>BidNorth: Pre-Bid Readiness Checker</strong> | AF Hacks: Growing Canada</span><span class="paper-when">Sep 2026</span></p>
+              <ul>
+                <li>Co-built (team of 2) a <strong>Next.js</strong> web app that checks Canadian government tenders against a small business's evidence and flags disqualifiers before proposal work begins.</li>
+                <li>Owned the technical architecture and coding; selected as a <strong>Top 10 finalist</strong> and invited to pitch to the Ascendance Foundry team.</li>
+              </ul>
+            </div>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>Snake Reinforcement-Learning Agent</strong> | Personal Project</span><span class="paper-when">Apr 2025</span></p>
+              <ul>
+                <li>Trained a <strong>PyTorch</strong> deep Q-learning agent (11-feature state, 256-unit hidden layer) on a Pygame Snake game, reaching a <strong>record score of 74</strong> after 1,000 training games; tracked progress in Matplotlib and published a Medium write-up.</li>
+              </ul>
+            </div>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>Organizo: AI Personal Assistant</strong> | Personal Project</span><span class="paper-when">Oct 2025</span></p>
+              <ul>
+                <li>Built a Telegram voice/text assistant in <strong>n8n</strong> with OpenAI (GPT + Whisper) for calendar, email and tasks; <strong>cut AI calls per request from several to 1–2</strong>.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h2>Experience</h2>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>Director of Sponsorship</strong> | STRIVE Competition (Prosper Foundation), Vancouver, BC</span><span class="paper-when">Jul 2025 – Jul 2026</span></p>
+              <ul>
+                <li>Led sponsor and speaker outreach for a technology-focused business case competition drawing <strong>300+ attendees</strong>, securing partnerships with <strong>Microsoft Garage and Deloitte</strong> through sustained cold outreach.</li>
+              </ul>
+            </div>
+            <div class="paper-entry">
+              <p class="paper-entry-head"><span><strong>Volunteer Financial Literacy Educator</strong> | Junior Achievement BC, Vancouver, BC</span><span class="paper-when">2024 – Jun 2025</span></p>
+              <ul>
+                <li>Delivered <strong>four financial-literacy sessions</strong> to <strong>25+ Grade 5 students</strong>, including a hands-on money-management game and a class business built from scratch.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="site-footer-links">
+          <li><a href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a></li>
+          <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+          <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+          <li><a href="stay-in-touch.html">newsletter</a></li>
+        </ul>
+      </div>
+    </footer>
   </main>
 
-  <script src="script.js?v=31"></script>
-  <script src="assets/cinematic/site-nav.js?v=5"></script>
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
   <script src="assets/cinematic/site-backdrop.js?v=15" type="module"></script>
   <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
 </body>

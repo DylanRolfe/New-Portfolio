@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FuelGo · Dylan Rolfe</title>
+  <meta name="description" content="FuelGo: a system concept for solar-powered, satellite-connected wildfire sensing in remote terrain, pitched to Microsoft Garage Vancouver and a Deloitte managing director." />
+  <link rel="canonical" href="https://dylanrolfe.ca/project-fuelgo.html" />
+  <meta property="og:title" content="FuelGo · Dylan Rolfe" />
+  <meta property="og:description" content="FuelGo: a system concept for solar-powered, satellite-connected wildfire sensing in remote terrain, pitched to Microsoft Garage Vancouver and a Deloitte managing director." />
+  <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
+  <meta property="og:url" content="https://dylanrolfe.ca/project-fuelgo.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html" aria-current="page">projects</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="writing.html">writing</a></li>
+        <li><a href="resume.html">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <article class="section page-section case">
+      <div class="container case-container">
+        <div class="case-panel keep-case">
+          <a class="case-back" href="projects.html">← all projects</a>
+          <h1 class="section-title">fuelgo</h1>
+          <p class="case-lede">A concept for catching wildfire risk before ignition: solar-powered sensors that measure how dry the forest’s fuel actually is, relayed by satellite from terrain with no infrastructure.</p>
+          <dl class="case-facts">
+            <div><dt>status</dt><dd>System concept. No hardware was built.</dd></div>
+            <div><dt>context</dt><dd><a class="text-link" href="https://www.tks.world/" target="_blank" rel="noopener noreferrer">TKS</a> Moonshots</dd></div>
+            <div><dt>when</dt><dd>Feb 2025 – Jun 2025</dd></div>
+            <div><dt>result</dt><dd>Pitched to the lead of <strong>Microsoft Garage Vancouver</strong>, followed up in person with a <strong>Deloitte managing director</strong>, and presented to <strong>300+ attendees</strong> at a technology showcase.</dd></div>
+          </dl>
+          <div class="case-media">
+            <figure class="case-figure">
+              <img src="Images/fuelgo-site.webp" width="1400" height="875" alt="FuelGo mockup website hero: preventing wildfires before they start" loading="lazy" decoding="async" />
+              <figcaption>The mockup website we built to pitch the concept.</figcaption>
+            </figure>
+          </div>
+          <h2>the problem</h2>
+          <p>Wildfire management is mostly reactive. Agencies rely on outdated fuel maps, satellite imagery that arrives days late and weather forecasts, none of which measure conditions on the ground. Crews act after a fire has started.</p>
+          <h2>the design</h2>
+          <ul>
+            <li>Sensor nodes: solar-powered, ultra-low-power and hand-deployable, measuring dead fuel and soil moisture, air and ground temperature, humidity and barometric pressure.</li>
+            <li>Mesh network: each node relays data node to node until it reaches a transmission node, so losing one node does not break the chain.</li>
+            <li>Satellite uplink: transmission nodes carry Swarm satellite modems, so the network works where there is no cellular coverage.</li>
+            <li>Risk model: a cloud platform runs a threshold-based model on the readings and raises an alert when conditions cross a critical level, giving crews days of notice instead of hours.</li>
+          </ul>
+          <h2>who we pitched it to</h2>
+          <ul>
+            <li>The person who led <strong>Microsoft Garage in Vancouver</strong>.</li>
+            <li>A <strong>Deloitte managing director</strong>, in a follow-up meeting at his office to discuss the project’s feasibility and cost per square kilometre.</li>
+            <li><strong>300+ attendees</strong> at a technology showcase.</li>
+          </ul>
+          <p class="case-links chip-row">
+            <a class="chip-link" href="https://drive.google.com/file/d/1EF3TtyhLMRUF_RdfzeIRY_qD-F55WKXN/view" target="_blank" rel="noopener noreferrer">one-pager ↗</a>
+            <a class="chip-link" href="https://drive.google.com/file/d/1sQ0pIHUZWaDCfWtkNEJhpGmra8rmDQLN/view?usp=drive_link" target="_blank" rel="noopener noreferrer">pitch deck ↗</a>
+            <a class="chip-link" href="https://v0-landing-page-design-eta-seven.vercel.app" target="_blank" rel="noopener noreferrer">mockup website ↗</a>
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="site-footer-links">
+          <li><a href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a></li>
+          <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+          <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+          <li><a href="stay-in-touch.html">newsletter</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=15" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

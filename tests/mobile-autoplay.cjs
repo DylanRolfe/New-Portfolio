@@ -10,7 +10,7 @@ const errors=[];page.on('pageerror',e=>errors.push(e.message));
 if(mode==='mobile') await page.route('**/cinematic-hero.js*',async route=>{
   const response=await route.fetch();
   await page.waitForFunction(()=>document.querySelector('video')?.currentTime>0.2);
-  assert.equal(await page.locator('video').evaluate(v=>getComputedStyle(v).visibility),'visible');
+  assert.equal(await page.locator('.cinematic-video').evaluate(v=>getComputedStyle(v).visibility),'visible');
   assert.equal(await page.locator('[data-cinematic-hero]').getAttribute('data-stage'),'poster');
   await route.fulfill({response});
 });
@@ -38,11 +38,12 @@ await page.waitForFunction(()=>document.querySelector('[data-cinematic-hero]').d
 const state=await page.evaluate(()=>({time:document.querySelector('video').currentTime,attempts:window.playAttempts,source:document.querySelector('video').currentSrc,loads:window.loadCalls}));
 assert.ok(state.time>=4.9,JSON.stringify(state));
 assert.equal(state.loads,0,'startup must not reload the browser-selected video');
-assert.ok(state.source.endsWith(mode==='desktop'?'hike-desktop.mp4':'hike-mobile.mp4'));
+assert.ok(state.source.split('#')[0].endsWith(mode==='desktop'?'hike-desktop.mp4':'hike-mobile.mp4'));
+assert.ok(state.source.endsWith('#t=3.5'),'film starts three and a half seconds in');
 await page.waitForFunction(()=>document.querySelector('[data-cinematic-hero]').dataset.stage==='painted',null,{timeout:20000});
-assert.equal(await page.locator('video source').count(),0);
-assert.equal(await page.locator('video').evaluate(v=>v.hasAttribute('src')||v.autoplay),false);
-assert.equal(await page.locator('video').evaluate(v=>v.paused),true,'finished video must not restart from child sources');
+assert.equal(await page.locator('.cinematic-video source').count(),0);
+assert.equal(await page.locator('.cinematic-video').evaluate(v=>v.hasAttribute('src')||v.autoplay),false);
+assert.equal(await page.locator('.cinematic-video').evaluate(v=>v.paused),true,'finished video must not restart from child sources');
 assert.deepEqual(errors,[]);console.log('PASS',mode,JSON.stringify(state));await page.close();
 }
 }finally{await browser.close();}

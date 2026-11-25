@@ -45,23 +45,25 @@ const base = process.env.TEST_URL || 'http://127.0.0.1:8766';
       await page.evaluate(()=>window.keptSky=document.querySelector('.cinematic-canvas'));
       if (viewport.width<701) await page.locator('.nav-toggle').click();
       await page.locator('#nav a[href="resume.html"]').click();
-      await page.waitForSelector('img.resume-document');
-      await page.waitForFunction(()=>document.querySelector('.resume-document').complete);
+      await page.waitForSelector('.paper');
       assert.ok(await page.evaluate(()=>window.keptSky===document.querySelector('.cinematic-canvas')));
       assert.equal(await page.locator('iframe, embed, object').count(),0,'no PDF viewer controls');
-      assert.equal(await page.locator('.resume-heading a').textContent(),'download');
+      assert.equal(await page.locator('img.resume-document').count(),0,'resume is text, not a picture of text');
+      assert.ok((await page.locator('.paper').innerText()).includes('CanSat Satellite Payload'));
+      assert.equal(await page.locator('.resume-actions a').first().getAttribute('href'),'assets/dylan-rolfe-resume.pdf');
+      assert.equal(await page.locator('.resume-actions a[download]').count(),1);
       for (const size of [viewport,{width:360,height:640},{width:844,height:390}]) {
         await page.setViewportSize(size);
         await page.waitForTimeout(150);
         const fit=await page.evaluate(()=>{
-          const r=document.querySelector('.resume-document').getBoundingClientRect();
-          return {top:r.top,bottom:r.bottom,right:r.right,height:innerHeight,width:innerWidth,scroll:document.documentElement.scrollHeight-innerHeight};
+          const r=document.querySelector('.paper').getBoundingClientRect();
+          return {top:r.top+scrollY,right:r.right,width:innerWidth,overflow:document.documentElement.scrollWidth-innerWidth};
         });
-        assert.ok(fit.top>60 && fit.bottom<=fit.height+1 && fit.right<=fit.width && fit.scroll<=1,JSON.stringify(fit));
+        assert.ok(fit.top>60 && fit.right<=fit.width && fit.overflow<=1,JSON.stringify(fit));
       }
       assert.deepEqual(errors,[]);
       await page.close();
     }
-    console.log('PASS: parallel stroke chains, 20% slower pacing, desktop/mobile homepage completion, persistent sky, full paper preview, no resume scrolling.');
+    console.log('PASS: parallel stroke chains, 20% slower pacing, desktop/mobile homepage completion, persistent sky, text resume with PDF links, no sideways scrolling.');
   } finally {await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
