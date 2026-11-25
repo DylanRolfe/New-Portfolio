@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinForge · Dylan Rolfe</title>
+  <meta name="description" content="FinForge: a 3D rocket-fin design simulator that won 1st place overall at a 24-hour hackathon. Dylan Rolfe wrote the launch physics and wind model." />
+  <link rel="canonical" href="https://dylanrolfe.ca/project-finforge.html" />
+  <meta property="og:title" content="FinForge · Dylan Rolfe" />
+  <meta property="og:description" content="FinForge: a 3D rocket-fin design simulator that won 1st place overall at a 24-hour hackathon. Dylan Rolfe wrote the launch physics and wind model." />
+  <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
+  <meta property="og:url" content="https://dylanrolfe.ca/project-finforge.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html" aria-current="page">projects</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="writing.html">writing</a></li>
+        <li><a href="resume.html">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <article class="section page-section case">
+      <div class="container case-container">
+        <div class="case-panel keep-case">
+          <a class="case-back" href="projects.html">← all projects</a>
+          <h1 class="section-title">finforge</h1>
+          <p class="case-lede">A 3D rocket-fin design simulator <strong>built in 24 hours</strong>. Shape the fins, pick materials, set payload, fuel and wind, then launch the rocket and see how stable it flies.</p>
+          <dl class="case-facts">
+            <div><dt>role</dt><dd>Physics and simulation programming</dd></div>
+            <div><dt>team</dt><dd>4 people</dd></div>
+            <div><dt>when</dt><dd>June 2026, Project Stellar (24-hour hackathon)</dd></div>
+            <div><dt>built with</dt><dd>Godot 4, GDScript</dd></div>
+            <div><dt>result</dt><dd><strong>1st place overall</strong> and <strong>“Most Likely to Become a Startup”</strong>.</dd></div>
+          </dl>
+          <div class="case-media">
+            <figure class="case-figure case-figure-narrow">
+              <img src="Images/finforge-demo-frame.webp" width="404" height="720" alt="FinForge running on a laptop: rocket controls for payload, thrust, fuel and wind beside a 3D rocket in a desert scene" loading="lazy" decoding="async" />
+              <figcaption>A frame from the demo video: the launch controls and the rocket on the pad.</figcaption>
+            </figure>
+          </div>
+          <h2>what i did</h2>
+          <ul>
+            <li>Wrote the launch physics and the wind model that decide whether a design flies straight.</li>
+            <li>Built the fin-configuration system and the material database users pick from.</li>
+            <li>Wrote the camera tracking that follows the rocket in flight.</li>
+            <li>Made <strong>30 of the team’s 66 commits</strong>.</li>
+          </ul>
+          <h2>how it works</h2>
+          <ul>
+            <li>A fin editor turns the shape you draw into surface area, span, root and tip chord and a shape factor, with live readouts of stability, drag penalty and fin mass.</li>
+            <li>Those values feed a simplified physics model with thrust, gravity, fuel burn, wind, drag, payload mass, material effects and fin stabilisation torque, so the design changes the actual flight.</li>
+            <li>The launch runs in a 3D desert scene with a dashboard for tilt, speed, stability and maximum height.</li>
+          </ul>
+          <h2>what went wrong</h2>
+          <p>Scaling the rocket model up to look right broke the physics. We had to separate visual scale from physics scale, and keep the model simple enough to build in a day while fin shape, material, wind and payload still visibly mattered.</p>
+          <p class="case-links chip-row">
+            <a class="chip-link" href="https://www.youtube.com/watch?v=LhonvyH_35U" target="_blank" rel="noopener noreferrer">watch the demo video ↗</a>
+            <a class="chip-link" href="https://github.com/DylanRolfe/ProjectStellar" target="_blank" rel="noopener noreferrer">code on github ↗</a>
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="site-footer-links">
+          <li><a href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a></li>
+          <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+          <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+          <li><a href="stay-in-touch.html">newsletter</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=15" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

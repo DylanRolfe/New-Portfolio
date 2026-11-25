@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moonwalker · Dylan Rolfe</title>
+  <meta name="description" content="Moonwalker: a 150 g combat robot built with WATBOTS at the University of Waterloo. Dylan Rolfe designed the steel spinner blade, wired the electronics and assembled the robot." />
+  <link rel="canonical" href="https://dylanrolfe.ca/project-moonwalker.html" />
+  <meta property="og:title" content="Moonwalker · Dylan Rolfe" />
+  <meta property="og:description" content="Moonwalker: a 150 g combat robot built with WATBOTS at the University of Waterloo. Dylan Rolfe designed the steel spinner blade, wired the electronics and assembled the robot." />
+  <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
+  <meta property="og:url" content="https://dylanrolfe.ca/project-moonwalker.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html" aria-current="page">projects</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="writing.html">writing</a></li>
+        <li><a href="resume.html">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <article class="section page-section case">
+      <div class="container case-container">
+        <div class="case-panel keep-case">
+          <a class="case-back" href="projects.html">← all projects</a>
+          <h1 class="section-title">moonwalker</h1>
+          <p class="case-lede">A 150 g “fairyweight” combat robot with a vertical spinning blade, built with WATBOTS, the University of Waterloo’s combat robotics design team.</p>
+          <dl class="case-facts">
+            <div><dt>role</dt><dd>Weapon design, electronics, assembly, team coordination</dd></div>
+            <div><dt>team</dt><dd>5 people, WATBOTS</dd></div>
+            <div><dt>when</dt><dd>Fall 2026</dd></div>
+            <div><dt>built with</dt><dd>3 mm mild steel blade (laser cut), PLA+ and TPU printed chassis</dd></div>
+            <div><dt>result</dt><dd>Competed. Lost fight 1, forfeited fight 2.</dd></div>
+          </dl>
+          <div class="case-media">
+            <figure class="case-figure">
+              <img src="Images/moonwalker.webp" width="1700" height="1267" alt="Moonwalker, a small purple and black combat robot with a vertical spinner disc at the front" loading="lazy" decoding="async" />
+              <figcaption>Moonwalker: 150 g of steel, PLA+ and TPU.</figcaption>
+            </figure>
+          </div>
+          <div class="case-media case-media-pair">
+            <figure class="case-figure">
+              <img src="Images/moonwalker-blade.webp" width="1100" height="1467" alt="The three-spoke steel spinner blade, with its single tooth, mounted on a brushless motor" loading="lazy" decoding="async" />
+              <figcaption>The three-spoke blade on its motor. The counterweight opposite the tooth keeps it balanced.</figcaption>
+            </figure>
+            <figure class="case-figure">
+              <img src="Images/moonwalker-soldering.webp" width="1100" height="1467" alt="Dylan soldering a drive motor at an electronics bench, with the blade and printed parts beside him" loading="lazy" decoding="async" />
+              <figcaption>Soldering the drive motors, with the blade and printed chassis parts on the bench.</figcaption>
+            </figure>
+          </div>
+          <h2>what i did</h2>
+          <ul>
+            <li>Designed the weapon: a 60 mm vertical spinner in 3 mm mild steel, the material the competition rules require.</li>
+            <li>Took the blade from an eight-spoke, <strong>39.9 g</strong> first prototype through five-, four- and three-spoke versions to <strong>28.6 g</strong>, after design review asked for fewer, thicker spokes and a target of about 28 g.</li>
+            <li>Ran 2D stress simulations on every version to compare bending at the spoke-to-hub fillets, and estimated hits from TPU, PLA, aluminium and hardened-steel opponents.</li>
+            <li>Added a counterweight for the asymmetric tooth so the blade is balanced about the spin axis, sized the bore to 5.05 mm for the motor shaft, and exported the DXF for laser cutting.</li>
+            <li>Soldered and wired the electronics and assembled the robot.</li>
+            <li>Kept the team organised with to-do lists, cost tracking and shared files, and helped with the chassis design.</li>
+          </ul>
+          <h2>stress-testing the blade</h2>
+          <p>I compared every version with a 2D linear stress model of the 3 mm plate: a hit on the tooth face plus a <strong>14,000 RPM</strong> spin. It is a way to compare shapes, not proof of strength, and none of it was physically tested.</p>
+          <div class="case-media">
+            <figure class="case-figure case-figure-plot">
+              <a href="Images/moonwalker-fea-fillet.webp" target="_blank" rel="noopener noreferrer"><img src="Images/moonwalker-fea-fillet.webp" width="1540" height="1375" alt="Stress plots of two early blade versions: a sharp corner at the tooth root shows a red hot spot, a rounded one does not" loading="lazy" decoding="async" /></a>
+              <figcaption>An early version had a sharp corner at the root of the tooth. Rounding it cut the predicted peak stress from <strong>4,901 MPa to 893 MPa</strong> under a 3 kN hit, at almost the same weight (35.8 g and 35.1 g). <span class="plot-hint">Click to enlarge.</span></figcaption>
+            </figure>
+            <figure class="case-figure case-figure-plot">
+              <a href="Images/moonwalker-fea-final.webp" target="_blank" rel="noopener noreferrer"><img src="Images/moonwalker-fea-final.webp" width="1700" height="1107" alt="Outlines and stress plots of the five-spoke, four-spoke and three-spoke blade candidates" loading="lazy" decoding="async" /></a>
+              <figcaption>The last three candidates. Four spokes at 29.9 g peaked at 449 MPa under a 1 kN hit. Three thicker spokes saved another 1.3 g, for <strong>28.6 g</strong>, but peaked at 691 MPa. The three-spoke blade is the one we cut. <span class="plot-hint">Click to enlarge.</span></figcaption>
+            </figure>
+            <figure class="case-figure case-figure-plot">
+              <a href="Images/moonwalker-fea-opponents.webp" target="_blank" rel="noopener noreferrer"><img src="Images/moonwalker-fea-opponents.webp" width="1700" height="564" alt="Stress plots of the eight-spoke blade in mild steel against TPU, PLA, aluminium and hardened steel opponents" loading="lazy" decoding="async" /></a>
+              <figcaption>The eight-spoke version in mild steel against four kinds of opponent. Hatched areas are past the yield point of mild steel (250 MPa): comfortable against TPU, marginal against PLA, and well past yield against aluminium or hardened steel. <span class="plot-hint">Click to enlarge.</span></figcaption>
+            </figure>
+          </div>
+          <h2>what went wrong</h2>
+          <ul>
+            <li>A few days before the event the robot was <strong>10 g over the 150 g limit</strong>, with almost no room inside for the electronics. We redesigned it the day before and reprinted and rewired the whole robot.</li>
+            <li>On competition day it did not run for <strong>four hours</strong>. Each fix exposed the next problem: solder joints, dead motors, wiring.</li>
+            <li>It was front-heavy, so its nose dug into the arena floor. It drove better backwards, which is where the name comes from.</li>
+            <li>It was flipped and lost its first fight. A motor died over lunch, and in the second fight screws worked loose and we had to forfeit.</li>
+          </ul>
+          <h2>what i’d do differently</h2>
+          <p>Leave a weight buffer from the start, plan space for wiring in CAD instead of fitting it in afterwards, test the full robot earlier, and use thread locker on every screw.</p>
+          <h2>what i learned</h2>
+          <p>With a fixed material, geometry is your only lever: every gram you remove costs strength somewhere. And things rarely work the first time, so planning for failure and debugging fast matter as much as the design.</p>
+          <div class="case-media">
+            <figure class="case-figure">
+              <video controls playsinline preload="none" poster="Images/moonwalker-fight-poster.webp" width="1280" height="720">
+                <source src="Images/moonwalker-fight.mov" type="video/mp4">
+              </video>
+              <figcaption>Testing the weapon’s strength: the spinner sends a block flying (video, 7 s).</figcaption>
+            </figure>
+          </div>
+          <details class="case-more">
+            <summary>the weapon design, in more detail</summary>
+            <p>For our 150 g fairyweight I designed a vertical spinner weapon, inspired by the robot Ferris Wheel. The competition rules required 3 mm mild steel, so every design choice was a trade-off between weight, strength and balance.</p>
+            <p>My first prototype had eight spokes and came in at about 40 g. When the reviewers looked at it, they told me to use fewer, thicker spokes and to cut the weight to around 28 g. I iterated through a five-spoke version, a four-spoke version and a three-spoke version, and shrank the blade to 60 mm across. For each version I ran 2D stress simulations to compare where it would bend, especially at the spoke-to-hub fillets, and I estimated what impacts against PLA, TPU and metal opponents would do to it.</p>
+            <p>Because the tooth is asymmetric, I added a counterweight and balanced the blade in CAD so its centre of mass sits on the spin axis, which keeps it from vibrating. I sized the bore to 5.05 mm to fit the motor shaft and exported the final DXF for laser cutting.</p>
+            <p>The biggest thing I learned is that with a fixed material, geometry is your only lever, and every gram you remove costs you strength somewhere. Iterating on feedback quickly mattered more than getting it perfect the first time.</p>
+            <div class="case-media">
+            <figure class="case-figure case-figure-plot">
+              <a href="Images/moonwalker-fea-mounting.webp" target="_blank" rel="noopener noreferrer"><img src="Images/moonwalker-fea-mounting.webp" width="1700" height="1105" alt="Stress plots of three mounting options: a bolted hub, a clamped eight-spoke blade and a solid disc" loading="lazy" decoding="async" /></a>
+              <figcaption>Three ways to mount the blade, under a 3 kN hit: a bolted hub (40.3 g), a clamped eight-spoke blade (39.9 g) and a solid disc (56.2 g). The solid disc had the lowest peak stress but weighed 16 g more. <span class="plot-hint">Click to enlarge.</span></figcaption>
+            </figure>
+            <figure class="case-figure case-figure-plot">
+              <a href="Images/moonwalker-fea-five-spoke.webp" target="_blank" rel="noopener noreferrer"><img src="Images/moonwalker-fea-five-spoke.webp" width="1700" height="1101" alt="Outlines and stress plots of the eight-spoke blade and two five-spoke candidates" loading="lazy" decoding="async" /></a>
+              <figcaption>Eight spokes (39.9 g) against two five-spoke candidates (35.1 g and 32.9 g). Thinner spokes saved weight but raised the peak stress from 339 MPa to 690 MPa. <span class="plot-hint">Click to enlarge.</span></figcaption>
+            </figure>
+            <figure class="case-figure case-figure-plot">
+              <a href="Images/moonwalker-fea-opponents-chart.webp" target="_blank" rel="noopener noreferrer"><img src="Images/moonwalker-fea-opponents-chart.webp" width="1131" height="660" alt="Bar chart of estimated peak stress against four opponent materials, with the yield strength of four steels marked" loading="lazy" decoding="async" /></a>
+              <figcaption>Estimated peak stress for each opponent material against the yield strength of four steels. Bars are a typical hit and whiskers are the range. <span class="plot-hint">Click to enlarge.</span></figcaption>
+            </figure>
+            </div>
+          </details>
+        </div>
+      </div>
+    </article>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="site-footer-links">
+          <li><a href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a></li>
+          <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+          <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+          <li><a href="stay-in-touch.html">newsletter</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=15" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

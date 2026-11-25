@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BidNorth · Dylan Rolfe</title>
+  <meta name="description" content="BidNorth: a Next.js app that checks Canadian government tenders against a small business's evidence. Top-10 finalist at AF Hacks; Dylan Rolfe owned the architecture and code." />
+  <link rel="canonical" href="https://dylanrolfe.ca/project-bidnorth.html" />
+  <meta property="og:title" content="BidNorth · Dylan Rolfe" />
+  <meta property="og:description" content="BidNorth: a Next.js app that checks Canadian government tenders against a small business's evidence. Top-10 finalist at AF Hacks; Dylan Rolfe owned the architecture and code." />
+  <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
+  <meta property="og:url" content="https://dylanrolfe.ca/project-bidnorth.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html" aria-current="page">projects</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="writing.html">writing</a></li>
+        <li><a href="resume.html">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <article class="section page-section case">
+      <div class="container case-container">
+        <div class="case-panel keep-case">
+          <a class="case-back" href="projects.html">← all projects</a>
+          <h1 class="section-title">bidnorth</h1>
+          <p class="case-lede">A pre-bid readiness check for Canadian small businesses. It compares a government tender with the evidence a company can actually show and flags disqualifiers before any proposal work begins.</p>
+          <dl class="case-facts">
+            <div><dt>role</dt><dd>Technical architecture and coding</dd></div>
+            <div><dt>team</dt><dd>2 people</dd></div>
+            <div><dt>when</dt><dd>September 2026, AF Hacks: Growing Canada</dd></div>
+            <div><dt>built with</dt><dd>Next.js, TypeScript</dd></div>
+            <div><dt>result</dt><dd><strong>Top 10 finalist</strong>; invited to pitch to the Ascendance Foundry team.</dd></div>
+          </dl>
+          <div class="case-media">
+            <figure class="case-figure">
+              <img src="Images/bidnorth-cover.webp" width="1600" height="1023" alt="BidNorth cover: bid smarter, find your edge, beside a sample readiness ledger for an energy-retrofit tender" loading="lazy" decoding="async" />
+              <figcaption>The cover: a sample readiness ledger for an energy-retrofit tender.</figcaption>
+            </figure>
+          </div>
+          <h2>what i did</h2>
+          <ul>
+            <li>Owned the technical architecture and wrote the code, in a team of two.</li>
+            <li>Built the check that compares a tender’s requirements with the evidence a business can actually show, so disqualifiers surface before anyone starts writing a proposal.</li>
+          </ul>
+          <h2>how it works</h2>
+          <ul>
+            <li>A company declares its evidence once: registrations, insurance, past projects, clearances.</li>
+            <li>Each mandatory requirement in a tender comes back as verified, missing evidence, needs human review, or a hard stop.</li>
+            <li>The mandatory items gate the result. Any hard stop means “do not commit proposal resources yet”, any gap means “fix gaps first”, and only a fully verified set means “ready to prepare a bid”. A secondary score can never override those gates.</li>
+            <li>The check is deterministic and unit-tested. An optional AI coach explains each gap in plain language and falls back to built-in guidance when it is unavailable.</li>
+          </ul>
+          <h2>where it stands</h2>
+          <p>A hackathon build that proves the idea. The readiness logic works end to end on 12 illustrative tender records modelled on public procurement notices, not live government data, and the interface has not been refined for real users yet.</p>
+          <div class="case-media case-media-pair case-media-wide">
+            <figure class="case-figure">
+              <img src="Images/bidnorth-ledger.webp" width="1600" height="1023" alt="BidNorth readiness ledger listing each requirement with its status, evidence, source and next action" loading="lazy" decoding="async" />
+              <figcaption>The readiness ledger: each requirement with its status, the evidence behind it, and the next action.</figcaption>
+            </figure>
+            <figure class="case-figure">
+              <img src="Images/bidnorth-checks.webp" width="1600" height="1023" alt="BidNorth tender checks list, ranking opportunities by readiness" loading="lazy" decoding="async" />
+              <figcaption>Tender checks, ranked by how ready the company is to bid.</figcaption>
+            </figure>
+          </div>
+          <p class="case-links chip-row">
+            <a class="chip-link" href="https://www.youtube.com/watch?v=XsDcBIrheXM" target="_blank" rel="noopener noreferrer">watch the demo video ↗</a>
+            <a class="chip-link" href="https://github.com/DylanRolfe/BidNorth" target="_blank" rel="noopener noreferrer">code on github ↗</a>
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="site-footer-links">
+          <li><a href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a></li>
+          <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+          <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+          <li><a href="stay-in-touch.html">newsletter</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=15" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

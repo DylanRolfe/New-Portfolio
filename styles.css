@@ -25,17 +25,11 @@ html {
   scroll-padding-top: 72px;
 }
 
-html.page-home,
-html.page-home body {
-  height: 100%;
-  overflow: hidden;
-}
-
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -121,12 +115,13 @@ button { font: inherit; text-transform: inherit; }
 
 .muted { color: var(--muted); font-weight: 400; }
 
-.reveal {
+/* Hidden only when JavaScript is running; without it the content simply shows. */
+.js .reveal {
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.js .reveal.visible { opacity: 1; transform: translateY(0); }
 
 .chip {
   border-radius: 2px;
@@ -179,7 +174,19 @@ button { font: inherit; text-transform: inherit; }
   position: fixed;
   right: 0;
   top: 0;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
   z-index: 100;
+}
+
+/* Once the page scrolls, the bar gets a solid backing so links never sit on top of content.
+   No backdrop-filter here: it would trap the fixed mobile menu inside the bar. */
+.nav.nav-scrolled {
+  background: rgba(6, 9, 18, 0.94);
+  box-shadow: 0 1px 0 var(--line);
+}
+html:has(.expedition.is-live) .nav.nav-scrolled {
+  background: none;
+  box-shadow: none;
 }
 
 .nav-home {
@@ -212,13 +219,13 @@ button { font: inherit; text-transform: inherit; }
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 18px;
+  gap: 6px 20px;
   justify-content: flex-end;
 }
 
 .nav-links a {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.86rem;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
   transition: color 0.2s ease;
 }
@@ -256,8 +263,7 @@ button { font: inherit; text-transform: inherit; }
 
 /* —— Hero —— */
 .home-main {
-  height: 100svh;
-  overflow: hidden;
+  min-height: 100svh;
 }
 
 .hero {
@@ -336,8 +342,8 @@ button { font: inherit; text-transform: inherit; }
 
 .hero-hud {
   bottom: 22px;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.74rem;
   letter-spacing: 0.04em;
   position: absolute;
   right: 28px;
@@ -432,8 +438,8 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .home-now-label {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.78rem;
   letter-spacing: 0.06em;
   margin-bottom: 10px;
   padding-left: 0.95rem;
@@ -682,6 +688,12 @@ button { font: inherit; text-transform: inherit; }
   width: 100%;
 }
 
+/* IBM Plex Mono is served from assets/fonts (SIL OFL), so no request leaves the site. */
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('assets/fonts/ibm-plex-mono-400.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/ibm-plex-mono-500.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 600; font-display: swap; src: url('assets/fonts/ibm-plex-mono-600.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('assets/fonts/ibm-plex-mono-700.woff2') format('woff2'); }
+
 /* Expedition — About-page route through the living painting */
 /* Local font alias keeps the other pages typography unchanged. SIL OFL in assets/fonts. */
 @font-face {
@@ -828,7 +840,7 @@ button { font: inherit; text-transform: inherit; }
   color: var(--muted);
   display: flex;
   flex-direction: column;
-  font-size: 0.66rem;
+  font-size: 0.76rem;
   gap: 4px;
   line-height: 1.5;
   text-align: right;
@@ -839,7 +851,7 @@ button { font: inherit; text-transform: inherit; }
 }
 
 .experience-camp {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .experience-org {
@@ -1057,15 +1069,15 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
   max-width: 175px;
   text-align: left;
   font-family: 'Expedition Plex', var(--font);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 400;
   line-height: 1.4;
-  color: #94a6b8;
+  color: #a9b8c7;
   text-shadow: 0 1px 6px #050505, 0 2px 14px #050505;
   pointer-events: none;
 }
-.checkpoint-label small { display: block; margin-bottom: 3px; font-size: 9px; font-weight: 400; letter-spacing: .03em; color: #7f91a5; }
-.checkpoint.is-active .checkpoint-label { color: #e3e7e5; font-weight: 600; font-size: 12px; }
+.checkpoint-label small { display: block; margin-bottom: 3px; font-size: 10.5px; font-weight: 400; letter-spacing: .03em; color: #9fb0c2; }
+.checkpoint.is-active .checkpoint-label { color: #e3e7e5; font-weight: 600; font-size: 13px; }
 .checkpoint.is-active .checkpoint-label small { color: #c8b580; }
 .checkpoint[data-checkpoint="0"] { --label-x: 16px; --label-y: -13px; }
 .checkpoint[data-checkpoint="1"] { --label-x: 20px; --label-y: -19px; }
@@ -1202,9 +1214,9 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
 
 .inline-link {
   border-bottom: 1px solid currentColor;
-  color: var(--blue);
+  color: #7fb0ff;
   display: inline-block;
-  font-size: 0.74rem;
+  font-size: 0.84rem;
   font-weight: 600;
   margin-top: 10px;
   padding-bottom: 1px;
@@ -1259,7 +1271,6 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
   flex: 1;
   flex-direction: column;
   margin-top: 16px;
-  min-height: 140px;
 }
 
 .project-meta h2,
@@ -1280,7 +1291,7 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
 
 .project-stack {
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   margin-top: 6px;
 }
 
@@ -1291,7 +1302,8 @@ html:has(.expedition.is-live) { overscroll-behavior-y: none; }
 
 .project-desc {
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: 0.94rem;
+  line-height: 1.6;
   margin-top: 10px;
   max-width: 52ch;
 }
@@ -1402,7 +1414,7 @@ summary:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .reveal { opacity: 1; transform: none; }
+  .js .reveal { opacity: 1; transform: none; }
   .hero-layer { transform: none !important; }
 
   .life-belt {
@@ -1442,7 +1454,7 @@ summary:focus-visible {
 @media (orientation: portrait) {
   .expedition-intro { padding: 100px 0 0; }
   .expedition-heading .section-title { font-size: clamp(1.45rem, 6vw, 2.2rem); max-width: 24ch; }
-  .expedition-heading .section-sub { font-size: .74rem; line-height: 1.6; margin-top: 12px; max-width: 40ch; }
+  .expedition-heading .section-sub { font-size: .8rem; line-height: 1.6; margin-top: 10px; max-width: 40ch; }
   .expedition-coordinates { font-size: .58rem; }
   .expedition.is-live .expedition-info {
     top: auto; bottom: max(24px, env(safe-area-inset-bottom));
@@ -1456,7 +1468,7 @@ summary:focus-visible {
   .expedition.is-live .experience-panel-head { min-height: 32px; }
   .expedition.is-live .experience-logo,
   .expedition.is-live .experience-logos .experience-logo { width: 32px; height: 32px; padding: 2px; border-radius: 3px; }
-  .expedition.is-live .experience-meta { font-size: .6rem; flex-direction: row; gap: 12px; }
+  .expedition.is-live .experience-meta { font-size: .75rem; flex-direction: row; gap: 12px; }
   .expedition.is-live .experience-org { font-size: 1.2rem; margin-top: 9px; }
   .expedition.is-live .experience-role { font-size: .7rem; margin-top: 5px; }
   .expedition.is-live .experience-summary { font-size: .76rem; line-height: 1.55; margin-top: 8px; max-width: 44ch; }
@@ -1468,9 +1480,9 @@ summary:focus-visible {
 }
 
 @media (orientation: portrait) {
-  .checkpoint-label { max-width: 140px; font-size: 10px; line-height: 1.35; }
-  .checkpoint.is-active .checkpoint-label { font-size: 11px; }
-  .checkpoint-label small { font-size: 8px; margin-bottom: 2px; }
+  .checkpoint-label { max-width: 140px; font-size: 11px; line-height: 1.35; }
+  .checkpoint.is-active .checkpoint-label { font-size: 12px; }
+  .checkpoint-label small { font-size: 10px; margin-bottom: 2px; }
   .checkpoint[data-checkpoint="0"] { --label-x: 16px; --label-y: -4px; }
   .checkpoint[data-checkpoint="1"] { --label-x: 18px; --label-y: 8px; }
   .checkpoint[data-checkpoint="2"] { --label-x: 70px; --label-y: 8px; }
@@ -1522,7 +1534,7 @@ summary:focus-visible {
 }
 
 @media (max-width: 700px) {
-  body { font-size: 14px; }
+  body { font-size: 15px; }
   .container, .nav-inner { padding-left: 18px; padding-right: 18px; }
   .section { padding: 56px 0; }
   .page-section { padding-top: 96px; }
@@ -1573,16 +1585,412 @@ summary:focus-visible {
   .nav.nav-open .nav-links { opacity: 1; pointer-events: auto; }
 
   .hero { padding: 96px 18px 40px; }
-  .hero-hud { bottom: 14px; font-size: 0.62rem; right: 18px; left: 18px; }
+  .hero-hud { bottom: 14px; font-size: 0.7rem; right: 18px; left: 18px; }
   .home-brand { font-size: clamp(1.8rem, 10vw, 2.4rem); }
   .hero-copy { width: 100%; }
   .home-bullets > li,
   .home-now li { white-space: normal; }
 }
 
-/* A paper preview scrolls with the page, framed by the shared campsite. */
-.resume-page { position: relative; z-index: 1; height: 100svh; height: 100dvh; padding: 92px 0 24px; overflow: hidden; }
-.resume-page .container { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: center; gap: 16px; }
-.resume-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; width: 100%; max-width: 820px; margin: 0; }
-.resume-heading .inline-link { flex: none; margin-top: 0; }
-.resume-document { display: block; width: 100%; max-width: 820px; height: 100%; min-height: 0; object-fit: contain; }
+
+/* ————————————————————————————————————————————————————————————————
+   Review fixes: scrolling home page, project pages, text resume, footer.
+   ———————————————————————————————————————————————————————————————— */
+
+/* Proper nouns and acronyms (ESP32, LoRa, PyTorch) keep their case inside these blocks. */
+/* Key numbers and results are bolded so they survive a skim. */
+:is(.project-desc, .about-block, .case-panel, .experience-summary) strong { color: #fff; font-weight: 700; }
+.keep-case { text-transform: none; }
+.keep-case :is(h1, h2, dt, summary, .case-back) { text-transform: lowercase; }
+
+.text-link { border-bottom: 1px solid currentColor; color: #7fb0ff; }
+.text-link:hover { color: #b9d4ff; }
+.nav-ext { font-size: 0.8em; opacity: 0.7; }
+
+/* Links that act like buttons, in the site's own vocabulary.
+   Brackets on the hero; chips (the same blocks as the highlights) elsewhere. */
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 20px;
+  padding-left: 0.95rem;
+}
+.bracket-link {
+  color: #fff;
+  font-size: 0.98rem;
+  padding: 8px 0;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+.bracket-link::before { color: #8fbaff; content: "[ "; }
+.bracket-link::after { color: #8fbaff; content: " ]"; }
+.bracket-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.bracket-link:hover::before,
+.bracket-link:hover::after { color: #fff; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip-link {
+  background: var(--chip-grey);
+  border-radius: 2px;
+  color: #fff;
+  font-size: 0.94rem;
+  padding: 0.5em 0.85em;
+  transition: background 0.2s ease;
+}
+.chip-link:hover { background: #454545; }
+.chip-link-tan { background: var(--chip-tan); }
+.chip-link-tan:hover { background: #85633a; }
+
+.home-now a { border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
+.home-now a:hover { border-bottom-color: #fff; color: #fff; }
+
+.hero-next {
+  bottom: 20px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+  left: 28px;
+  position: absolute;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  z-index: 5;
+}
+.hero-next:hover { color: #fff; }
+
+/* Below the hero: a plain reading surface. */
+.home-below {
+  --muted: #b9bec9;
+  background: linear-gradient(180deg, #0a1122 0, #060913 420px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 1;
+}
+.home-section { padding: 72px 0; scroll-margin-top: 56px; }
+.home-section + .home-section { border-top: 1px solid rgba(255, 255, 255, 0.07); }
+.home-section > .container > .section-title,
+.home-section-head { margin-bottom: 30px; }
+.home-section-head {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  justify-content: space-between;
+}
+.home-section-head .inline-link { margin-top: 0; }
+.home-below .about-top .section-title { margin-bottom: 24px; }
+.home-below .about-block p { font-size: 1.02rem; }
+.home-below .about-block .inline-link { align-self: flex-start; }
+.home-quote-line { font-style: italic; }
+.home-below .about-portrait img { aspect-ratio: 4 / 5; object-position: center 20%; }
+
+/* Selected projects: three flagship cards across a wider column. */
+.home-wide { max-width: 1280px; }
+.flagship-row { display: grid; gap: 22px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.flagship-row .project {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 12px 20px;
+}
+.flagship-row .project-tile { aspect-ratio: 4 / 3; }
+.flagship-row .project-meta { padding: 0 8px; }
+.flagship-row .project-desc { color: #c9ced8; }
+
+.skills { border-top: 1px solid var(--line); }
+.skills > div {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 6px 28px;
+  grid-template-columns: minmax(120px, 0.7fr) minmax(0, 4fr);
+  padding: 18px 4px;
+}
+.skills dt { color: #fff; font-weight: 700; }
+.skills dd { color: var(--muted); font-size: 0.98rem; line-height: 1.6; }
+
+/* Outside the workshop: the slow photo belt, sized for portrait shots. */
+.home-below .life { padding-left: 0; padding-right: 0; }
+.home-below .life { padding-bottom: 56px; padding-top: 56px; }
+.home-below .life .section-heading { margin-bottom: 22px; }
+.home-below .life .section-sub { color: var(--muted); }
+.home-below .life-belt::before { background: linear-gradient(90deg, #060913, transparent); }
+.home-below .life-belt::after { background: linear-gradient(270deg, #060913, transparent); }
+/* Two rows drift in opposite directions. script.js moves them, so a visitor can
+   steer a row with the mouse or swipe it; the old keyframe drift is switched off. */
+.home-below .life-belt { touch-action: pan-y; }
+.home-below .life-belt + .life-belt { margin-top: 10px; }
+.home-below .life-belt-track { animation: none; }
+html:not(.js) .home-below .life-belt { overflow-x: auto; }
+.home-below .life-card { --life-w: clamp(150px, 14.5vw, 215px); flex: 0 0 var(--life-w); width: var(--life-w); }
+.home-below .life-photo img { aspect-ratio: 3 / 4; }
+/* Landscape shots get a card twice as wide, so they sit at the same height as the portraits. */
+.home-below .life-card.life-card-wide { flex: 0 0 calc(var(--life-w) * 2); width: calc(var(--life-w) * 2); }
+.home-below .life-card.life-card-wide .life-photo img { aspect-ratio: 3 / 2; }
+.home-below .life-card.life-card-video { flex: 0 0 calc(var(--life-w) * 0.75); width: calc(var(--life-w) * 0.75); }
+.home-below .life-card figcaption { color: var(--muted); font-size: 0.86rem; font-weight: 400; }
+
+.contact-copy { color: var(--muted); font-size: 1.02rem; max-width: 56ch; }
+.home-contact .chip-row { margin-top: 22px; }
+
+/* Footer */
+.site-footer {
+  background: rgba(4, 6, 12, 0.88);
+  border-top: 1px solid var(--line);
+  padding: 22px 0 26px;
+  position: relative;
+  z-index: 1;
+}
+.site-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+.site-footer-links a {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: #e6e9ef;
+  font-size: 0.86rem;
+}
+.site-footer-links a:hover { border-bottom-color: #fff; color: #fff; }
+main > .section { padding-bottom: 96px; }
+
+/* Project cards */
+.section-heading .section-sub { color: #d2d6de; font-size: 0.98rem; max-width: 60ch; }
+body:has(.site-backdrop) .project { background: rgba(5, 7, 12, 0.8); }
+.project-status {
+  align-self: flex-start;
+  border: 1px solid rgba(255, 214, 138, 0.55);
+  border-radius: 999px;
+  color: #ffd68a;
+  font-size: 0.76rem;
+  margin-top: 10px;
+  padding: 1px 10px;
+}
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+.project-links a {
+  border-bottom: 1px solid currentColor;
+  color: #7fb0ff;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.project-links a:hover { color: #b9d4ff; }
+
+/* Every card carries its name on the picture, which is dimmed so the text reads.
+   A card with no photo yet shows the same tile on a plain gradient. */
+.project-tile {
+  align-items: flex-start;
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(96, 136, 178, 0.38), transparent 60%),
+    linear-gradient(160deg, #111c33, #080c16);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px 16px;
+  position: relative;
+  text-align: left;
+}
+.project-grid-equal .project-tile > img,
+.flagship-row .project-tile > img {
+  aspect-ratio: auto;
+  filter: brightness(0.86);
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  position: absolute;
+  transition: filter 0.35s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+}
+.project-tile::before {
+  background: linear-gradient(180deg, rgba(6, 9, 18, 0) 38%, rgba(6, 9, 18, 0.62) 68%, rgba(6, 9, 18, 0.94) 100%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+.project-tile:not(:has(img))::before { display: none; }
+.project-tile > :not(img) { text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85); z-index: 2; }
+.project:hover .project-tile:not(.project-media-static) > img { filter: brightness(1); }
+.tile-kicker { color: #b9d4ff; font-size: 0.72rem; }
+.tile-name { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-top: 3px; }
+.tile-name :is(a, button) {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  padding: 0;
+  text-align: left;
+  text-shadow: inherit;
+}
+/* The name is the link; this stretches it over the whole picture. */
+.tile-name :is(a, button)::after { border-radius: 14px; content: ""; inset: 0; position: absolute; z-index: 3; }
+.tile-name :is(a, button) { transition: color 0.2s ease; }
+.tile-name :is(a, button):hover { color: #8fbaff; }
+.tile-name :is(a, button):focus-visible { outline: none; }
+.tile-name :is(a, button):focus-visible::after { outline: 2px solid #9ec3ff; outline-offset: -4px; }
+.tile-note { color: #e1e6ee; font-size: 0.78rem; margin-top: 4px; }
+.tile-note strong { color: #fff; font-size: 0.86rem; font-weight: 700; }
+
+.more-work { margin-top: 40px; }
+
+/* Project pages and the text resume share one reading panel. */
+.case-container, .resume-container { max-width: 880px; }
+.case-panel, .resume-doc {
+  background: rgba(6, 8, 14, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  color: #e9ebf0;
+  font-size: 1rem;
+  line-height: 1.7;
+  padding: clamp(22px, 5vw, 48px);
+}
+.case-back { color: #9ec3ff; display: inline-block; font-size: 0.86rem; margin-bottom: 22px; }
+.case-back:hover { color: #fff; }
+.case-panel .section-title { font-size: clamp(2rem, 6vw, 3rem); }
+.case-lede { color: #f1f3f7; font-size: 1.12rem; line-height: 1.6; margin-top: 16px; max-width: 60ch; }
+.case-facts {
+  border-top: 1px solid var(--line);
+  margin-top: 28px;
+}
+.case-facts > div {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 4px 20px;
+  grid-template-columns: 110px minmax(0, 1fr);
+  padding: 11px 0;
+}
+.case-facts dt { color: #9ec3ff; font-size: 0.86rem; }
+.case-facts dd { color: #f1f3f7; }
+.case-panel h2 { font-size: 1.2rem; font-weight: 700; margin-top: 38px; }
+.case-panel h2 + p,
+.case-panel h2 + ul { margin-top: 12px; }
+.case-panel p { max-width: 68ch; }
+.case-panel ul { display: grid; gap: 10px; max-width: 68ch; }
+.case-panel ul li { padding-left: 1.2rem; position: relative; }
+.case-panel ul li::before { color: var(--blue); content: "·"; font-weight: 700; left: 0.2rem; position: absolute; }
+.case-media { margin-top: 32px; }
+.case-media-pair { align-items: start; display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.case-figure :is(img, video) { background: #000; border-radius: 12px; height: auto; width: 100%; }
+.case-media-pair .case-figure :is(img, video) { aspect-ratio: 3 / 4; object-fit: cover; }
+.case-media-wide .case-figure :is(img, video) { aspect-ratio: auto; }
+.case-figure img { border: 1px solid rgba(255, 255, 255, 0.1); }
+.case-figure-narrow { max-width: 320px; }
+/* Analysis plots: white figures that open full size in a new tab. */
+.case-figure-plot + .case-figure-plot { margin-top: 26px; }
+.case-figure-plot a { cursor: zoom-in; display: block; }
+.case-figure-plot img { background: #fff; }
+.plot-hint { color: #8f98a8; white-space: nowrap; }
+.case-more .case-media { margin: 6px 0 16px; }
+.case-figure figcaption { color: #b9bec9; font-size: 0.86rem; margin-top: 8px; }
+.case-more { border: 1px solid var(--line); border-radius: 12px; margin-top: 38px; padding: 4px 18px; }
+.case-more summary { cursor: pointer; font-weight: 700; padding: 12px 0; }
+.case-more[open] summary { border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+.case-more p { margin-bottom: 14px; }
+.case-links { margin-top: 36px; }
+
+/* Resume: a sheet of paper in real text. tools/build-resume-pdf.cjs prints this
+   same markup to assets/dylan-rolfe-resume.pdf, so page and PDF always match. */
+.resume-heading {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.resume-heading .section-title { text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85); }
+.paper {
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: var(--soft-shadow);
+  color: #111;
+  font-family: Arial, Helvetica, "Liberation Sans", sans-serif;
+  font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+  line-height: 1.3;
+  padding: clamp(22px, 6vw, 58px) clamp(18px, 6.5vw, 62px);
+  text-transform: none;
+}
+.paper ::selection { background: #b4d5fe; color: #111; }
+.paper a { color: #1155cc; overflow-wrap: anywhere; text-decoration: underline; }
+.paper-top { text-align: center; }
+.paper-name { font-size: 1.8em; font-weight: 700; line-height: 1.15; }
+.paper h2 {
+  border-bottom: 1.5px solid #111;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin: 0.7em 0 0.25em;
+  text-transform: uppercase;
+}
+.paper-entry { margin-top: 0.28em; }
+.paper-entry-head { display: flex; flex-wrap: wrap; gap: 0 16px; justify-content: space-between; }
+.paper-when { white-space: nowrap; }
+.paper ul { padding-left: 1.7em; }
+.paper li { list-style: disc; }
+
+/* 404 */
+.not-found-main {
+  align-content: center;
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  margin: 0 auto;
+  max-width: 560px;
+  min-height: 100svh;
+  padding: 28px;
+}
+.not-found-code { color: var(--blue); font-size: 0.9rem; }
+.not-found-copy { color: #b9bec9; }
+.not-found .chip-row { margin-top: 10px; }
+
+@media (max-width: 860px) {
+  .life-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* On narrow screens the three cards become a swipeable row with the next one peeking in. */
+  .flagship-row {
+    display: flex;
+    gap: 14px;
+    margin: 0 -28px;
+    overflow-x: auto;
+    padding: 0 28px 10px;
+    scroll-padding: 0 28px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .flagship-row::-webkit-scrollbar { display: none; }
+  .flagship-row .project { flex: 0 0 min(82%, 420px); scroll-snap-align: start; }
+  .skills > div, .more-list li { grid-template-columns: 1fr; }
+  .home-below .about-portrait { max-width: 220px; }
+}
+
+@media (max-width: 700px) {
+  .home-section { padding: 52px 0; }
+  .hero { padding-bottom: 104px; }
+  .hero-next { bottom: 62px; left: 18px; }
+  .flagship-row { margin: 0 -18px; padding: 0 18px 10px; scroll-padding: 0 18px; }
+  .home-actions { gap: 2px 12px; }
+  .bracket-link { font-size: 0.92rem; }
+  .case-facts > div, .resume-skills > div { grid-template-columns: 1fr; }
+  .case-media-pair { grid-template-columns: 1fr; }
+  .case-media-pair .case-figure :is(img, video) { aspect-ratio: auto; }
+  .nav-links .nav-ext { display: none; }
+  .home-below .life-card { --life-w: clamp(140px, 42vw, 220px); }
+  .home-below .life-card figcaption { font-size: 0.8rem; margin-top: 8px; }
+}
+
+@media print {
+  @page { margin: 0.5in 0.56in; size: letter; }
+  html, body { background: #fff !important; }
+  .site-backdrop, .nav, .site-footer, .resume-heading, .skip-link { display: none !important; }
+  .resume { padding: 0 !important; }
+  .resume-container { max-width: none; padding: 0; }
+  .paper { border-radius: 0; box-shadow: none; font-size: 9.9pt; line-height: 1.17; padding: 0; }
+  .paper h2 { margin: 0.5em 0 0.12em; }
+  .paper-entry { margin-top: 0.12em; }
+}

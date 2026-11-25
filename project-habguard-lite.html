@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HABGuard-Lite · Dylan Rolfe</title>
+  <meta name="description" content="HABGuard-Lite: a design for sensor-guided carbon dosing that protects seawater desalination plants during harmful algal blooms." />
+  <link rel="canonical" href="https://dylanrolfe.ca/project-habguard-lite.html" />
+  <meta property="og:title" content="HABGuard-Lite · Dylan Rolfe" />
+  <meta property="og:description" content="HABGuard-Lite: a design for sensor-guided carbon dosing that protects seawater desalination plants during harmful algal blooms." />
+  <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
+  <meta property="og:url" content="https://dylanrolfe.ca/project-habguard-lite.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html" aria-current="page">projects</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="writing.html">writing</a></li>
+        <li><a href="resume.html">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <article class="section page-section case">
+      <div class="container case-container">
+        <div class="case-panel keep-case">
+          <a class="case-back" href="projects.html">← all projects</a>
+          <h1 class="section-title">habguard-lite</h1>
+          <p class="case-lede">A design for an add-on that doses powdered activated carbon automatically when a harmful algal bloom reaches a desalination plant’s intake, replacing manual guesswork.</p>
+          <dl class="case-facts">
+            <div><dt>status</dt><dd>Design proposal</dd></div>
+            <div><dt>field</dt><dd>Seawater desalination pretreatment</dd></div>
+          </dl>
+          <h2>the problem</h2>
+          <p>Harmful algal blooms load seawater with sticky organic matter that fouls reverse-osmosis membranes. The write-up estimates around <strong>150 large plants</strong> are affected each year, losing <strong>4 to 15 days</strong> per event. Powdered activated carbon helps, but most plants that use it dose it by hand, which is error-prone and labour-intensive.</p>
+          <h2>the design</h2>
+          <ul>
+            <li>Sensors at the intake read UV254, fluorescence, chlorophyll-a and turbidity to catch a bloom early.</li>
+            <li>A controller compares the readings with thresholds and switches the plant into “bloom mode” when they are crossed.</li>
+            <li>In bloom mode it calculates the carbon dose and raises it gradually, inside minimum, maximum and safety limits.</li>
+            <li>A feeder adds the dose ahead of the mixing tank, and a dashboard logs the signals, doses and savings for operators.</li>
+          </ul>
+          <h2>estimated impact</h2>
+          <p>By the proposal’s own estimate, automating dosing and making carbon practical for more plants could save <strong>77,500 to 924,000 cubic metres of water a year</strong>.</p>
+          <p class="case-links chip-row">
+            <a class="chip-link" href="https://pacdose-automation.super.site/" target="_blank" rel="noopener noreferrer">full write-up ↗</a>
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="site-footer-links">
+          <li><a href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a></li>
+          <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+          <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+          <li><a href="stay-in-touch.html">newsletter</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=15" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

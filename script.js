@@ -31,32 +31,12 @@ document.documentElement.classList.add('js');
     });
   }
 
-  let scrollLocked = false;
-  function lockScroll(event) {
-    if (document.body.classList.contains('menu-open')) return;
-    event.preventDefault();
+  // The bar gets a solid backing once the page has scrolled, so its links never
+  // sit on top of content. Every page scrolls normally, the home page included.
+  function syncNavScroll() {
+    if (nav) nav.classList.toggle('nav-scrolled', window.scrollY > 12);
   }
-  function lockKey(event) {
-    const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
-    if (keys.indexOf(event.key) === -1 || document.body.classList.contains('menu-open')) return;
-    const target = event.target;
-    if (target && target.closest && target.closest('button, a, input, textarea, select, summary')) return;
-    event.preventDefault();
-  }
-  function syncHomeScroll() {
-    const home = document.documentElement.classList.contains('page-home');
-    if (home && !scrollLocked) {
-      window.addEventListener('wheel', lockScroll, { passive: false });
-      window.addEventListener('touchmove', lockScroll, { passive: false });
-      window.addEventListener('keydown', lockKey);
-      scrollLocked = true;
-    } else if (!home && scrollLocked) {
-      window.removeEventListener('wheel', lockScroll);
-      window.removeEventListener('touchmove', lockScroll);
-      window.removeEventListener('keydown', lockKey);
-      scrollLocked = false;
-    }
-  }
+  window.addEventListener('scroll', syncNavScroll, { passive: true });
 
   // Hero: optional layers + subtle mouse parallax (transform only)
   (function () {
@@ -185,41 +165,121 @@ document.documentElement.classList.add('js');
     }
   }
 
+  // Outside the workshop: rows of photos that drift on their own. Moving the
+  // mouse along a row steers it (towards an edge runs it that way, faster),
+  // and on a touch screen a row can be swiped. Every photo can be reached.
   function mountBelt() {
-    const belt = document.querySelector('[data-life-belt]');
-    if (!belt || belt.dataset.wired === '1') return;
+    document.querySelectorAll('[data-life-belt]').forEach(function (belt) {
+      if (belt.dataset.wired === '1') return;
+      const track = belt.querySelector('.life-belt-track');
+      const set = belt.querySelector('.life-belt-set');
+      if (!track || !set) return;
+      belt.dataset.wired = '1';
 
-    const track = belt.querySelector('.life-belt-track');
-    const set = belt.querySelector('.life-belt-set');
-    if (!track || !set) return;
-    belt.dataset.wired = '1';
+      function primeVideos(root) {
+        root.querySelectorAll('video').forEach(function (video) {
+          video.muted = true;
+          video.defaultMuted = true;
+          video.setAttribute('muted', '');
+          video.playsInline = true;
+          video.loop = true;
+          const attempt = video.play();
+          if (attempt && attempt.catch) attempt.catch(function () {});
+        });
+      }
 
-    function primeVideos(root) {
-      root.querySelectorAll('video').forEach(function (video) {
-        video.muted = true;
-        video.defaultMuted = true;
-        video.setAttribute('muted', '');
-        video.playsInline = true;
-        video.loop = true;
-        video.autoplay = true;
-        const attempt = video.play();
-        if (attempt && attempt.catch) attempt.catch(function () {});
+      // With reduced motion each row is a plain swipeable strip and the launch
+      // clip gets its own controls instead of playing by itself.
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        set.querySelectorAll('video').forEach(function (video) { video.controls = true; });
+        return;
+      }
+
+      // Enough copies of the set that the row never shows a gap while it loops.
+      const setWidth = Math.max(1, set.offsetWidth);
+      const copies = Math.ceil(window.innerWidth / setWidth) + 1;
+      for (let i = 0; i < copies; i++) {
+        const clone = set.cloneNode(true);
+        clone.classList.add('life-belt-set-clone');
+        clone.setAttribute('aria-hidden', 'true');
+        clone.querySelectorAll('img').forEach(function (img) { img.alt = ''; });
+        clone.querySelectorAll('button, a, video').forEach(function (el) { el.setAttribute('tabindex', '-1'); });
+        track.appendChild(clone);
+      }
+
+      const cruise = belt.dataset.direction === 'reverse' ? -38 : 38; // px per second
+      let offset = 0;
+      let speed = cruise;
+      let target = cruise;
+      let last = 0;
+      let frame = 0;
+      let visible = false;
+      let dragId = null;
+      let dragX = 0;
+      let dragged = 0;
+
+      function tick(now) {
+        frame = 0;
+        if (!belt.isConnected) return;
+        const dt = Math.min(0.05, (now - (last || now)) / 1000);
+        last = now;
+        if (dragId === null) {
+          speed += (target - speed) * Math.min(1, dt * 5);
+          offset += speed * dt;
+        }
+        offset = ((offset % setWidth) + setWidth) % setWidth;
+        track.style.transform = 'translate3d(' + (-offset).toFixed(1) + 'px,0,0)';
+        if (visible && !document.hidden) frame = requestAnimationFrame(tick);
+      }
+      function run() {
+        if (frame || !visible || document.hidden) return;
+        last = 0;
+        frame = requestAnimationFrame(tick);
+      }
+
+      belt.addEventListener('pointermove', function (event) {
+        if (dragId === event.pointerId) {
+          const dx = event.clientX - dragX;
+          dragX = event.clientX;
+          offset -= dx;
+          dragged += Math.abs(dx);
+          return;
+        }
+        if (event.pointerType !== 'mouse') return;
+        const box = belt.getBoundingClientRect();
+        const side = ((event.clientX - box.left) / box.width) * 2 - 1; // -1 at the left edge, 1 at the right
+        target = Math.abs(side) < 0.16 ? cruise : side * 460;
       });
-    }
+      belt.addEventListener('pointerleave', function () { if (dragId === null) target = cruise; });
+      belt.addEventListener('pointerdown', function (event) {
+        if (event.pointerType === 'mouse') return;
+        dragId = event.pointerId;
+        dragX = event.clientX;
+        dragged = 0;
+      });
+      function endDrag(event) {
+        if (event.pointerId !== dragId) return;
+        dragId = null;
+        speed = cruise;
+        target = cruise;
+      }
+      belt.addEventListener('pointerup', endDrag);
+      belt.addEventListener('pointercancel', endDrag);
+      // A swipe that ends on a photo should not also open it.
+      belt.addEventListener('click', function (event) {
+        if (dragged > 8) { event.preventDefault(); event.stopPropagation(); }
+        dragged = 0;
+      }, true);
+      document.addEventListener('visibilitychange', run);
 
-    primeVideos(set);
-
-    const clone = set.cloneNode(true);
-    clone.classList.add('life-belt-set-clone');
-    clone.setAttribute('aria-hidden', 'true');
-    clone.querySelectorAll('img').forEach(function (img) {
-      img.alt = '';
+      let primed = false;
+      if (!('IntersectionObserver' in window)) { visible = true; primeVideos(track); run(); return; }
+      new IntersectionObserver(function (entries) {
+        visible = entries.some(function (entry) { return entry.isIntersecting; });
+        if (visible && !primed) { primed = true; primeVideos(track); }
+        run();
+      }, { rootMargin: '200px 0px' }).observe(belt);
     });
-    clone.querySelectorAll('button, a, video').forEach(function (el) {
-      el.setAttribute('tabindex', '-1');
-    });
-    track.appendChild(clone);
-    primeVideos(clone);
   }
 
   function mountLightbox() {
@@ -311,7 +371,7 @@ document.documentElement.classList.add('js');
   }
 
   function mountPage() {
-    syncHomeScroll();
+    syncNavScroll();
     mountReveal();
     mountTrail();
     mountBelt();

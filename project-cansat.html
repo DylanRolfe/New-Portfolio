@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CanSat · Dylan Rolfe</title>
+  <meta name="description" content="CanSat: a soda-can-sized satellite payload. Dylan Rolfe led the team, planned the sensor suite and hand-soldered half the flight board." />
+  <link rel="canonical" href="https://dylanrolfe.ca/project-cansat.html" />
+  <meta property="og:title" content="CanSat · Dylan Rolfe" />
+  <meta property="og:description" content="CanSat: a soda-can-sized satellite payload. Dylan Rolfe led the team, planned the sensor suite and hand-soldered half the flight board." />
+  <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
+  <meta property="og:url" content="https://dylanrolfe.ca/project-cansat.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <div class="site-backdrop" data-site-backdrop data-stage="painted" aria-hidden="true">
+    <div class="cinematic-art">
+      <picture>
+        <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
+                data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png">
+        <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
+             data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png">
+      </picture>
+      <canvas class="cinematic-canvas"></canvas>
+    </div>
+    <div class="site-backdrop-scrim"></div>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="primary navigation">
+    <div class="nav-inner">
+      <a class="nav-mark" href="index.html">dylan rolfe</a>
+      <ul class="nav-links">
+        <li><a href="projects.html" aria-current="page">projects</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="writing.html">writing</a></li>
+        <li><a href="resume.html">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <article class="section page-section case">
+      <div class="container case-container">
+        <div class="case-panel keep-case">
+          <a class="case-back" href="projects.html">← all projects</a>
+          <h1 class="section-title">cansat</h1>
+          <p class="case-lede">A soda-can-sized satellite payload, designed, built and launched by a four-person student team for the CSDC Advanced competition.</p>
+          <dl class="case-facts">
+            <div><dt>role</dt><dd>Team lead</dd></div>
+            <div><dt>team</dt><dd>4 people</dd></div>
+            <div><dt>when</dt><dd>Sep 2025 – Apr 2026</dd></div>
+            <div><dt>budget</dt><dd><strong>$500 CAD</strong></dd></div>
+            <div><dt>built with</dt><dd>ESP32, 915 MHz LoRa radio, I2C / SPI sensors, CAD, hand soldering</dd></div>
+            <div><dt>result</dt><dd>Telemetry at <strong>4 Hz with zero dropouts</strong> in pre-launch testing; launched in Lethbridge, AB.</dd></div>
+          </dl>
+          <div class="case-media case-media-pair">
+            <figure class="case-figure">
+              <img src="Images/cansat.webp" width="1200" height="1600" alt="Electronics and wiring inside the CanSat prototype" loading="lazy" decoding="async" />
+              <figcaption>The payload prototype, mid-wiring.</figcaption>
+            </figure>
+            <figure class="case-figure">
+              <video autoplay muted loop playsinline controls preload="metadata" poster="Images/cansat-launch-poster.webp" width="360" height="640">
+                <source src="Images/CanSat-launch.mp4" type="video/mp4">
+              </video>
+              <figcaption>Launch day in Lethbridge, Alberta (17 s, plays muted).</figcaption>
+            </figure>
+          </div>
+          <h2>what i did</h2>
+          <ul>
+            <li>Led the team through design, a <strong>$500 CAD</strong> budget, testing and launch, and ran task delegation, documentation and milestone tracking.</li>
+            <li>Planned the payload sensor suite: temperature, pressure, humidity, CO2, IMU and GPS.</li>
+            <li>Modelled the shell assembly in CAD.</li>
+            <li>Assembled all components onto the flight board.</li>
+          </ul>
+          <h2>what went wrong</h2>
+          <p>The custom PCB failed on arrival. I <strong>hand-soldered half of the flight board</strong> myself so the team stayed on schedule for launch.</p>
+          <h2>result</h2>
+          <p>The ESP32 payload streamed telemetry over 915 MHz LoRa at <strong>4 Hz with zero dropouts</strong> in pre-launch testing.</p>
+        </div>
+      </div>
+    </article>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="site-footer-links">
+          <li><a href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a></li>
+          <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+          <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
+          <li><a href="stay-in-touch.html">newsletter</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
+  <script src="assets/cinematic/site-backdrop.js?v=15" type="module"></script>
+  <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
+</body>
+
+</html>

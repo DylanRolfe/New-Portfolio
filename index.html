@@ -4,32 +4,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>dylan rolfe</title>
-  <meta name="description"
-    content="Dylan Rolfe is a mechatronics engineering student who builds hardware, AI tools, and useful things for the physical world." />
-  <meta property="og:title" content="dylan rolfe" />
-  <meta property="og:description"
-    content="Mechatronics student building hardware, AI tools, and useful things for the physical world." />
+  <title>Dylan Rolfe · mechatronics engineering student, University of Waterloo</title>
+  <meta name="description" content="Dylan Rolfe is a first-year mechatronics engineering student at the University of Waterloo who builds robots, embedded hardware and AI tools. Looking for summer 2027 internships." />
+  <link rel="canonical" href="https://dylanrolfe.ca/" />
+  <meta property="og:title" content="Dylan Rolfe · mechatronics engineering student, University of Waterloo" />
+  <meta property="og:description" content="Dylan Rolfe is a first-year mechatronics engineering student at the University of Waterloo who builds robots, embedded hardware and AI tools. Looking for summer 2027 internships." />
   <meta property="og:image" content="https://dylanrolfe.ca/Images/og.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="dylan rolfe, mechatronics @ uwaterloo" />
-  <meta property="og:url" content="https://dylanrolfe.ca" />
+  <meta property="og:url" content="https://dylanrolfe.ca/" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://dylanrolfe.ca/Images/og.jpg" />
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
-  <link rel="preload" as="image" href="assets/cinematic/Images/opening-desktop.webp" media="(orientation: landscape)" fetchpriority="high" />
-  <link rel="preload" as="image" href="assets/cinematic/Images/opening-mobile.webp" media="(orientation: portrait)" fetchpriority="high" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preload" as="image" href="assets/cinematic/Images/opening-desktop-start.webp" media="(orientation: landscape)" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/cinematic/Images/opening-mobile-start.webp" media="(orientation: portrait)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/cinematic/Images/painting-desktop.webp" media="(orientation: landscape)" />
   <link rel="preload" as="image" href="assets/cinematic/Images/painting-mobile.webp" media="(orientation: portrait)" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=46" />
-  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=46" />
-  <noscript><style>[data-stage="poster"] .cinematic-opening{visibility:hidden}</style></noscript>
+  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+  <noscript><style>
+    [data-cinematic-hero] :is(.cinematic-opening, .cinematic-video) { visibility: hidden !important; }
+    [data-cinematic-hero] :is(.hero-copy > *, .hero-hud, .hero-next, .hero-scrim, .cinematic-vignette) {
+      animation: none !important; opacity: 1 !important; transform: none !important; visibility: visible !important;
+    }
+  </style></noscript>
 </head>
 
 <body>
@@ -40,13 +42,12 @@
       <a class="nav-mark" href="index.html" aria-current="page">dylan rolfe</a>
       <ul class="nav-links">
         <li><a href="projects.html">projects</a></li>
-        <li><a href="writing.html">writing</a></li>
         <li><a href="about.html">about</a></li>
-        <li><a href="stay-in-touch.html">newsletter</a></li>
-        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin</a></li>
-        <li><a href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x</a></li>
-        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
+        <li><a href="writing.html">writing</a></li>
         <li><a href="resume.html">resume</a></li>
+        <li><a href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin <span class="nav-ext" aria-hidden="true">↗</span></a></li>
+        <li><a href="mailto:hello@dylanrolfe.ca">email</a></li>
       </ul>
       <button class="nav-toggle" type="button" aria-label="open menu" aria-expanded="false">
         <span></span><span></span>
@@ -62,20 +63,24 @@
           <picture>
             <source media="(orientation: portrait)" srcset="assets/cinematic/Images/painting-mobile.webp"
                     data-mask="assets/cinematic/Images/sky-mobile.png" data-flow="assets/cinematic/Images/flow-mobile.png"
-                    data-intro="assets/cinematic/Images/hike-mobile.mp4" data-poster="assets/cinematic/Images/opening-mobile.webp">
+                    data-intro="assets/cinematic/Images/hike-mobile.mp4#t=3.5" data-poster="assets/cinematic/Images/opening-mobile-start.webp">
             <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
                  data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png"
-                 data-intro="assets/cinematic/Images/hike-desktop.mp4" data-poster="assets/cinematic/Images/opening-desktop.webp">
+                 data-intro="assets/cinematic/Images/hike-desktop.mp4#t=3.5" data-poster="assets/cinematic/Images/opening-desktop-start.webp">
           </picture>
           <canvas class="cinematic-canvas"></canvas>
         </div>
         <picture class="cinematic-opening">
-          <source media="(orientation: portrait)" srcset="assets/cinematic/Images/opening-mobile.webp">
-          <img src="assets/cinematic/Images/opening-desktop.webp" alt="">
+          <source media="(orientation: portrait)" srcset="assets/cinematic/Images/opening-mobile-start.webp">
+          <img src="assets/cinematic/Images/opening-desktop-start.webp" alt="">
         </picture>
-        <video class="cinematic-video" autoplay muted playsinline preload="auto" data-photo-end="5">
-          <source src="assets/cinematic/Images/hike-mobile.mp4" media="(orientation: portrait)" type="video/mp4">
-          <source src="assets/cinematic/Images/hike-desktop.mp4" type="video/mp4">
+        <!-- The film starts 3.5 seconds in (#t=3.5) and hands off to the painting at data-photo-end,
+             so the camera moves for 1.5 seconds first. To change that, edit #t=… here and in data-intro above,
+             data-intro-start, the copy fallback delay in cinematic-hero.css, and re-export the two
+             opening-*-start.webp posters from the same frame. -->
+        <video class="cinematic-video" autoplay muted playsinline preload="auto" data-intro-start="3.5" data-photo-end="5">
+          <source src="assets/cinematic/Images/hike-mobile.mp4#t=3.5" media="(orientation: portrait)" type="video/mp4">
+          <source src="assets/cinematic/Images/hike-desktop.mp4#t=3.5" type="video/mp4">
         </video>
         <div class="cinematic-vignette"></div>
       </div>
@@ -89,34 +94,359 @@
       <div class="hero-copy">
         <h1 class="home-brand">dylan rolfe</h1>
         <ul class="home-bullets">
-          <li>from yvr &amp; lhr · based in waterloo</li>
           <li class="home-alum">
             <img class="inline-logo inline-logo-crest" src="Images/waterloo-crest.png" width="256" height="256" alt="" />
-            <span class="chip chip-tan">studying mechatronics engineering @ uwaterloo</span>
+            <span class="chip chip-tan">1st-year mechatronics engineering @ uwaterloo</span>
           </li>
-          <li>looking for <span class="chip chip-grey">summer 2027 internships</span></li>
-          <li class="home-alum">
-            <img class="inline-logo" src="Images/TKS.png" width="225" height="225" alt="" />
-            <span>tks alum</span>
-          </li>
-          <li class="home-quote">“the best way to predict the future is to invent it” <span class="quote-attr">— alan kay</span></li>
+          <li>looking for <span class="chip chip-grey">summer 2027 internships</span> · class of 2031</li>
+          <li>i build robots, embedded hardware and ai tools</li>
+          <li>from vancouver &amp; london, uk · based in waterloo</li>
         </ul>
+
+        <p class="home-actions">
+          <a class="bracket-link" href="projects.html">projects</a>
+          <a class="bracket-link" href="resume.html">resume</a>
+          <a class="bracket-link" href="mailto:hello@dylanrolfe.ca">email</a>
+        </p>
 
         <div class="home-now">
           <p class="home-now-label">currently working on</p>
           <ul>
             <li>an autonomous gantry robot that solves the tower of hanoi</li>
-            <li>a fairyweight combat robot for watbots</li>
+            <li>just competed: <a href="project-moonwalker.html">moonwalker, a 150 g combat robot</a></li>
           </ul>
         </div>
       </div>
+
+      <a class="hero-next" href="#about">about, projects, skills <span aria-hidden="true">↓</span></a>
       <span class="cinematic-screenreader" role="status" aria-live="polite"></span>
     </header>
+
+    <div class="home-below">
+      <section class="home-section" id="about" aria-labelledby="about-title">
+        <div class="container about-top">
+          <div>
+            <h2 class="section-title" id="about-title">about</h2>
+            <div class="about-block">
+              <p>
+                i'm dylan rolfe. from vancouver and london, uk, now based in waterloo,
+                <span class="chip chip-tan">studying mechatronics engineering @ uwaterloo</span>.
+              </p>
+              <p>
+                looking for <span class="chip chip-grey">summer 2027 internships</span>.
+                i design and build integrated hardware and software systems:
+                <strong>a satellite payload with live lora telemetry</strong>, <strong>a 150 g combat robot</strong>,
+                and <strong>a 3d campus map used by over 1,000 people</strong>.
+              </p>
+              <p>
+                before waterloo i built an ai drug-discovery tool, designed a wildfire-detection system
+                and pitched it to <strong>300+ people</strong>, and founded a window-cleaning company with a five-person team.
+              </p>
+              <p>
+                i like breaking things down and figuring out how they work so i can make them better.
+              </p>
+              <p class="home-quote-line">“the best way to predict the future is to invent it” <span class="quote-attr">— alan kay</span></p>
+              <a class="inline-link" href="about.html">follow my journey so far →</a>
+            </div>
+          </div>
+          <figure class="about-portrait">
+            <img src="Images/portrait.webp" width="640" height="800" alt="Dylan Rolfe" loading="lazy" decoding="async" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="home-section" id="work" aria-labelledby="work-title">
+        <div class="container home-wide">
+          <div class="home-section-head">
+            <h2 class="section-title" id="work-title">featured projects</h2>
+            <a class="inline-link" href="projects.html">all projects →</a>
+          </div>
+          <div class="flagship-row">
+          <article class="project">
+            <div class="project-media project-tile">
+              <img src="Images/moonwalker.webp" width="1700" height="1267" alt="Moonwalker, a small purple and black combat robot with a vertical spinner disc" loading="lazy" decoding="async" />
+              <span class="tile-kicker">combat robotics · 2026</span>
+              <h3 class="tile-name"><a href="project-moonwalker.html">moonwalker</a></h3>
+              <span class="tile-note">150 g · vertical spinner</span>
+            </div>
+            <div class="project-meta">
+              <p class="project-stack">weapon design, electronics, assembly · team of 5</p>
+              <p class="project-desc">a 150 g combat robot built with watbots. i designed the steel spinner blade, then wired and assembled the robot.</p>
+              <p class="project-links"><a href="project-moonwalker.html">read more →</a></p>
+            </div>
+          </article>
+          <article class="project">
+            <div class="project-media project-tile">
+              <img src="Images/cansat.webp" width="1200" height="1600" alt="Electronics and wiring inside a CanSat prototype" loading="lazy" decoding="async" />
+              <span class="tile-kicker">satellite payload · 2025–26</span>
+              <h3 class="tile-name"><a href="project-cansat.html">cansat</a></h3>
+              <span class="tile-note">team lead · 4 hz lora telemetry</span>
+            </div>
+            <div class="project-meta">
+              <p class="project-stack">team lead · team of 4</p>
+              <p class="project-desc">a soda-can-sized satellite on a <strong>$500 budget</strong>. i <strong>hand-soldered half the flight board</strong> when the custom pcb arrived dead.</p>
+              <p class="project-links"><a href="project-cansat.html">read more →</a></p>
+            </div>
+          </article>
+          <article class="project">
+            <div class="project-media project-tile">
+              <img src="Images/thruloo.webp" width="1400" height="875" alt="ThruLoo: a 3D walking view of the Waterloo campus with a route planner" loading="lazy" decoding="async" />
+              <span class="tile-kicker">web app · 2026</span>
+              <h3 class="tile-name"><a href="project-thruloo.html">thruloo</a></h3>
+              <span class="tile-note"><strong>1,000+ users</strong></span>
+            </div>
+            <div class="project-meta">
+              <p class="project-stack">3d campus map · live</p>
+              <p class="project-desc">a 3d, walkable map of the waterloo campus with tunnel and bridge routing. <strong>1,000+ users</strong>, with <strong>tens of students on it every day</strong>.</p>
+              <p class="project-links"><a href="project-thruloo.html">read more →</a><a href="https://thruloo.dylanrolfe.ca" target="_blank" rel="noopener noreferrer">try it ↗</a></p>
+            </div>
+          </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section" id="skills" aria-labelledby="skills-title">
+        <div class="container">
+          <h2 class="section-title" id="skills-title">skills</h2>
+          <dl class="skills keep-case">
+            <div>
+              <dt>hardware</dt>
+              <dd>ESP32 / Arduino, LoRa radio, I2C / SPI sensors, hand soldering, 3D printing, SolidWorks (basic)</dd>
+            </div>
+            <div>
+              <dt>languages</dt>
+              <dd>Python, C++ (Arduino, basic)</dd>
+            </div>
+            <div>
+              <dt>tools</dt>
+              <dd>Git / GitHub, PyTorch, Next.js / React, Godot, n8n, technical documentation</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="home-section life" id="outside" aria-labelledby="outside-title">
+        <div class="container">
+          <div class="section-heading">
+            <h2 class="section-title" id="outside-title">outside the workshop</h2>
+            <p class="section-sub">move your mouse along a row to steer it, or swipe on a phone. click a photo to zoom.</p>
+          </div>
+        </div>
+        <div class="life-belt" data-life-belt aria-label="outside the workshop photos, first row">
+          <div class="life-belt-track">
+            <div class="life-belt-set">
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-campsite.webp" data-lightbox-alt="Tent pitched above a sea of clouds" aria-label="open photo: new biome unlocked">
+                <img src="Images/life-campsite.webp" width="900" height="1200" alt="Tent pitched above a sea of clouds" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>new biome unlocked</figcaption>
+            </figure>
+            <figure class="life-card life-card-wide">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-strive-team.webp" data-lightbox-alt="Nine people in suits in front of STRIVE balloons and a Prosper backdrop" aria-label="open photo: the strive team">
+                <img src="Images/life-strive-team.webp" width="1500" height="1000" alt="Nine people in suits in front of STRIVE balloons and a Prosper backdrop" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>the strive team</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-3dprint.webp" data-lightbox-alt="A full 3D-printed Batman figure on a desk" aria-label="open photo: a 3d-printed batman">
+                <img src="Images/life-3dprint.webp" width="900" height="1200" alt="A full 3D-printed Batman figure on a desk" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>a 3d-printed batman</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-sunset-laps.webp" data-lightbox-alt="Skiers and snowboarders at the top of a run at sunset, above a city under low cloud" aria-label="open photo: sunset laps above the clouds">
+                <img src="Images/life-sunset-laps.webp" width="900" height="1199" alt="Skiers and snowboarders at the top of a run at sunset, above a city under low cloud" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>sunset laps above the clouds</figcaption>
+            </figure>
+            <figure class="life-card life-card-wide">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-rome.webp" data-lightbox-alt="An orange sunset over the rooftops and domes of Rome" aria-label="open photo: rome turning orange">
+                <img src="Images/life-rome.webp" width="1500" height="1125" alt="An orange sunset over the rooftops and domes of Rome" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>rome turning orange</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-tentview.webp" data-lightbox-alt="Sunrise over mountains from inside a tent" aria-label="open photo: just an average morning">
+                <img src="Images/life-tentview.webp" width="900" height="1200" alt="Sunrise over mountains from inside a tent" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>just an average morning</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-chess.webp" data-lightbox-alt="A chess game just started, seen from the black side of the board" aria-label="open photo: your move">
+                <img src="Images/life-chess.webp" width="900" height="1200" alt="A chess game just started, seen from the black side of the board" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>your move</figcaption>
+            </figure>
+            <figure class="life-card life-card-video">
+              <div class="life-video">
+                <video muted loop playsinline preload="none" poster="Images/cansat-launch-poster.webp"
+                       src="Images/CanSat-launch.mp4" width="360" height="640" aria-label="cansat rocket launch"></video>
+              </div>
+              <figcaption>launching rockets</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-summit.webp" data-lightbox-alt="Standing on a summit rock with arms spread, facing a sunset over mountain ridges" aria-label="open photo: made it to the top">
+                <img src="Images/life-summit.webp" width="900" height="1200" alt="Standing on a summit rock with arms spread, facing a sunset over mountain ridges" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>made it to the top</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-boat.webp" data-lightbox-alt="A small boat anchored off a Spanish beach town, with lunch on the table" aria-label="open photo: lunch at anchor, spain">
+                <img src="Images/life-boat.webp" width="900" height="1200" alt="A small boat anchored off a Spanish beach town, with lunch on the table" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>lunch at anchor, spain</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-optimus.webp" data-lightbox-alt="A Tesla Optimus humanoid robot standing at an event" aria-label="open photo: sizing up the competition">
+                <img src="Images/life-optimus.webp" width="900" height="1200" alt="A Tesla Optimus humanoid robot standing at an event" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>sizing up the competition</figcaption>
+            </figure>
+            <figure class="life-card life-card-wide">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-spaghetti-tower.webp" data-lightbox-alt="A group selfie in a lecture hall around a tower built from spaghetti and marshmallows" aria-label="open photo: spaghetti tower, structurally questionable">
+                <img src="Images/life-spaghetti-tower.webp" width="1179" height="884" alt="A group selfie in a lecture hall around a tower built from spaghetti and marshmallows" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>spaghetti tower, structurally questionable</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-harbour.webp" data-lightbox-alt="The old harbour and lighthouse in Chania, Greece at dusk" aria-label="open photo: chania, greece at dusk">
+                <img src="Images/life-harbour.webp" width="900" height="1200" alt="The old harbour and lighthouse in Chania, Greece at dusk" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>chania, greece at dusk</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-arduino-night.webp" data-lightbox-alt="A packed lab of students wiring Arduinos and breadboards" aria-label="open photo: arduino night">
+                <img src="Images/life-arduino-night.webp" width="900" height="1200" alt="A packed lab of students wiring Arduinos and breadboards" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>arduino night</figcaption>
+            </figure>
+            </div>
+          </div>
+        </div>
+        <div class="life-belt" data-life-belt data-direction="reverse" aria-label="outside the workshop photos, second row">
+          <div class="life-belt-track">
+            <div class="life-belt-set">
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-campfire.webp" data-lightbox-alt="A campfire on a grassy bluff overlooking islands and the sea" aria-label="open photo: fire with a view">
+                <img src="Images/life-campfire.webp" width="900" height="1600" alt="A campfire on a grassy bluff overlooking islands and the sea" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>fire with a view</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-glacier.webp" data-lightbox-alt="Looking toward a glacier in Alaska" aria-label="open photo: feeling small in the best way">
+                <img src="Images/life-glacier.webp" width="900" height="1200" alt="Looking toward a glacier in Alaska" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>feeling small in the best way</figcaption>
+            </figure>
+            <figure class="life-card life-card-wide">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-pumpkins.webp" data-lightbox-alt="Five carved pumpkins lit up on a windowsill at night" aria-label="open photo: pumpkin carving, taken seriously">
+                <img src="Images/life-pumpkins.webp" width="1242" height="828" alt="Five carved pumpkins lit up on a windowsill at night" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>pumpkin carving, taken seriously</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-calculus-view.webp" data-lightbox-alt="A calculus problem on a laptop in a bright room with tall windows over a wide view" aria-label="open photo: calculus with a view">
+                <img src="Images/life-calculus-view.webp" width="900" height="1200" alt="A calculus problem on a laptop in a bright room with tall windows over a wide view" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>calculus with a view</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-golden-hour.webp" data-lightbox-alt="Two friends in dress shirts by the water under an orange sunset" aria-label="open photo: golden hour on the water">
+                <img src="Images/life-golden-hour.webp" width="900" height="1200" alt="Two friends in dress shirts by the water under an orange sunset" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>golden hour on the water</figcaption>
+            </figure>
+            <figure class="life-card life-card-wide">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-ridgelines.webp" data-lightbox-alt="Standing on a rocky summit looking out over forested mountain ranges" aria-label="open photo: north shore, all of it">
+                <img src="Images/life-ridgelines.webp" width="1500" height="1125" alt="Standing on a rocky summit looking out over forested mountain ranges" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>north shore, all of it</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-bluebird.webp" data-lightbox-alt="A snowboarder looking out over a snowy valley under a blue sky" aria-label="open photo: bluebird day">
+                <img src="Images/life-bluebird.webp" width="900" height="1200" alt="A snowboarder looking out over a snowy valley under a blue sky" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>bluebird day</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-minister.webp" data-lightbox-alt="Dylan with BC’s minister of AI on a stage after an event" aria-label="open photo: with bc’s minister of ai">
+                <img src="Images/life-minister.webp" width="806" height="1200" alt="Dylan with BC’s minister of AI on a stage after an event" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>with bc’s minister of ai</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-rooftops.webp" data-lightbox-alt="White rooftops and bougainvillea above Alicante, Spain" aria-label="open photo: rooftops in alicante, spain">
+                <img src="Images/life-rooftops.webp" width="900" height="1200" alt="White rooftops and bougainvillea above Alicante, Spain" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>rooftops in alicante, spain</figcaption>
+            </figure>
+            <figure class="life-card life-card-wide">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-ice.webp" data-lightbox-alt="A tidewater glacier meeting the sea, with ice floating in still water" aria-label="open photo: ice, up close">
+                <img src="Images/life-ice.webp" width="1500" height="1125" alt="A tidewater glacier meeting the sea, with ice floating in still water" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>ice, up close</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-polytopia.webp" data-lightbox-alt="A game of Polytopia in progress, ranked 1st on turn 14" aria-label="open photo: polytopia, sitting in 1st">
+                <img src="Images/life-polytopia.webp" width="900" height="1948" alt="A game of Polytopia in progress, ranked 1st on turn 14" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>polytopia, sitting in 1st</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-ferry-food.webp" data-lightbox-alt="A burger, fries and a drink on a cafeteria tray" aria-label="open photo: ferry food hits different">
+                <img src="Images/life-ferry-food.webp" width="900" height="1200" alt="A burger, fries and a drink on a cafeteria tray" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>ferry food hits different</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-code-by-hand.webp" data-lightbox-alt="A desk with two screens and pages of handwritten code" aria-label="open photo: larp till you make it">
+                <img src="Images/life-code-by-hand.webp" width="900" height="1200" alt="A desk with two screens and pages of handwritten code" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>larp till you make it</figcaption>
+            </figure>
+            <figure class="life-card life-card-wide">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-speaker.webp" data-lightbox-alt="Three friends holding up a cardboard horn with a speaker in it" aria-label="open photo: it’s louder than it looks">
+                <img src="Images/life-speaker.webp" width="1500" height="1125" alt="Three friends holding up a cardboard horn with a speaker in it" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>it’s louder than it looks</figcaption>
+            </figure>
+            <figure class="life-card">
+              <button class="life-photo" type="button" data-lightbox-src="Images/life-dublin.webp" data-lightbox-alt="Pints of stout on a table above the rooftops of Dublin" aria-label="open photo: a pint above dublin">
+                <img src="Images/life-dublin.webp" width="900" height="1200" alt="Pints of stout on a table above the rooftops of Dublin" loading="lazy" decoding="async" />
+              </button>
+              <figcaption>a pint above dublin</figcaption>
+            </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section home-contact" id="contact" aria-labelledby="contact-title">
+        <div class="container">
+          <h2 class="section-title" id="contact-title">get in touch</h2>
+          <p class="contact-copy">the fastest way to reach me is email.</p>
+          <p class="chip-row">
+            <a class="chip-link chip-link-tan" href="mailto:hello@dylanrolfe.ca">hello@dylanrolfe.ca</a>
+            <a class="chip-link" href="resume.html">resume</a>
+            <a class="chip-link" href="https://linkedin.com/in/dylanrolfe" target="_blank" rel="noopener noreferrer">linkedin ↗</a>
+            <a class="chip-link" href="https://github.com/DylanRolfe" target="_blank" rel="noopener noreferrer">github ↗</a>
+            <a class="chip-link" href="https://x.com/dylanrolfe_" target="_blank" rel="noopener noreferrer">x ↗</a>
+            <a class="chip-link" href="https://substack.com/@dylanrolfe" target="_blank" rel="noopener noreferrer">substack ↗</a>
+          </p>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <script src="script.js?v=31"></script>
-  <script src="assets/cinematic/site-nav.js?v=5"></script>
-  <script src="assets/cinematic/cinematic-hero.js?v=20" type="module"></script>
+  <dialog class="lightbox" id="lightbox" aria-label="photo viewer">
+    <button class="lightbox-close" type="button" aria-label="close photo">×</button>
+    <img class="lightbox-image" alt="" />
+    <p class="lightbox-caption"></p>
+  </dialog>
+
+  <script src="script.js?v=35"></script>
+  <script src="assets/cinematic/site-nav.js?v=6"></script>
+  <script src="assets/cinematic/cinematic-hero.js?v=23" type="module"></script>
   <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
 </body>
 
