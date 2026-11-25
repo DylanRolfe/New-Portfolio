@@ -23,6 +23,8 @@ function startHero(hero) {
   let playPending = false;
   let retryTimer = 0;
   let retryCount = 0;
+  let filmStarted = false;
+  let stallTimer = 0;
   // The markup starts the film part-way in with a media fragment (#t=3.5), so the
   // camera moves for about a second and a half before the painting takes over.
   const introStart = Number(video.dataset.introStart) || 0;
@@ -72,6 +74,7 @@ function startHero(hero) {
   }
   function showStill() {
     clearTimeout(retryTimer);
+    clearTimeout(stallTimer);
     handoff = true;
     filmVersion++;
     video.pause();
@@ -168,7 +171,21 @@ function startHero(hero) {
     } else seekToStart();
   });
   video.addEventListener('canplay', playback);
-  video.addEventListener('playing', () => { retryCount = 0; watchFrames(); });
+  video.addEventListener('playing', () => {
+    filmStarted = true;
+    clearTimeout(stallTimer);
+    retryCount = 0;
+    watchFrames();
+  });
+  // A film that starts and then runs dry (a connection that cannot keep up)
+  // hands over to the painting rather than freezing on a frame.
+  video.addEventListener('waiting', () => {
+    clearTimeout(stallTimer);
+    if (!filmStarted) return;
+    stallTimer = setTimeout(() => {
+      if (hero.dataset.stage === 'playing' && !preparing && !handoff && video.readyState < 3) showStill();
+    }, 3000);
+  });
   // Keep the paused last frame on screen until the brush canvas is ready.
   video.addEventListener('ended', () => {
     const version = filmVersion;
@@ -234,10 +251,11 @@ function startHero(hero) {
     // Every candidate file had already failed before this module ran.
     if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showStill();
     // A connection too slow to have the film playable after four seconds gets
-    // the painting instead of a stalled photo. Blocked autoplay is not affected:
-    // there the film is buffered and still waits for the first tap.
+    // the painting instead of a stalled photo. This only applies to a film that
+    // never started: one that is playing is left alone, and blocked autoplay is
+    // not affected, because there the film is buffered and waits for a tap.
     setTimeout(() => {
-      if (hero.dataset.stage === 'playing' && !preparing && !handoff && video.readyState < 3) showStill();
+      if (hero.dataset.stage === 'playing' && !filmStarted && !preparing && !handoff && video.readyState < 3) showStill();
     }, 4000);
   }
 }
