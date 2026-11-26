@@ -20,8 +20,8 @@
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='12' fill='%23fff'>dr</text></svg>" />
   <script>document.documentElement.classList.add('js')</script>
-  <link rel="stylesheet" href="styles.css?v=59" />
-  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=49" />
+  <link rel="stylesheet" href="styles.css?v=60" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=51" />
 </head>
 
 <body>
@@ -78,14 +78,12 @@
               <figcaption>Moonwalker: 150 g of steel, PLA+ and TPU.</figcaption>
             </figure>
           </div>
-          <div class="case-media case-media-pair">
+          <div class="case-media">
             <figure class="case-figure">
-              <img src="Images/moonwalker-blade.webp" width="1100" height="1467" alt="The three-spoke steel spinner blade, with its single tooth, mounted on a brushless motor" loading="lazy" decoding="async" />
-              <figcaption>The three-spoke blade on its motor. The counterweight opposite the tooth keeps it balanced.</figcaption>
-            </figure>
-            <figure class="case-figure">
-              <img src="Images/moonwalker-soldering.webp" width="1100" height="1467" alt="Dylan soldering a drive motor at an electronics bench, with the blade and printed parts beside him" loading="lazy" decoding="async" />
-              <figcaption>Soldering the drive motors, with the blade and printed chassis parts on the bench.</figcaption>
+              <video controls playsinline preload="none" poster="Images/moonwalker-fight-poster.webp" width="1280" height="720">
+                <source src="Images/moonwalker-fight.mov" type="video/mp4">
+              </video>
+              <figcaption>Testing the weapon’s strength: the spinner sends a block flying (video, 7 s).</figcaption>
             </figure>
           </div>
           <h2>what i did</h2>
@@ -97,6 +95,16 @@
             <li>Soldered and wired the electronics and assembled the robot.</li>
             <li>Kept the team organised with to-do lists, cost tracking and shared files, and helped with the chassis design.</li>
           </ul>
+          <div class="case-media case-media-pair">
+            <figure class="case-figure">
+              <img src="Images/moonwalker-blade.webp" width="1100" height="1467" alt="The three-spoke steel spinner blade, with its single tooth, mounted on a brushless motor" loading="lazy" decoding="async" />
+              <figcaption>The three-spoke blade on its motor. The counterweight opposite the tooth keeps it balanced.</figcaption>
+            </figure>
+            <figure class="case-figure">
+              <img src="Images/moonwalker-soldering.webp" width="1100" height="1467" alt="Dylan soldering a drive motor at an electronics bench, with the blade and printed parts beside him" loading="lazy" decoding="async" />
+              <figcaption>Soldering the drive motors, with the blade and printed chassis parts on the bench.</figcaption>
+            </figure>
+          </div>
           <h2>stress-testing the blade</h2>
           <p>I compared every version with a 2D linear stress model of the 3 mm plate: a hit on the tooth face plus a <strong>14,000 RPM</strong> spin. It is a way to compare shapes, not proof of strength, and none of it was physically tested.</p>
           <div class="case-media">
@@ -124,14 +132,6 @@
           <p>Leave a weight buffer from the start, plan space for wiring in CAD instead of fitting it in afterwards, test the full robot earlier, and use thread locker on every screw.</p>
           <h2>what i learned</h2>
           <p>With a fixed material, geometry is your only lever: every gram you remove costs strength somewhere. And things rarely work the first time, so planning for failure and debugging fast matter as much as the design.</p>
-          <div class="case-media">
-            <figure class="case-figure">
-              <video controls playsinline preload="none" poster="Images/moonwalker-fight-poster.webp" width="1280" height="720">
-                <source src="Images/moonwalker-fight.mov" type="video/mp4">
-              </video>
-              <figcaption>Testing the weapon’s strength: the spinner sends a block flying (video, 7 s).</figcaption>
-            </figure>
-          </div>
           <details class="case-more">
             <summary>the weapon design, in more detail</summary>
             <p>For our 150 g fairyweight I designed a vertical spinner weapon, inspired by the robot Ferris Wheel. The competition rules required 3 mm mild steel, so every design choice was a trade-off between weight, strength and balance.</p>

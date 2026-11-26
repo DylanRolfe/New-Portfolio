@@ -1470,9 +1470,9 @@ summary:focus-visible {
   .expedition.is-live .experience-logos .experience-logo { width: 32px; height: 32px; padding: 2px; border-radius: 3px; }
   .expedition.is-live .experience-meta { font-size: .75rem; flex-direction: row; gap: 12px; }
   .expedition.is-live .experience-org { font-size: 1.2rem; margin-top: 9px; }
-  .expedition.is-live .experience-role { font-size: .7rem; margin-top: 5px; }
-  .expedition.is-live .experience-summary { font-size: .76rem; line-height: 1.55; margin-top: 8px; max-width: 44ch; }
-  .expedition.is-live .experience-panel .inline-link { font-size: .7rem; margin-top: 10px; }
+  .expedition.is-live .experience-role { font-size: .8rem; margin-top: 5px; }
+  .expedition.is-live .experience-summary { font-size: .86rem; line-height: 1.5; margin-top: 8px; max-width: 44ch; }
+  .expedition.is-live .experience-panel .inline-link { font-size: .82rem; margin-top: 10px; }
   .expedition.is-live .expedition-cue { display: none; }
   .checkpoint-label { display: block; }
   .checkpoint-number { display: none; }
@@ -1817,7 +1817,7 @@ body:has(.site-backdrop) .project { background: rgba(5, 7, 12, 0.8); }
 .project-tile:not(:has(img))::before { display: none; }
 .project-tile > :not(img) { text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85); z-index: 2; }
 .project:hover .project-tile:not(.project-media-static) > img { filter: brightness(1); }
-.tile-kicker { color: #b9d4ff; font-size: 0.72rem; }
+.tile-kicker { color: #b9d4ff; font-size: 0.78rem; }
 .tile-name { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-top: 3px; }
 .tile-name :is(a, button) {
   background: none;
@@ -1836,7 +1836,7 @@ body:has(.site-backdrop) .project { background: rgba(5, 7, 12, 0.8); }
 .tile-name :is(a, button):hover { color: #8fbaff; }
 .tile-name :is(a, button):focus-visible { outline: none; }
 .tile-name :is(a, button):focus-visible::after { outline: 2px solid #9ec3ff; outline-offset: -4px; }
-.tile-note { color: #e1e6ee; font-size: 0.78rem; margin-top: 4px; }
+.tile-note { color: #e1e6ee; font-size: 0.8rem; margin-top: 4px; }
 .tile-note strong { color: #fff; font-size: 0.86rem; font-weight: 700; }
 
 .more-work { margin-top: 40px; }
@@ -1993,4 +1993,60 @@ body:has(.site-backdrop) .project { background: rgba(5, 7, 12, 0.8); }
   .paper { border-radius: 0; box-shadow: none; font-size: 9.9pt; line-height: 1.17; padding: 0; }
   .paper h2 { margin: 0.5em 0 0.12em; }
   .paper-entry { margin-top: 0.12em; }
+}
+
+/* ————————————————————————————————————————————————————————————————
+   Phone pass: hero fit, tap targets, text sizes, shorter project pages.
+   ———————————————————————————————————————————————————————————————— */
+.for-touch { display: none; }
+@media (hover: none) {
+  .for-mouse { display: none; }
+  .for-touch { display: inline; }
+}
+
+@media (max-width: 700px) {
+  /* Hero: the coordinates line is dropped so the text has the screen to itself. */
+  .hero-hud { display: none; }
+  .hero { padding-bottom: 68px; }
+  .hero-next { bottom: 22px; font-size: 0.86rem; left: 18px; padding: 8px 0; }
+  .home-bullets { gap: 10px; }
+  .home-bullets > li { font-size: 0.92rem; }
+  .home-now li { font-size: 0.9rem; }
+  .home-now-label { font-size: 0.82rem; }
+  .bracket-link { font-size: 0.98rem; padding: 10px 0; }
+
+  /* Links people tap get a taller hit area without changing how they look. */
+  .project-links a, .more-links a, .site-footer-links a, .case-back, .text-link { padding-bottom: 6px; padding-top: 6px; }
+  .inline-link { padding-bottom: 5px; padding-top: 8px; }
+  .project-links { gap: 4px 22px; padding-top: 10px; }
+  .site-footer-links { gap: 2px 22px; }
+  .chip-link { padding: 0.62em 0.9em; }
+  .case-back { margin-bottom: 14px; }
+
+  /* Project pages: two portrait photos sit side by side instead of stacking a full screen each. */
+  .case-media-pair:not(.case-media-wide) { gap: 10px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .case-media-pair:not(.case-media-wide) .case-figure :is(img, video) { aspect-ratio: 3 / 4; }
+  .case-figure figcaption { font-size: 0.82rem; }
+  .case-panel { padding: 20px 16px 24px; }
+  .case-panel h2 { margin-top: 30px; }
+  .case-media { margin-top: 24px; }
+  .case-lede { font-size: 1.05rem; }
+  .paper { font-size: 0.86rem; }
+  .home-section-head { margin-bottom: 20px; }
+}
+
+/* Short phones: tighten the hero so the whole introduction fits on the first screen. */
+@media (max-width: 700px) and (max-height: 720px) {
+  .hero { padding-top: 78px; }
+  .home-brand { margin-bottom: 18px; }
+  .home-bullets { gap: 7px; }
+  .home-actions { margin-top: 12px; }
+  .home-now { margin-top: 16px; padding-top: 12px; }
+  .home-now-label { margin-bottom: 6px; }
+}
+
+/* Narrow phones: keep the three hero links on one line. */
+@media (max-width: 380px) {
+  .home-actions { gap: 2px 10px; padding-left: 0.6rem; }
+  .bracket-link { font-size: 0.9rem; }
 }
