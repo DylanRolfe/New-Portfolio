@@ -27,7 +27,10 @@ function startHero(hero) {
   let stallTimer = 0;
   // The markup starts the film part-way in with a media fragment (#t=3.5), so the
   // camera moves for about a second and a half before the painting takes over.
-  const introStart = Number(video.dataset.introStart) || 0;
+  // Each film carries its own start time in its URL (#t=…): the landscape and
+  // portrait cuts begin at different points.
+  const startOf = url => Number((String(url).split('#t=')[1] || '').split(/[,&]/)[0]) || 0;
+  const introStartNow = () => startOf(selected().dataset.intro) || Number(video.dataset.introStart) || 0;
   const sameFilm = (a, b) => a.split('#')[0] === b.split('#')[0];
   // These six-second assets contain a baked-in morph after the photographic
   // five-second mark. End the displayed cut here; never seek/reload at handoff.
@@ -160,6 +163,7 @@ function startHero(hero) {
   function seekToStart() {
     // Browsers honour #t=… themselves. This covers one that ignores it, when
     // the server allows seeking; otherwise the film simply plays from the top.
+    const introStart = introStartNow();
     if (!introStart || hero.dataset.stage !== 'playing' || video.currentTime >= introStart - 0.25) return;
     const seekable = video.seekable;
     if (seekable.length && seekable.end(seekable.length - 1) >= introStart) video.currentTime = introStart;

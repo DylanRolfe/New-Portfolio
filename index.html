@@ -25,7 +25,7 @@
   <link rel="preload" as="image" href="assets/cinematic/Images/painting-desktop.webp" media="(orientation: landscape)" />
   <link rel="preload" as="image" href="assets/cinematic/Images/painting-mobile.webp" media="(orientation: portrait)" />
   <link rel="stylesheet" href="styles.css?v=60" />
-  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=51" />
+  <link rel="stylesheet" href="assets/cinematic/cinematic-hero.css?v=52" />
   <noscript><style>
     [data-cinematic-hero] :is(.cinematic-opening, .cinematic-video) { visibility: hidden !important; }
     [data-cinematic-hero] :is(.hero-copy > *, .hero-hud, .hero-next, .hero-scrim, .cinematic-vignette) {
@@ -66,7 +66,7 @@
                     data-intro="assets/cinematic/Images/hike-mobile.mp4#t=3.5" data-poster="assets/cinematic/Images/opening-mobile-start.webp">
             <img class="cinematic-painting" src="assets/cinematic/Images/painting-desktop.webp" alt=""
                  data-mask="assets/cinematic/Images/sky-desktop.png" data-flow="assets/cinematic/Images/flow-desktop.png"
-                 data-intro="assets/cinematic/Images/hike-desktop.mp4#t=3.5" data-poster="assets/cinematic/Images/opening-desktop-start.webp">
+                 data-intro="assets/cinematic/Images/hike-desktop.mp4#t=1" data-poster="assets/cinematic/Images/opening-desktop-start.webp">
           </picture>
           <canvas class="cinematic-canvas"></canvas>
         </div>
@@ -74,13 +74,13 @@
           <source media="(orientation: portrait)" srcset="assets/cinematic/Images/opening-mobile-start.webp">
           <img src="assets/cinematic/Images/opening-desktop-start.webp" alt="">
         </picture>
-        <!-- The film starts 3.5 seconds in (#t=3.5) and hands off to the painting at data-photo-end,
-             so the camera moves for 1.5 seconds first. To change that, edit #t=… here and in data-intro above,
+        <!-- The landscape film starts 1 seconds in (#t=1) and hands off to the painting at data-photo-end,
+             so the camera moves for 4 seconds first; the portrait film starts at 3.5. To change either, edit #t=… here and in data-intro above,
              data-intro-start, the copy fallback delay in cinematic-hero.css, and re-export the two
              opening-*-start.webp posters from the same frame. -->
-        <video class="cinematic-video" autoplay muted playsinline preload="auto" data-intro-start="3.5" data-photo-end="5">
+        <video class="cinematic-video" autoplay muted playsinline preload="auto" data-intro-start="1" data-photo-end="5">
           <source src="assets/cinematic/Images/hike-mobile.mp4#t=3.5" media="(orientation: portrait)" type="video/mp4">
-          <source src="assets/cinematic/Images/hike-desktop.mp4#t=3.5" type="video/mp4">
+          <source src="assets/cinematic/Images/hike-desktop.mp4#t=1" type="video/mp4">
         </video>
         <div class="cinematic-vignette"></div>
       </div>
@@ -446,7 +446,7 @@
 
   <script src="script.js?v=35"></script>
   <script src="assets/cinematic/site-nav.js?v=6"></script>
-  <script src="assets/cinematic/cinematic-hero.js?v=24" type="module"></script>
+  <script src="assets/cinematic/cinematic-hero.js?v=25" type="module"></script>
   <script src="assets/cinematic/mountain-expedition.js?v=9" type="module"></script>
 </body>
 

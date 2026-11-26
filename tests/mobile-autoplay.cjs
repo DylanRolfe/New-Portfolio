@@ -39,7 +39,7 @@ const state=await page.evaluate(()=>({time:document.querySelector('video').curre
 assert.ok(state.time>=4.9,JSON.stringify(state));
 assert.equal(state.loads,0,'startup must not reload the browser-selected video');
 assert.ok(state.source.split('#')[0].endsWith(mode==='desktop'?'hike-desktop.mp4':'hike-mobile.mp4'));
-assert.ok(state.source.endsWith('#t=3.5'),'film starts three and a half seconds in');
+assert.ok(state.source.endsWith(mode==='desktop'?'#t=1':'#t=3.5'),'landscape film starts one second in, portrait three and a half');
 await page.waitForFunction(()=>document.querySelector('[data-cinematic-hero]').dataset.stage==='painted',null,{timeout:20000});
 assert.equal(await page.locator('.cinematic-video source').count(),0);
 assert.equal(await page.locator('.cinematic-video').evaluate(v=>v.hasAttribute('src')||v.autoplay),false);
