@@ -100,6 +100,19 @@
 [data-cinematic-hero][data-stage="revealing"] .home-bullets { transition-delay: .1s; }
 [data-cinematic-hero][data-stage="revealing"] .home-actions { transition-delay: .15s; }
 [data-cinematic-hero][data-stage="revealing"] .home-now { transition-delay: .2s; }
+/* Desktop: the introduction is on screen from the first frame and stays put
+   while the camera moves and the painting comes in, so there is always
+   something to read. Phones keep the short text-free opening. */
+@media (min-width: 701px) {
+  [data-cinematic-hero] :is(.hero-copy > *, .hero-hud, .hero-next) {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    transition: none;
+    visibility: visible;
+  }
+  [data-cinematic-hero] :is(.hero-scrim, .cinematic-vignette) { animation: none; opacity: 1; transition: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   [data-cinematic-hero] :is(.hero-copy > *, .hero-hud, .hero-next, .hero-scrim, .cinematic-vignette) {
     animation-delay: 0s; transform: none; transition: none;
